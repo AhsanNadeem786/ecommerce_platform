@@ -24,3 +24,37 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Create Product specific styles */
+.create-card {
+  margin-top: -150px;
+}
+
+.file-section {
+  padding: 20px;
+  font-family: sans-serif;
+}
+
+.file-section h3 {
+  margin: 0 0 8px 0;
+  font-weight: 600;
+}
+
+.image-preview {
+  margin-top: 20px;
+}
+
+.image-preview img {
+  max-width: 100%;
+  max-height: 400px;
+  border-radius: 8px;
+  display: block;
+}
+
+/* Small responsive tweaks */
+@media (max-width: 480px) {
+  .create-card {
+    margin-top: -80px;
+    padding: 16px;
+  }
+}

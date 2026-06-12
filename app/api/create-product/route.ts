@@ -29,7 +29,7 @@ export async function POST(request: Request) {
  export async function GET() {
     await dbConnect();
     try {
-        const productData = await product.find();
+        const productData = await product.find().populate("categoryId");
         return Response.json({ message: "Products fetched successfully", data: productData }, { status: 200 });
     } catch (error) {
         return Response.json({ error: "Failed to fetch products" }, { status: 500 });

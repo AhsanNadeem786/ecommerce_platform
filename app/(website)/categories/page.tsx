@@ -1,7 +1,9 @@
 "use client"
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 export default function Categories() {
+    const path = usePathname()
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [loading, setLoading] = useState(false);

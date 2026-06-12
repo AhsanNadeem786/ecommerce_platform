@@ -1,8 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 export default function Products() {
-    const [products, setProducts] = useState([]);
+    const [products, setProducts] = useState<any[]>([]);
+    
+    const router = useRouter()
     const fetchProducts = async () => {
         const res = await fetch("/api/create-product");
         const data = await res.json();
@@ -12,13 +15,29 @@ export default function Products() {
     useEffect(() => {
         fetchProducts();
     }, []);
-    const handleDelete = (id: string) => {
-        console.log("Delete", id);
-    };
-    function handleEdit(product: any): void {
-        console.log("Edit", product);
-    }
+     const handleDelete = async (id: string) => {
+       
+        const deleteId = id;
+        // || params._id
+        try {
+            const res = await fetch(`/api/create-product/${deleteId}`, {
+                method: "DELETE",
+            })
 
+            const data = await res.json()
+            console.log(data);
+
+            //    setdeletecategory(data)
+            setProducts(prev => prev.filter((data) => data._id !== id))
+
+        } catch (error) {
+            console.log(error);
+
+        }
+    };
+     const handleEdit = async (id: string) => {
+        router.push(`/products/${id}`)
+}
     return (
         <div className="min-h-screen p-6 -mt-150">
             <h1 className="text-center text-4xl font-bold mb-3">
@@ -59,7 +78,7 @@ export default function Products() {
                                 </td>
 
                                 <td className="border px-4 py-3">
-                                    {product.category}
+                                    {product.categoryId.title}
                                 </td>
 
                                 <td className="border px-4 py-3">
@@ -76,7 +95,7 @@ export default function Products() {
                                         </button>
 
                                         <button
-                                            onClick={() => handleEdit(product)}
+                                            onClick={() => handleEdit(product._id)}
                                             className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
                                         >
                                             Edit
