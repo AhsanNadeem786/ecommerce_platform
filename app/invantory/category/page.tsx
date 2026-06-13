@@ -40,7 +40,7 @@ export default function Category() {
     };
 
     const handleEdit = async (id: string) => {
-        router.push(`/categories/${id}`)
+        router.push(`/invantory/categories/${id}`)
 
       
 
@@ -52,7 +52,7 @@ export default function Category() {
                 Caterogies
             </h1>
             <div className="flex justify-end">
-                <Link href="/categories" className="bg-black text-white hover:bg-black/80 border border-gray-300 rounded-lg px-4 py-2 text-center mt-10">Create Caterogies</Link>
+                <Link href="/invantory/categories" className="bg-black text-white hover:bg-black/80 border border-gray-300 rounded-lg px-4 py-2 text-center mt-10">Create Caterogies</Link>
             </div>
             <div className="overflow-x-auto">
                 <table className="w-275 ml-50  border border-gray-300 shadow-lg">

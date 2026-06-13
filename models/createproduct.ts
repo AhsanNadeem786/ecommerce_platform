@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
 const createProductSchema = new mongoose.Schema({
-    imgurl:{
-        type:String,
+    images:{
+        type:Array,
         require:true
     },
     name: {

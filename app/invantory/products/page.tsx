@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 export default function Products() {
     const [products, setProducts] = useState<any[]>([]);
     
@@ -36,7 +37,7 @@ export default function Products() {
         }
     };
      const handleEdit = async (id: string) => {
-        router.push(`/products/${id}`)
+        router.push(`/invantory/products/${id}`)
 }
     return (
         <div className="min-h-screen p-6 -mt-150">
@@ -44,7 +45,7 @@ export default function Products() {
                 Products
             </h1>
             <div className="flex justify-end">
-                <Link href="/createProduct" className="bg-black text-white hover:bg-black/80 border border-gray-300 rounded-lg px-4 py-2 text-center mt-10">Create Product</Link>
+                <Link href="/invantory/createProduct" className="bg-black text-white hover:bg-black/80 border border-gray-300 rounded-lg px-4 py-2 text-center mt-10">Create Product</Link>
             </div>
             <div className="overflow-x-auto">
                 <table className="w-275 ml-50  border border-gray-300 shadow-lg">
@@ -60,12 +61,13 @@ export default function Products() {
                     </thead>
 
                     <tbody>
-                        {products.map((product: any) => (
+                        {products?.map((product: any) => (
                             <tr
                                 key={product._id}
                                 className="text-center hover:bg-gray-100"
                             >
-                                <td className="border px-4 py-3">
+                                <td className="border px-4 py-5 flex gap-3">
+                                    <Image src={product.images[0]} alt="" width={20} height={20}  className="w-5 h-5 rounded-full" />
                                     {product.name}
                                 </td>
 

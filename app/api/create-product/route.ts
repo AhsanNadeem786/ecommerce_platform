@@ -7,7 +7,7 @@ export async function POST(request: Request) {
         const body = await request.json();
         console.log(body);
         const productData = await product.create({
-            image:body.image,
+            images:body.images,
             name: body.productName,
             price: body.price,
             quantity: body.quantity,
@@ -30,7 +30,10 @@ export async function POST(request: Request) {
  export async function GET() {
     await dbConnect();
     try {
+        
         const productData = await product.find().populate("categoryId");
+        console.log(productData);
+        
         return Response.json({ message: "Products fetched successfully", data: productData }, { status: 200 });
     } catch (error) {
         return Response.json({ error: "Failed to fetch products" }, { status: 500 });

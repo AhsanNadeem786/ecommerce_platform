@@ -4,6 +4,6 @@ import { useRouter } from "next/navigation";
 export default function Home() {
    const router = useRouter()
   return (
-   router.push("/products")
+   router.push("/invantory/products")
   );
 }

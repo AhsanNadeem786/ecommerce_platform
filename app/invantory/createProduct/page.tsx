@@ -1,5 +1,6 @@
 "use client";
 import { AvatarUploader } from "@/components/avatar-uploader";
+import Image from "next/image";
 import { ChangeEvent, useEffect, useState } from "react";
 
 
@@ -12,7 +13,7 @@ export default function CreateProduct() {
     const [showcategory, setShowcategory] = useState<any[]>([])
     const [loading, setLoading] = useState(false);
     const [productImage, setProductImage] = useState("")
-    const [image,setImage] = useState("")
+    const [images, setImages] = useState<String[]>([])
     const handleCreate = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!productName || !price || !quantity || !categoryId) {
@@ -27,7 +28,7 @@ export default function CreateProduct() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    image,
+                    images:images,
                     productName,
                     price: Number(price),
                     quantity: Number(quantity),
@@ -37,12 +38,13 @@ export default function CreateProduct() {
             });
 
             if (res.ok) {
-                console.log("Product created successfully");
+                
                 setProductName("");
                 setPrice("");
                 setQuantity("");
                 setCategoryId("");
                 setDescription("");
+                setImages([])
             } else {
                 console.error("Failed to create product");
             }
@@ -56,7 +58,6 @@ export default function CreateProduct() {
         try {
             const res = await fetch("/api/categories");
             const data = await res.json();
-            console.log(data);
             setShowcategory(data.data || []);
         } catch (err) {
             console.error("Failed to fetch categories", err);
@@ -65,7 +66,6 @@ export default function CreateProduct() {
 
     const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const categoryId = e.target.value
-        console.log(categoryId)
         setCategoryId(categoryId);
     };
 
@@ -73,17 +73,24 @@ export default function CreateProduct() {
     useEffect(() => {
         fetchCategories();
     }, []);
-    const handleImageChange = (event: ChangeEvent<HTMLInputElement, HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        setProductImage(file ? URL.createObjectURL(file) : "")
+    // const handleImageChange = (event: ChangeEvent<HTMLInputElement, HTMLInputElement>) => {
+    //     const file = event.target.files?.[0];
+    //     setProductImage(file ? URL.createObjectURL(file) : "")
 
+    // }
+
+    console.log(images);
+
+    async function saveAvatar(url: String) {
+        setImages((prev: any) => {
+            const oldState = [...prev];
+            oldState.push(url)
+            return oldState
+        })
     }
-     async function saveAvatar(url: string) {
-  
-        setImage(url)
-   
-    
-  }
+
+
+
     return (
         <div className="flex justify-center items-start  bg-gray-50 ">
             <div className="w-full max-w-md bg-white shadow-2xl -mt-150 rounded-lg p-8">
@@ -92,12 +99,7 @@ export default function CreateProduct() {
                 </h1>
 
                 <form onSubmit={handleCreate} className="flex flex-col gap-4">
-                    <input
-                        type="file"
-                        onChange={handleImageChange}
-                    />
-                   {productImage &&<img src={productImage} alt="uploadImage"/>}
-                    <AvatarUploader onUploadSuccess={saveAvatar} />
+                   
                     <input
                         type="text"
                         value={productName}
@@ -142,7 +144,21 @@ export default function CreateProduct() {
                         placeholder="Description"
                         className="w-full h-24 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                     ></textarea>
-
+                         {/* <input
+                        // type="file"
+                        onChange={handleImageChange}
+                    /> */}
+                    {productImage && <img src={productImage} alt="uploadImage" />}
+                    <AvatarUploader
+                     onUploadSuccess={saveAvatar} 
+                    
+                    />
+                     {
+                       images.map((imgSrc:String,index)=>{
+                        return(
+                        <Image src={imgSrc} alt="Image" key={index} width={200} height={200} />)
+                       })
+                     }
                     <button
                         type="submit"
                         disabled={loading}
