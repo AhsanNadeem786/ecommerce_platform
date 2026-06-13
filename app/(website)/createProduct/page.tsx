@@ -1,5 +1,7 @@
 "use client";
-import { useEffect, useState } from "react";
+import { AvatarUploader } from "@/components/avatar-uploader";
+import { ChangeEvent, useEffect, useState } from "react";
+
 
 export default function CreateProduct() {
     const [productName, setProductName] = useState("");
@@ -9,7 +11,8 @@ export default function CreateProduct() {
     const [description, setDescription] = useState("");
     const [showcategory, setShowcategory] = useState<any[]>([])
     const [loading, setLoading] = useState(false);
-    const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const [productImage, setProductImage] = useState("")
+    const [image,setImage] = useState("")
     const handleCreate = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!productName || !price || !quantity || !categoryId) {
@@ -24,7 +27,7 @@ export default function CreateProduct() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    
+                    image,
                     productName,
                     price: Number(price),
                     quantity: Number(quantity),
@@ -70,15 +73,17 @@ export default function CreateProduct() {
     useEffect(() => {
         fetchCategories();
     }, []);
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0]; // Get the selected file
+    const handleImageChange = (event: ChangeEvent<HTMLInputElement, HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        setProductImage(file ? URL.createObjectURL(file) : "")
 
-        if (file) {
-            // Create a temporary local URL pointing to the file
-            const localUrl = URL.createObjectURL(file);
-            setImagePreview(localUrl);
-        }
-    };
+    }
+     async function saveAvatar(url: string) {
+  
+        setImage(url)
+   
+    
+  }
     return (
         <div className="flex justify-center items-start  bg-gray-50 ">
             <div className="w-full max-w-md bg-white shadow-2xl -mt-150 rounded-lg p-8">
@@ -87,28 +92,12 @@ export default function CreateProduct() {
                 </h1>
 
                 <form onSubmit={handleCreate} className="flex flex-col gap-4">
-                    <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
-                        <h3>Select a Local Image</h3>
-
-                        {/* File input accepting only images */}
-                        <input
-                            type="file"
-                            accept="image/*"
-                            onChange={handleFileChange}
-                        />
-
-                        {/* Render preview if an image is selected */}
-                        {imagePreview && (
-                            <div style={{ marginTop: '20px' }}>
-                                <h4>Preview:</h4>
-                                <img
-                                    src={imagePreview}
-                                    alt="Local Preview"
-                                    style={{ maxWidth: '100%', maxHeight: '400px', borderRadius: '8px' }}
-                                />
-                            </div>
-                        )}
-                    </div>
+                    <input
+                        type="file"
+                        onChange={handleImageChange}
+                    />
+                   {productImage &&<img src={productImage} alt="uploadImage"/>}
+                    <AvatarUploader onUploadSuccess={saveAvatar} />
                     <input
                         type="text"
                         value={productName}

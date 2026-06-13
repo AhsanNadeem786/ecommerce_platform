@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 
 const createProductSchema = new mongoose.Schema({
+    imgurl:{
+        type:String,
+        require:true
+    },
     name: {
         type: String,
         required: true
