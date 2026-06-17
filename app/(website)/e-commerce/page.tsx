@@ -10,36 +10,7 @@ import { useEffect, useState } from "react";
 export default function Ecommerce() {
     const [caterogy,showCaterogy] = useState<any[]>([]);
 
-    // const cards = [
-    //     {
-    //         img: "/home -1.png",
-    //         name: "Eid-ul-Azha Sale"
-    //     },
-    //     {
-    //         img: "/home -2.png",
-    //         name: "Men Formal"
-    //     },
-    //     {
-    //         img: "/home -3.png",
-    //         name: "Men Sports"
-    //     },
-    //     {
-    //         img: "/home -4.png",
-    //         name: "Female Fancy"
-    //     },
-    //     {
-    //         img: "/home -5.png",
-    //         name: "Female Bracelets"
-    //     },
-    //     {
-    //         img: "/home -6.png",
-    //         name: "Smart Watches"
-    //     },
-    //     {
-    //         img: "/home -7.png",
-    //         name: "Couple Watches"
-    //     },
-    // ]
+    
     const fetchCategroy = async () => {
             const res = await fetch("/api/categories");
             const data = await res.json();
@@ -60,7 +31,7 @@ export default function Ecommerce() {
                     caterogy.map((caterogy: any) => {
                         return (
                             <div key={caterogy._id} className="flex flex-col gap-4 shadow-lg h-50    ">
-                                <img src={caterogy.images} alt="" className="h-[200px] w-[150px] rounded- full  " />
+                                <img src={caterogy.images} alt="" className="h-50 w-37.5 rounded- full  " />
                                 <p className="font-bold  text-center text-[20px]">{caterogy.title}</p>
                             </div>
                         )
@@ -94,14 +65,11 @@ export default function Ecommerce() {
                                         // modules={[Pagination]}
                                         className="mySwiper"
                                     >
-                                        <SwiperSlide><img src="/home -9.png" alt="" className="w-10 h-10 border" /></SwiperSlide>
-                                        <SwiperSlide><img src="/home -9.png" alt="" className="w-10 h-10 border" /></SwiperSlide>
-                                        <SwiperSlide><img src="/home -9.png" alt="" className="w-10 h-10 border" /></SwiperSlide>
-                                        <SwiperSlide><img src="/home -9.png" alt="" className="w-10 h-10 border" /></SwiperSlide>
-                                        <SwiperSlide><img src="/home -9.png" alt="" className="w-10 h-10 border" /></SwiperSlide>
-                                        <SwiperSlide><img src="/home -9.png" alt="" className="w-10 h-10 border" /></SwiperSlide>
-                                        <SwiperSlide><img src="/home -9.png" alt="" className="w-10 h-10 border" /></SwiperSlide>
-                                        <SwiperSlide><img src="/home -9.png" alt="" className="w-10 h-10 border" /></SwiperSlide>
+                                        {[0,1,2,3,4,5,6,7].map((index)=>{
+                                            return (
+                                                 <SwiperSlide key={index}><img src="/home -9.png" alt="" className="w-10 h-10 border" /></SwiperSlide>
+                                            )
+                                        })}
                                     </Swiper>
                                 </div>
                             </div>
