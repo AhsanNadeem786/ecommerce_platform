@@ -8,6 +8,7 @@ export async function POST(request: Request) {
    const body = await request.json();
    console.log(body);
    const category = await Category.create({
+    images:body.images,
     title: body.title,
     description: body.description,
    });

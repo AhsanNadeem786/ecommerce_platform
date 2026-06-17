@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
+import Image from "next/image";
 export default function Category() {
     const [showcategory, setShowcaterogy] = useState<any[]>([]);
     // const [deletecategory,setdeletecategory]= useState()
@@ -19,7 +20,7 @@ export default function Category() {
     }, []);
 
     const handleDelete = async (id: string) => {
-       
+
         const deleteId = id;
         // || params._id
         try {
@@ -42,7 +43,7 @@ export default function Category() {
     const handleEdit = async (id: string) => {
         router.push(`/invantory/categories/${id}`)
 
-      
+
 
 
     }
@@ -72,6 +73,7 @@ export default function Category() {
                                 className="text-center hover:bg-gray-100"
                             >
                                 <td className="border px-4 py-3">
+                                    <Image src={showcategory.images[0]} alt="" width={20} height={20} className="w-5 h-5 rounded-full" />
                                     {showcategory.title}
                                 </td>
 

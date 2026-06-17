@@ -5,49 +5,63 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import { useEffect, useState } from "react";
 // import './styles.css';
 export default function Ecommerce() {
-    const cards = [
-        {
-            img: "/home -1.png",
-            name: "Eid-ul-Azha Sale"
-        },
-        {
-            img: "/home -2.png",
-            name: "Men Formal"
-        },
-        {
-            img: "/home -3.png",
-            name: "Men Sports"
-        },
-        {
-            img: "/home -4.png",
-            name: "Female Fancy"
-        },
-        {
-            img: "/home -5.png",
-            name: "Female Bracelets"
-        },
-        {
-            img: "/home -6.png",
-            name: "Smart Watches"
-        },
-        {
-            img: "/home -7.png",
-            name: "Couple Watches"
-        },
-    ]
+    const [caterogy,showCaterogy] = useState<any[]>([]);
+
+    // const cards = [
+    //     {
+    //         img: "/home -1.png",
+    //         name: "Eid-ul-Azha Sale"
+    //     },
+    //     {
+    //         img: "/home -2.png",
+    //         name: "Men Formal"
+    //     },
+    //     {
+    //         img: "/home -3.png",
+    //         name: "Men Sports"
+    //     },
+    //     {
+    //         img: "/home -4.png",
+    //         name: "Female Fancy"
+    //     },
+    //     {
+    //         img: "/home -5.png",
+    //         name: "Female Bracelets"
+    //     },
+    //     {
+    //         img: "/home -6.png",
+    //         name: "Smart Watches"
+    //     },
+    //     {
+    //         img: "/home -7.png",
+    //         name: "Couple Watches"
+    //     },
+    // ]
+    const fetchCategroy = async () => {
+            const res = await fetch("/api/categories");
+            const data = await res.json();
+            console.log(data);
+            
+            showCaterogy(data.data);
+    
+        };
+        useEffect(() => {
+            fetchCategroy();
+        }, []);
     return (
         <>
             <img src="/header-2.jpg" alt="" />
 
             <div className="bg-white shadow-olive-200 h-30 mb-8 max-w-900 ml-20 mt-15 flex justify-between">
                 {
-                    cards.map((card, index) => {
+                    caterogy.map((caterogy: any) => {
                         return (
-                            <div key={index} className="flex flex-col gap-4 ">
-                                <img src={card.img} alt="" />
-                                <p className="font-bold  text-[20px]">{card.name}</p>
+                            <div key={caterogy._id} className="flex flex-col gap-4 shadow-lg h-50    ">
+                                <img src={caterogy.images} alt="" className="h-[200px] w-[150px] rounded- full  " />
+                                <p className="font-bold  text-center text-[20px]">{caterogy.title}</p>
                             </div>
                         )
                     })

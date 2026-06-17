@@ -5,7 +5,7 @@ export async function POST(request: Request) {
     await dbConnect();
     try {
         const body = await request.json();
-        console.log(body);
+
         const productData = await product.create({
             images:body.images,
             name: body.productName,
