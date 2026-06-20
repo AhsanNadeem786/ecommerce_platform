@@ -5,13 +5,15 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-// import './styles.css';
+import AddToCart from "@/components/AddToCart";
+
 export default function Ecommerce() {
     const [caterogy, showCaterogy] = useState<any[]>([]);
- const router = useRouter()
+    const router = useRouter()
     const [products, setProducts] = useState<any[]>([]);
+  
     const fetchCategroy = async () => {
         const res = await fetch("/api/categories");
         const data = await res.json();
@@ -23,6 +25,7 @@ export default function Ecommerce() {
     useEffect(() => {
         fetchCategroy();
     }, []);
+  
     const fetchProducts = async () => {
         const res = await fetch("/api/create-product");
         const data = await res.json();
@@ -35,6 +38,12 @@ export default function Ecommerce() {
     const handleProductShow = () => {
         router.push("/show-product")
     }
+    const handleCategoryRedirect = (id: any) => {
+        router.push(`/category/${id}`)
+    }
+    const handleProductDetail = (id: any) => {
+        router.push(`/productdetail/${id}`)
+    }
     return (
         <>
             <img src="/header-2.jpg" alt="" />
@@ -43,7 +52,7 @@ export default function Ecommerce() {
                 {
                     caterogy.map((caterogy: any) => {
                         return (
-                            <div key={caterogy._id} className="flex flex-col gap-4 shadow-lg h-50    ">
+                            <div onClick={() => handleCategoryRedirect(caterogy._id)} key={caterogy._id} className="flex flex-col gap-4 shadow-lg h-50    ">
                                 <img src={caterogy.images} alt="" className="h-50 w-37.5 rounded- full  " />
                                 <p className="font-bold  text-center text-[20px]">{caterogy.title}</p>
                             </div>
@@ -58,14 +67,17 @@ export default function Ecommerce() {
 
                 {products.slice(0, 8).map((product: any) => {
                     return (
-                        <div key={product._id} className="flex">
+                        // 
+                        <div onClick={() => handleProductDetail(product._id)} key={product._id} className="flex">
                             <div className="bg-[#f8f9fc] h-137.5 w-70.5  rounded-3xl mt-50 p-[0,20px,10px] border border-[#00000017] shadow-xl ml-10 flex flex-col gap-5 ">
                                 <img src={product.images[0]} alt="" className="h-60 w-60 m-5" />
                                 <p className="text-center font-bold text-[15px] cursor-pointer">{product.name}</p>
                                 <p className="text-center text-[14px] text-[#76767f] font-bold cursor-pointer">{product.categoryId.title}</p>
+                                <p className="text-2xl flex justify-center">${product.price}</p>
                                 <div className="flex justify-center items-center gap-15 ">
-                                    <p className="text-2xl">${product.price}</p>
+
                                     <button className="bg-black text-white p-3 rounded-2xl ">Quick buy</button>
+                                  <AddToCart />
                                 </div>
                                 <div className="flex gap-1 ml-7 w-60 ">
                                     <Swiper
@@ -93,45 +105,7 @@ export default function Ecommerce() {
             <div className="flex justify-center mt-10 ">
                 <button onClick={handleProductShow} className="bg-black text-white h-10 w-30 rounded-4xl cursor-pointer">veiw all</button>
             </div>
-            {/* <div className="flex w-full">
 
-                {[0, 1, 2, 3].map((index) => {
-                    return (
-                        <div key={index} className="flex">
-                            <div className="bg-[#f8f9fc] h-137.5 w-70.5  rounded-3xl mt-50 p-[0,20px,10px] border border-[#00000017] shadow-xl ml-10 flex flex-col gap-5 ">
-                                <img src="homw -8.png" alt="" className="h-60 w-60 m-5" />
-                                <p className="text-center font-bold text-[15px] cursor-pointer">Wyndow</p>
-                                <p className="text-center text-[14px] text-[#76767f] font-bold cursor-pointer">Men's Stainless Steel</p>
-                                <div className="flex justify-center items-center gap-15 ">
-                                    <p className="text-2xl">Rs.1500</p>
-                                    <button className="bg-black text-white p-3 rounded-2xl ">Quick Buy</button>
-                                </div>
-                                <div className="flex gap-1 ml-7 w-60 ">
-                                    <Swiper
-                                        slidesPerView={4}
-                                        spaceBetween={30}
-                                        centeredSlides={true}
-                                        // pagination={{
-                                        //     clickable: true,
-                                        // }}
-                                        // modules={[Pagination]}
-                                        className="mySwiper"
-                                    >
-                                        <SwiperSlide><img src="/home -9.png" alt="" className="w-10 h-10 border" /></SwiperSlide>
-                                        <SwiperSlide><img src="/home -9.png" alt="" className="w-10 h-10 border" /></SwiperSlide>
-                                        <SwiperSlide><img src="/home -9.png" alt="" className="w-10 h-10 border" /></SwiperSlide>
-                                        <SwiperSlide><img src="/home -9.png" alt="" className="w-10 h-10 border" /></SwiperSlide>
-                                        <SwiperSlide><img src="/home -9.png" alt="" className="w-10 h-10 border" /></SwiperSlide>
-                                        <SwiperSlide><img src="/home -9.png" alt="" className="w-10 h-10 border" /></SwiperSlide>
-                                        <SwiperSlide><img src="/home -9.png" alt="" className="w-10 h-10 border" /></SwiperSlide>
-                                        <SwiperSlide><img src="/home -9.png" alt="" className="w-10 h-10 border" /></SwiperSlide>
-                                    </Swiper>
-                                </div>
-                            </div>
-                        </div>
-                    )
-                })}
-            </div> */}
             <div className="mt-6 ml-10 flex gap-20">
                 <img src="/home 10.jfif" alt="" className="w-87.5 h-125 rounded-2xl" />
                 <img src="/home 11.jfif" alt="" className="w-87.5 h-125 rounded-2xl" />
