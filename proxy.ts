@@ -7,3 +7,8 @@ export default function Proxy(request:NextRequest) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
 }
+export const config = {
+    Matcher:[
+        '/e-commerce'
+    ]
+}

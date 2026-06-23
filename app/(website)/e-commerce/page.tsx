@@ -13,11 +13,11 @@ export default function Ecommerce() {
     const [caterogy, showCaterogy] = useState<any[]>([]);
     const router = useRouter()
     const [products, setProducts] = useState<any[]>([]);
-  
+
     const fetchCategroy = async () => {
         const res = await fetch("/api/categories");
         const data = await res.json();
-        
+
 
         showCaterogy(data.data);
 
@@ -25,7 +25,7 @@ export default function Ecommerce() {
     useEffect(() => {
         fetchCategroy();
     }, []);
-  
+
     const fetchProducts = async () => {
         const res = await fetch("/api/create-product");
         const data = await res.json();
@@ -77,7 +77,7 @@ export default function Ecommerce() {
                                 <div className="flex justify-center items-center gap-15 ">
 
                                     <button className="bg-black text-white p-3 rounded-2xl ">Quick buy</button>
-                                  <AddToCart />
+                                    <AddToCart />
                                 </div>
                                 <div className="flex gap-1 ml-7 w-60 ">
                                     <Swiper
@@ -125,6 +125,7 @@ export default function Ecommerce() {
                     className="mySwiper"
                 >
                     <SwiperSlide> <video src="home 13.webm" autoPlay={true} loop={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
+                    <SwiperSlide> <video src="hmoe 14.mp4" autoPlay={true} loop={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
                     <SwiperSlide><video src="home14.mp4" autoPlay={true} loop={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
                     <SwiperSlide><video src="home 15.mp4" autoPlay={true} loop={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
                     <SwiperSlide><video src="home 16.mp4" autoPlay={true} loop={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
