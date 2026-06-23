@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import {
     Card,
@@ -11,9 +13,32 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Link from "next/link"
+import { useEffect, useState } from "react"
 export default function Login() {
-    return (
-        <div className="flex justify-center">
+    const [user,setUser] = useState({
+            email:"",
+            password:""
+
+    })
+      const handleloginform = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            const response = await fetch("/api/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(user),
+            });
+            console.log(response);
+            
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+return (
+    <div className="flex justify-center">
         <Card className="w-full mt-10 mb-10 max-w-sm">
             <CardHeader>
                 <CardTitle>Login to your account</CardTitle>
@@ -22,18 +47,21 @@ export default function Login() {
                 </CardDescription>
                 <CardAction>
                     <Link href={"/Signup"}>
-                    <Button  variant="link">Sign Up</Button>
+                        <Button variant="link">Sign Up</Button>
                     </Link>
                 </CardAction>
             </CardHeader>
-            <CardContent>
-                <form>
+            <form onSubmit={handleloginform}>
+                <CardContent>
+
                     <div className="flex flex-col gap-6">
                         <div className="grid gap-2">
                             <Label htmlFor="email">Email</Label>
                             <Input
                                 id="email"
                                 type="email"
+                                 value={user.email}
+            onChange={(e) => setUser({...user, email: e.target.value})}
                                 placeholder="m@example.com"
                                 required
                             />
@@ -48,20 +76,22 @@ export default function Login() {
                                     Forgot your password?
                                 </a>
                             </div>
-                            <Input id="password" type="password" required />
+                            <Input id="password"  value={user.password}
+            onChange={(e) => setUser({...user, password: e.target.value})} type="password" required />
                         </div>
                     </div>
-                </form>
-            </CardContent>
-            <CardFooter className="flex-col gap-2">
-                <Button type="submit" className="w-full">
-                    Login
-                </Button>
-                <Button variant="outline" className="w-full">
-                    Login with Google
-                </Button>
-            </CardFooter>
+
+                </CardContent>
+                <CardFooter className="flex-col gap-2">
+                    <Button type="submit" className="w-full">
+                        Login
+                    </Button>
+                    <Button variant="outline" className="w-full">
+                        Login with Google
+                    </Button>
+                </CardFooter>
+            </form>
         </Card>
-        </div>
-    )
+    </div >
+)
 }

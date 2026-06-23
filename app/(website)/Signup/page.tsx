@@ -12,6 +12,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 
 
@@ -22,7 +23,9 @@ export default function Signup() {
     const [password, setPassword] = useState("")
     const [message, setMessage] = useState("")
     const [loading, setLoading] = useState(false)
+      const router = useRouter()
     const handleUserData = async (e: React.FormEvent) => {
+     
         e.preventDefault();
         if (!firstName || !lastname || !email || !password || !message) {
             alert("Please fill in all required fields");
@@ -56,6 +59,9 @@ export default function Signup() {
             } else {
                 console.error("Failed to create product");
             }
+            if (res.ok) {
+                router.push("/login")
+            }
         } catch (error) {
             console.error("Network error:", error);
         } finally {
@@ -72,8 +78,9 @@ export default function Signup() {
                     </CardDescription>
 
                 </CardHeader>
+                 <form onSubmit={handleUserData}>
                 <CardContent>
-                    <form onSubmit={handleUserData}>
+                   
                         <div className="flex flex-col gap-6 h-100">
                             <div className="grid gap-2">
                                 <Label htmlFor="email">First Name</Label>
@@ -129,7 +136,7 @@ export default function Signup() {
                                 />
                             </div>
                         </div>
-                    </form>
+                   
                 </CardContent>
                 <CardFooter className="flex-col gap-2">
                     <Button type="submit" className="w-full">
@@ -137,6 +144,7 @@ export default function Signup() {
                     </Button>
 
                 </CardFooter>
+                 </form>
             </Card>
         </div>
     )
