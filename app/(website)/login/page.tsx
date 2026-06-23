@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 export default function Login() {
     const [user,setUser] = useState({
@@ -20,6 +21,7 @@ export default function Login() {
             password:""
 
     })
+      const router = useRouter()
       const handleloginform = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
@@ -31,7 +33,9 @@ export default function Login() {
                 body: JSON.stringify(user),
             });
             console.log(response);
-            
+            if (response.ok) {
+                router.push("/e-commerce")
+            }
         } catch (error) {
             console.log(error);
         }

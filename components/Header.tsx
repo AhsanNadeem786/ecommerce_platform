@@ -1,3 +1,5 @@
+"use client"
+
 import { FaShoppingCart } from "react-icons/fa";
 import { SearchIcon } from "lucide-react"
 import {
@@ -12,7 +14,23 @@ import {
 } from "@/components/ui/input-group"
 
 import { IoIosContact } from "react-icons/io";
+import { useRouter } from "next/navigation";
 export default function Header() {
+      const router = useRouter() 
+    const handlelogout = async() =>{
+        try {
+            const res = await fetch("/api/logout",{
+                   method: "POST",
+            })
+          if (res.ok) {
+            router.push("/login")
+          }
+               
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
     return (
         <header className=" py-7 bg-black text-white w-full ">
             <div className="h-15 w-full max-w-375 m-auto">
@@ -29,6 +47,7 @@ export default function Header() {
                         </InputGroup>
                         {/* <FieldDescription>Icon positioned at the start.</FieldDescription> */}
                     </Field>
+                    <button onClick={handlelogout} className="bg-white text-black h-8 w-15 rounded-2xl cursor-pointer" >logout</button>
                     <FaShoppingCart />
 
                 </div>

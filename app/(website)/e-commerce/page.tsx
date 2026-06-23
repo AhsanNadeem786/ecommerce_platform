@@ -17,7 +17,7 @@ export default function Ecommerce() {
     const fetchCategroy = async () => {
         const res = await fetch("/api/categories");
         const data = await res.json();
-        console.log(data);
+        
 
         showCaterogy(data.data);
 
