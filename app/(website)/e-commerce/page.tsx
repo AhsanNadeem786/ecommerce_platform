@@ -77,7 +77,7 @@ export default function Ecommerce() {
                                 <div className="flex justify-center items-center gap-15 ">
 
                                     <button className="bg-black text-white p-3 rounded-2xl ">Quick buy</button>
-                                    <AddToCart />
+                                    <AddToCart productId={product._id} />
                                 </div>
                                 <div className="flex gap-1 ml-7 w-60 ">
                                     <Swiper
@@ -124,8 +124,8 @@ export default function Ecommerce() {
                     // modules={[Pagination]}
                     className="mySwiper"
                 >
-                    <SwiperSlide> <video src="home 13.webm" autoPlay={true} loop={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
-                    <SwiperSlide> <video src="hmoe 14.mp4" autoPlay={true} loop={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
+                    <SwiperSlide><video src="home 13.webm" autoPlay={true} loop={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
+                    <SwiperSlide><video src="hmoe 14.mp4" autoPlay={true} loop={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
                     <SwiperSlide><video src="home14.mp4" autoPlay={true} loop={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
                     <SwiperSlide><video src="home 15.mp4" autoPlay={true} loop={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
                     <SwiperSlide><video src="home 16.mp4" autoPlay={true} loop={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>

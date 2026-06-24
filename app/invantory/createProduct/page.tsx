@@ -79,7 +79,7 @@ export default function CreateProduct() {
 
     // }
 
-    console.log(images);
+
 
     async function saveAvatar(url: String) {
         setImages((prev: any) => {

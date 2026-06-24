@@ -6,7 +6,7 @@ export async function POST(request: Request) {
    await dbConnect();
    try {
    const body = await request.json();
-   console.log(body);
+
    const category = await Category.create({
     images:body.images,
     title: body.title,

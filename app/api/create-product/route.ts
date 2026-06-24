@@ -32,7 +32,7 @@ export async function POST(request: Request) {
     try {
         
         const productData = await product.find().populate("categoryId");
-        console.log(productData);
+      
         
         return Response.json({ message: "Products fetched successfully", data: productData }, { status: 200 });
     } catch (error) {

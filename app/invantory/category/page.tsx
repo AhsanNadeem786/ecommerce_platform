@@ -29,7 +29,6 @@ export default function Category() {
             })
 
             const data = await res.json()
-            console.log(data);
 
             //    setdeletecategory(data)
             setShowcaterogy(prev => prev.filter((data) => data._id !== id))

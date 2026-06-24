@@ -10,10 +10,9 @@ export default function UpdateCreateProduct() {
     const [description, setDescription] = useState("");
     const [showcategory, setShowcategory] = useState<any[]>([])
     const [loading, setLoading] = useState(false);
-    console.log(path);
+   
     const id = path.split("/")[2]
-    console.log(id);
-    const handleUpdated = async () => {
+   const handleUpdated = async () => {
         setLoading(true)
         try {
             const res = await fetch(`/api/create-product/${id}`, {
@@ -26,7 +25,7 @@ export default function UpdateCreateProduct() {
 
 
             const data = await res.json()
-            console.log(data);
+         
 
 
         } catch (error) {
@@ -40,7 +39,7 @@ export default function UpdateCreateProduct() {
         try {
             const res = await fetch(`/api/create-product/${id}`);
             const data = await res.json();
-            console.log(data);
+        
             setProductName(data.data.name)
             setPrice(data.data.price)
             setQuantity(data.data.quantity)
@@ -53,7 +52,7 @@ export default function UpdateCreateProduct() {
 
     const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const categoryId = e.target.value
-        console.log(categoryId)
+     
         setCategoryId(categoryId);
     };
 

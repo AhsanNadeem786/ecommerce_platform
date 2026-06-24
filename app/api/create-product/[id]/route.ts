@@ -10,7 +10,7 @@ export async function DELETE(request: Request,
         const { id } = await params
         
         const DeleteCaterogy = await product.findByIdAndDelete(id)
-        console.log(DeleteCaterogy);
+   
         
         if (!DeleteCaterogy) {
             return NextResponse.json({ error: "failed to deleted" }, { status: 500 })
@@ -29,10 +29,10 @@ export async function PUT(request: Request,
     await dbConnect()
     try {
         const { id } = await params;
-        console.log(id);
+      
         
         const body = await request.json();
-        console.log(body);
+ 
         
         const updatecaterogy =await product.findByIdAndUpdate(id,{
             name:body.name,

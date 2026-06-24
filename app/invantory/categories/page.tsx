@@ -29,7 +29,6 @@ export default function Categories() {
                 throw new Error("Failed to add category");
             }
             const data = await res.json();
-            console.log("Category added:", data);
             setTitle("");
             setDescription("");
             setImages([])

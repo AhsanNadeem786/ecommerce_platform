@@ -9,7 +9,7 @@ const productdetail = async ({
      let product = null
      try {
          product = await productsModel.findOne({_id:id}).lean();
-        console.log(product);
+
         if(!product) {
           return  notFound()
         }

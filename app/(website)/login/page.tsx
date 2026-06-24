@@ -32,7 +32,7 @@ export default function Login() {
                 },
                 body: JSON.stringify(user),
             });
-            console.log(response);
+           
             if (response.ok) {
                 router.push("/e-commerce")
             }

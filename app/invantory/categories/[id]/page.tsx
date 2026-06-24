@@ -7,9 +7,9 @@ export default function UpdateCategories() {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [loading, setLoading] = useState(false);
-    console.log(path);
+  
     const id = path.split("/")[2]
-    console.log(id);
+
 
 
     const handleUpdateCategory = async () => {
@@ -25,7 +25,7 @@ export default function UpdateCategories() {
 
 
             const data = await res.json()
-            console.log(data);
+
 
 
         } catch (error) {
@@ -38,7 +38,7 @@ export default function UpdateCategories() {
     const fetchCategroy = async () => {
         const res = await fetch(`/api/categories/${id}`);
         const data = await res.json();
-        console.log(data);
+  
         setTitle(data.data.title)
         setDescription(data.data.description)
 

@@ -11,7 +11,7 @@ export async function DELETE(request: Request,
         const { id } = await params
         
         const DeleteCaterogy = await Category.findByIdAndDelete(id)
-        console.log(DeleteCaterogy);
+  
         
         if (!DeleteCaterogy) {
             return NextResponse.json({ error: "failed to deleted" }, { status: 500 })
@@ -30,10 +30,10 @@ export async function PUT(request: Request,
     await dbConnect()
     try {
         const { id } = await params;
-        console.log(id);
+
         
         const body = await request.json();
-        console.log(body.title,body.description);
+     
         
         const updatecaterogy =await Category.findByIdAndUpdate(id,{title:body.title,description:body.description})
 

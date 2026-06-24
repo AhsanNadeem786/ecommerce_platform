@@ -7,10 +7,13 @@ export async function POST(request: Request) {
     await dbConnect();
     try {
         const body = await request.json();
-        console.log(body);
-        const { email, password } = body
-        const user = await User.find({  email, password }).lean()
+
+        const { email, password ,} = body
+        const user = await User.findOne({ email, password }).lean();
+        console.log(user);
+        
           const payload = {
+            userId:user._id,
             firstName:user.firstName,
             lastname:user.lastname,
             email,

@@ -4,7 +4,7 @@ export async function POST(request: Request) {
     await dbConnect();
     try {
         const body = await request.json();
-        console.log(body);
+
 
         const UserData = await user.create({
             firstName: body.firstName,
