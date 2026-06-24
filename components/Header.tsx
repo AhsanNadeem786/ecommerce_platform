@@ -1,16 +1,29 @@
 "use client"
-Copy
+
 import { Button } from "@/components/ui/button"
 import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerDescription,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
 } from "@/components/ui/drawer"
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+import { FieldGroup } from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 import { FaShoppingCart } from "react-icons/fa";
 import { SearchIcon } from "lucide-react"
@@ -60,18 +73,18 @@ export default function Header() {
                         {/* <FieldDescription>Icon positioned at the start.</FieldDescription> */}
                     </Field>
                     <button onClick={handlelogout} className="bg-white text-black h-8 w-15 rounded-2xl cursor-pointer" >logout</button>
-                    <FaShoppingCart />
+
                     <Drawer direction="right">
                         <DrawerTrigger asChild>
-                            <Button variant="outline">Scrollable Content</Button>
+                            <Button >   <FaShoppingCart /></Button>
                         </DrawerTrigger>
                         <DrawerContent>
                             <DrawerHeader>
-                                <DrawerTitle>Move Goal</DrawerTitle>
-                                <DrawerDescription>Set your daily activity goal.</DrawerDescription>
+                                <DrawerTitle>CART</DrawerTitle>
+                                {/* <DrawerDescription>Set your daily activity goal.</DrawerDescription> */}
                             </DrawerHeader>
                             <div className="no-scrollbar overflow-y-auto px-4">
-                                {Array.from({ length: 10 }).map((_, index) => (
+                                {/* {Array.from({ length: 10 }).map((_, index) => (
                                     <p
                                         key={index}
                                         className="mb-4 leading-normal style-lyra:mb-2 style-lyra:leading-relaxed"
@@ -84,10 +97,55 @@ export default function Header() {
                                         nulla pariatur. Excepteur sint occaecat cupidatat non proident,
                                         sunt in culpa qui officia deserunt mollit anim id est laborum.
                                     </p>
-                                ))}
+                                ))} */}
+                                <div className="flex mt-8 gap-8">
+                                    <img src="sidebar.jpg" alt="" className="rounded-4xl" />
+                                    <div className="flex-col">
+                                        <p className="font-bold text-black text-3xl">Onyx</p>
+                                        <p className="mt-6">Watches   </p>
+                                        <p className=" mt-6">RS:1800</p>
+
+                                    </div>
+                                </div>
+                                <div>
+                                    <p className="mt-9">Order Now</p>
+                                    <textarea name="Order Note" id="Order Note" className="h-20 mt-6 w-80 border border-black"></textarea>
+                                    <Dialog>
+                                        <form>
+                                            <DialogTrigger asChild>
+                                                <Button variant="outline" className="mt-8">Check your Product Selected</Button>
+                                            </DialogTrigger>
+                                            <DialogContent className="sm:max-w-sm">
+                                                {/* <DialogHeader>
+                                                    <DialogTitle>Edit profile</DialogTitle>
+                                                    <DialogDescription>
+                                                        Make changes to your profile here. Click save when you&apos;re
+                                                        done.
+                                                    </DialogDescription>
+                                                </DialogHeader> */}
+                                                {/* <FieldGroup>
+                                                    <Field>
+                                                        <Label htmlFor="name-1">Name</Label>
+                                                        <Input id="name-1" name="name" defaultValue="Pedro Duarte" />
+                                                    </Field>
+                                                    <Field>
+                                                        <Label htmlFor="username-1">Username</Label>
+                                                        <Input id="username-1" name="username" defaultValue="@peduarte" />
+                                                    </Field>
+                                                </FieldGroup> */}
+                                                {/* <DialogFooter>
+                                                    <DialogClose asChild>
+                                                        <Button variant="outline">Cancel</Button>
+                                                    </DialogClose>
+                                                    <Button type="submit">Save changes</Button>
+                                                </DialogFooter> */}
+                                            </DialogContent>
+                                        </form>
+                                    </Dialog>
+                                </div>
                             </div>
                             <DrawerFooter>
-                                <Button>Submit</Button>
+                                <Button>Create Order</Button>
                                 <DrawerClose asChild>
                                     <Button variant="outline">Cancel</Button>
                                 </DrawerClose>
