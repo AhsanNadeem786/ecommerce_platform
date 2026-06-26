@@ -10,7 +10,7 @@ export async function POST(request: Request) {
 
         const { email, password ,} = body
         const user = await User.findOne({ email, password }).lean();
-        console.log(user);
+     
         
           const payload = {
             userId:user._id,

@@ -17,13 +17,13 @@ export async function POST(request: Request) {
 
 
         const decoded = jwt.verify(token,'screct-key')
-    console.log("decoded",decoded);
+   
     
         
  try {
         const body = await request.json()
         // console.log(body);
-        console.log(body);
+        
 
         
         const CartData:ICartData = await cart.create({

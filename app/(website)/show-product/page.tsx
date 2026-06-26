@@ -6,6 +6,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import AddToCart from "@/components/AddToCart";
 export default function showproduct() {
     const [products, setProducts] = useState<any[]>([]);
      const fetchProducts = async () => {
@@ -27,9 +28,12 @@ export default function showproduct() {
                                 <img src={product.images[0]} alt="" className="h-60 w-60 m-5" />
                                 <p className="text-center font-bold text-[15px] cursor-pointer">{product.name}</p>
                                 <p className="text-center text-[14px] text-[#76767f] font-bold cursor-pointer">{product.categoryId.title}</p>
+                                 <p className="text-center text-[14px] text-[#76767f] font-bold cursor-pointer">{product.price}</p>
                                 <div className="flex justify-center items-center gap-15 ">
-                                    <p className="text-2xl">${product.price}</p>
+                                   
                                     <button className="bg-black text-white p-3 rounded-2xl ">Quick buy</button>
+                                      <AddToCart productId={product._id} />                             
+
                                 </div>
                                 <div className="flex gap-1 ml-7 w-60 ">
                                     <Swiper

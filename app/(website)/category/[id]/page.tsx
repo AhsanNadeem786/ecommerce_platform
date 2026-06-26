@@ -1,3 +1,4 @@
+
 import AddToCart from "@/components/AddToCart";
 import Category from "@/models/Category";
 import productsModel from "@/models/createproduct";
@@ -40,7 +41,7 @@ const CategoryProducts = async ({
                                 <div className="flex justify-center items-center gap-15 ">
 
                                     <button className="bg-black text-white p-3 rounded-2xl ">Quick buy</button>
-                                    <AddToCart />
+                                    <AddToCart productId={product._id} />
                                 </div>
                                 <div className="flex gap-1 ml-7 w-60 ">
                                     {/* <Swiper

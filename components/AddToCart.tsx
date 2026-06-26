@@ -4,7 +4,6 @@ import { Button } from "./ui/button"
 // import { useSearchParams } from "next/navigation"
 
 export default function AddToCart(props:{productId:string}) {
-   console.log(props);
    
     // const params = useSearchParams()
     // const id = params.get('id')
