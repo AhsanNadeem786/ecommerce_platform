@@ -1,5 +1,6 @@
 "use client"
 
+import CheckoutButton from "@/components/CheckoutButton"
 import { Button } from "@/components/ui/button"
 import { useEffect, useMemo, useState } from "react"
 
@@ -72,6 +73,7 @@ const checkout = () => {
         }
         <div className="flex items-center justify-center">
             <p className="font-bold text-4xl">Total: {sum} </p>
+          <CheckoutButton price={sum} />
         </div>
     </>
 }
