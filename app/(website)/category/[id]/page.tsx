@@ -31,7 +31,7 @@ const CategoryProducts = async ({
                     return (
 
                         <div key={product._id} className="flex">
-                            <div className="bg-[#f8f9fc] h-[450px] w-70.5  rounded-3xl mt-50 p-[0,20px,10px] border border-[#00000017] shadow-xl ml-10 flex flex-col gap-5 ">
+                            <div className="bg-[#f8f9fc] h-112.5 w-70.5  rounded-3xl mt-50 p-[0,20px,10px] border border-[#00000017] shadow-xl ml-10 flex flex-col gap-5 ">
                                 <Link href={`/productdetail/${product._id}`}>
                                     <img src={product.images[0]} alt="" className="h-60 w-60 m-5" />
                                     <p className="text-center font-bold text-[15px] cursor-pointer">{product.name}</p>
@@ -41,7 +41,7 @@ const CategoryProducts = async ({
                                 <div className="flex justify-center items-center gap-15 ">
 
                                     <button className="bg-black text-white p-3 rounded-2xl ">Quick buy</button>
-                                    <AddToCart productId={product._id} />
+                                    <AddToCart productId={product._id.toString()} />
                                 </div>
                                 <div className="flex gap-1 ml-7 w-60 ">
                                     {/* <Swiper

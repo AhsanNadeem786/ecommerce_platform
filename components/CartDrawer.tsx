@@ -3,9 +3,14 @@ import { Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerT
 import { Button } from './ui/button'
 import { FaShoppingCart } from 'react-icons/fa'
 import { Dialog, DialogContent, DialogTrigger } from './ui/dialog'
+import { usePathname, useRouter } from "next/navigation";
 
 const CartDrawer = () => {
     const [productCart, setProductCart] = useState<any[]>([])
+    const [deletecart,setdeletecart]= useState()
+    const [deleteAllCart,setDeleteAllCart] = useState();
+    const pathname = usePathname()
+    const router = useRouter()
     const fetchCart = async () => {
         const res = await fetch("/api/storeproductcart")
         const data = await res.json()
@@ -15,13 +20,61 @@ const CartDrawer = () => {
 
     }
     useEffect(() => {
-
         fetchCart()
-
     }, [])
-
+    
+const handleRemove = async(id: string) =>{
+     try {
+                const res = await fetch(`/api/addcartdata/${id}`, {
+                    "method": "Delete",
+                })
+    
+                const data = await res.json()
+         
+             
+                
+               setdeletecart(data)
+               setProductCart(prev=> prev.filter((data) => data._id !== id ))
+                
+            } catch (error) {
+                console.log(error);
+                
+            }
+    }
+    const handleRemoveAll = async() =>{
+        try {
+             const res = await fetch("/api/addcartdata", {
+                    "method": "Delete",
+                })
+    
+                const data = await res.json()
+         
+                console.log(data);
+                setDeleteAllCart(data)
+                 setProductCart([])   //  setDeleteAllCart(prev=> prev.filter((data) => data.userid !== userid ))
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+    const handleorder = () =>{
+        router.push("/checkout")
+    }
+    const [open , setOpen] = useState(false)
+    const cartopenChange = (open:boolean) =>{
+        setOpen(open)
+       if(open){
+        fetchCart()
+       }
+        
+    }
+    useEffect(() => {
+     if(open){
+        setOpen(false)
+     }
+    }, [pathname])
     return (
-        <Drawer direction="right">
+        <Drawer open={open} onOpenChange={cartopenChange} direction="right">
             <DrawerTrigger asChild>
                 <Button >   <FaShoppingCart /></Button>
             </DrawerTrigger>
@@ -47,6 +100,7 @@ const CartDrawer = () => {
                                 ))} */}
                     {productCart.map((product: any) => {
                         const { ProductId } = product;
+          
                 
                         
                         return (
@@ -55,9 +109,9 @@ const CartDrawer = () => {
                                 <img src={ProductId.images} alt="" className="rounded-4xl" />
                                 <div className="flex-col">
                                     <p className="font-bold text-black text-3xl">{ProductId.name}</p>
-                                    <p className="mt-6">{ProductId.quantity}   </p>
+                                    {/* <p className="mt-6">{ProductId.quantity}   </p> */}
                                     <p className=" mt-6">RS:{ProductId.price}</p>
-
+                                  <Button onClick={() => handleRemove(product._id)} value={deletecart} className=' mt-6'>Remove</Button>
                                 </div>
                             </div>
                         )
@@ -101,7 +155,8 @@ const CartDrawer = () => {
                     </div>
                 </div>
                 <DrawerFooter>
-                    <Button>Create Order</Button>
+                    <Button onClick={handleRemoveAll} value={deleteAllCart}>Remove All</Button>
+                    <Button onClick={handleorder}>Create Order</Button>
                     <DrawerClose asChild>
                         <Button variant="outline">Cancel</Button>
                     </DrawerClose>
