@@ -19,6 +19,11 @@ export async function createCheckoutSession(amount: number) {
         },
       ],
       mode: 'payment',
+      // metadata: {
+      //   user_id: 'usr_98765',
+      //   order_id: 'ord_12345',
+      //   internal_note: 'This is a test payment'
+      // },
       success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/canceled`,
     });

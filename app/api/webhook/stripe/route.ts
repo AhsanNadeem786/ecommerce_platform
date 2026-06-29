@@ -13,6 +13,7 @@ export async function POST(req: NextRequest) {
       signature,
       process.env.STRIPE_WEBHOOK_SECRET!
     );
+    
   } catch (err: any) {
     return new NextResponse(`Webhook Error: ${err.message}`, { status: 400 });
   }
@@ -20,6 +21,7 @@ export async function POST(req: NextRequest) {
   // Handle successful payments
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object;
+    console.log(event);
     
     // Fulfill the order: update user account, trigger emails, etc.
     console.log(`Payment successful for Session ID: ${session.id}`);

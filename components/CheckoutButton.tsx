@@ -28,7 +28,7 @@ export default function CheckoutButton({ price }: CheckoutButtonProps) {
     <button
       onClick={handleCheckout}
       disabled={loading}
-      className="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 disabled:bg-gray-400"
+      className="px-6 py-3 ml-5 mb-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 disabled:bg-gray-400"
     >
       {loading ? 'Processing...' : 'Buy Now'}
     </button>
