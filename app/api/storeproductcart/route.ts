@@ -18,7 +18,7 @@ export async function GET() {
 
             UserId: decoded.userId
         }).populate("ProductId",).lean()
-        console.log("CartDATA", CartDATA);
+      
 
 
 

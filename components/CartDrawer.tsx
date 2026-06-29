@@ -14,7 +14,7 @@ const CartDrawer = () => {
     const fetchCart = async () => {
         const res = await fetch("/api/storeproductcart")
         const data = await res.json()
-        console.log(data.data);
+       
 
         setProductCart(data.data)
 
@@ -49,7 +49,7 @@ const handleRemove = async(id: string) =>{
     
                 const data = await res.json()
          
-                console.log(data);
+     
                 setDeleteAllCart(data)
                  setProductCart([])   //  setDeleteAllCart(prev=> prev.filter((data) => data.userid !== userid ))
         } catch (error) {

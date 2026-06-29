@@ -27,7 +27,8 @@ export async function createCheckoutSession(amount: number) {
       success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/canceled`,
     });
-
+  
+    
     return { url: session.url };
   } catch (error) {
     console.error('Stripe Session Error:', error);

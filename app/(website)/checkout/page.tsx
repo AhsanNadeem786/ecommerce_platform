@@ -13,7 +13,7 @@ const checkout = () => {
     const fetchCart = async () => {
         const res = await fetch("/api/storeproductcart")
         const data = await res.json()
-        console.log(data.data);
+      
 
         setProductCart(data.data)
 

@@ -5,34 +5,34 @@ import AddToCart from '@/components/AddToCart';
 const productdetail = async ({
     params
 }: { params: any }) => {
-     const {id} = await params;
-     let product = null
-     try {
-         product = await productsModel.findOne({_id:id}).lean();
+    const { id } = await params;
+    let product = null
+    try {
+        product = await productsModel.findOne({ _id: id }).lean();
 
-        if(!product) {
-          return  notFound()
+        if (!product) {
+            return notFound()
         }
-     } catch (error) {
-        return  notFound()
-     }
-        
-  return (
-    <div className="flex">
-                            <div className="   rounded-3xl mt-10 mb-5 p-[0,20px,10px]  ml-10 flex flex-col gap-5 ">
-                                <div className='flex justify-center'>
-                                <img src={product.images[0]} alt="" className="h-60 w-60  " />
-                                </div>
-                                <p className="text-center font-bold text-[15px] cursor-pointer">Name:       {product.name}</p>
-                                {/* <p className="text-center text-[14px] text-[#76767f] font-bold cursor-pointer">{product.categoryId.title}</p> */}
-                                 <p className="text-2xl flex justify-center ">$Price:{product.price}</p>
-                                <div className="flex justify-center items-center gap-15 ">
-                                   
-                                    <button className="bg-black text-white p-3 rounded-2xl ">Quick buy</button>
-                                   <AddToCart productId={product._id} />
-                                </div>
-                                 <p className="text-center text-[14px] text-[#76767f] font-bold cursor-pointer">Description:{product.description}</p>
-                                {/* <div className="flex gap-1 ml-7 w-60 ">
+    } catch (error) {
+        return notFound()
+    }
+
+    return (
+        <div className="flex">
+            <div className="   rounded-3xl mt-10 mb-5 p-[0,20px,10px]  ml-10 flex flex-col gap-5 ">
+                <div className='flex justify-center'>
+                    <img src={product.images[0]} alt="" className="h-60 w-60  " />
+                </div>
+                <p className="text-center font-bold text-[15px] cursor-pointer">Name:       {product.name}</p>
+                {/* <p className="text-center text-[14px] text-[#76767f] font-bold cursor-pointer">{product.categoryId.title}</p> */}
+                <p className="text-2xl flex justify-center ">$Price:{product.price}</p>
+                <div className="flex justify-center items-center gap-15 ">
+
+                    <button className="bg-black text-white p-3 rounded-2xl ">Quick buy</button>
+                    <AddToCart productId={product._id} />
+                </div>
+                <p className="text-center text-[14px] text-[#76767f] font-bold cursor-pointer">Description:{product.description}</p>
+                {/* <div className="flex gap-1 ml-7 w-60 ">
                                     <Swiper
                                         slidesPerView={4}
                                          spaceBetween={30}
@@ -50,9 +50,9 @@ const productdetail = async ({
                                         })}
                                     </Swiper>
                                 </div> */}
-                            </div>
-                        </div>
-  )
+            </div>
+        </div>
+    )
 }
 
 export default productdetail

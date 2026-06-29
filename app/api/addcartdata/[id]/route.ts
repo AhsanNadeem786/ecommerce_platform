@@ -9,11 +9,11 @@ export async function DELETE(request: Request,
     await dbConnect()
     try {
       const {id} = await params
-        console.log("id",id);
+
         
         const DeleteCart = await cart.findByIdAndDelete(id)
   
-        console.log("DeleteCart",DeleteCart);
+   
         
         if (!DeleteCart) {
             return NextResponse.json({ error: "failed to deleted" }, { status: 500 })

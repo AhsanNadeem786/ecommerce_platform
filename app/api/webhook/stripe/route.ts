@@ -4,9 +4,7 @@ import { stripe } from '@/lib/stripe';
 export async function POST(req: NextRequest) {
   const body = await req.text();
   const signature = req.headers.get('stripe-signature') as string;
-
   let event;
-
   try {
     event = stripe.webhooks.constructEvent(
       body,
