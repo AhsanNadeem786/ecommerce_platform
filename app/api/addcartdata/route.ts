@@ -34,17 +34,17 @@ export async function DELETE(request: Request,
 ) {
     await dbConnect()
     try {
-       const cokkieStore = await cookies()
-               const token = cokkieStore.get("token")?.value
-              
-               if (!token) throw new Error("No token found");
-       
-       
-               const decoded = jwt.verify(token,'screct-key')
-          
+        const cokkieStore = await cookies()
+        const token = cokkieStore.get("token")?.value
+
+        if (!token) throw new Error("No token found");
+
+
+        const decoded = jwt.verify(token, 'screct-key')
+
 
         const DeleteCart = await cart.deleteMany({
-            UserId:decoded.userId
+            UserId: decoded.userId
         })
 
 

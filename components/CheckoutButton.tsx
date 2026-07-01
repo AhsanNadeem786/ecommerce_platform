@@ -7,13 +7,13 @@ interface CheckoutButtonProps {
   price: number;
 }
 
-export default function CheckoutButton({ price }: CheckoutButtonProps) {
+export default function CheckoutButton({}: CheckoutButtonProps) {
   const [loading, setLoading] = useState(false);
 
   const handleCheckout = async () => {
     setLoading(true);
     try {
-      const { url } = await createCheckoutSession(price);
+      const { url } = await createCheckoutSession();
       if (url) {
         window.location.href = url; 
       }

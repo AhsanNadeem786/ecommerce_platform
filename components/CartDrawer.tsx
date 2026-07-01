@@ -2,19 +2,23 @@ import React, { useEffect, useState } from 'react'
 import { Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from './ui/drawer'
 import { Button } from './ui/button'
 import { FaShoppingCart } from 'react-icons/fa'
-import { Dialog, DialogContent, DialogTrigger } from './ui/dialog'
+
 import { usePathname, useRouter } from "next/navigation";
+import CreateOrder from "./CreateOrder"
+
+
 
 const CartDrawer = () => {
     const [productCart, setProductCart] = useState<any[]>([])
-    const [deletecart,setdeletecart]= useState()
-    const [deleteAllCart,setDeleteAllCart] = useState();
+    const [deletecart, setdeletecart] = useState()
+    const [deleteAllCart, setDeleteAllCart] = useState();
+
     const pathname = usePathname()
-    const router = useRouter()
+
     const fetchCart = async () => {
         const res = await fetch("/api/storeproductcart")
         const data = await res.json()
-       
+
 
         setProductCart(data.data)
 
@@ -22,56 +26,54 @@ const CartDrawer = () => {
     useEffect(() => {
         fetchCart()
     }, [])
-    
-const handleRemove = async(id: string) =>{
-     try {
-                const res = await fetch(`/api/addcartdata/${id}`, {
-                    "method": "Delete",
-                })
-    
-                const data = await res.json()
-         
-             
-                
-               setdeletecart(data)
-               setProductCart(prev=> prev.filter((data) => data._id !== id ))
-                
-            } catch (error) {
-                console.log(error);
-                
-            }
-    }
-    const handleRemoveAll = async() =>{
+
+    const handleRemove = async (id: string) => {
         try {
-             const res = await fetch("/api/addcartdata", {
-                    "method": "Delete",
-                })
-    
-                const data = await res.json()
-         
-     
-                setDeleteAllCart(data)
-                 setProductCart([])   //  setDeleteAllCart(prev=> prev.filter((data) => data.userid !== userid ))
+            const res = await fetch(`/api/addcartdata/${id}`, {
+                "method": "Delete",
+            })
+
+            const data = await res.json()
+
+
+
+            setdeletecart(data)
+            setProductCart(prev => prev.filter((data) => data._id !== id))
+
         } catch (error) {
             console.log(error);
-            
+
         }
     }
-    const handleorder = () =>{
-        router.push("/checkout")
+    const handleRemoveAll = async () => {
+        try {
+            const res = await fetch("/api/addcartdata", {
+                "method": "Delete",
+            })
+
+            const data = await res.json()
+
+
+            setDeleteAllCart(data)
+            setProductCart([])   //  setDeleteAllCart(prev=> prev.filter((data) => data.userid !== userid ))
+        } catch (error) {
+            console.log(error);
+
+        }
     }
-    const [open , setOpen] = useState(false)
-    const cartopenChange = (open:boolean) =>{
+
+    const [open, setOpen] = useState(false)
+    const cartopenChange = (open: boolean) => {
         setOpen(open)
-       if(open){
-        fetchCart()
-       }
-        
+        if (open) {
+            fetchCart()
+        }
+
     }
     useEffect(() => {
-     if(open){
-        setOpen(false)
-     }
+        if (open) {
+            setOpen(false)
+        }
     }, [pathname])
     return (
         <Drawer open={open} onOpenChange={cartopenChange} direction="right">
@@ -100,9 +102,9 @@ const handleRemove = async(id: string) =>{
                                 ))} */}
                     {productCart.map((product: any) => {
                         const { ProductId } = product;
-          
-                
-                        
+
+
+
                         return (
                             <div key={ProductId._id} className="flex mt-8 gap-8">
 
@@ -111,7 +113,7 @@ const handleRemove = async(id: string) =>{
                                     <p className="font-bold text-black text-3xl">{ProductId.name}</p>
                                     {/* <p className="mt-6">{ProductId.quantity}   </p> */}
                                     <p className=" mt-6">RS:{ProductId.price}</p>
-                                  <Button onClick={() => handleRemove(product._id)} value={deletecart} className=' mt-6'>Remove</Button>
+                                    <Button onClick={() => handleRemove(product._id)} value={deletecart} className=' mt-6'>Remove</Button>
                                 </div>
                             </div>
                         )
@@ -120,45 +122,16 @@ const handleRemove = async(id: string) =>{
                     <div>
                         <p className="mt-9">Order Now</p>
                         <textarea name="Order Note" id="Order Note" className="h-20 mt-6 w-80 border border-black"></textarea>
-                        <Dialog>
-                            <form>
-                                <DialogTrigger asChild>
-                                    <Button variant="outline" className="mt-8">Check your Product Selected</Button>
-                                </DialogTrigger>
-                                <DialogContent className="sm:max-w-sm">
-                                    {/* <DialogHeader>
-                                                    <DialogTitle>Edit profile</DialogTitle>
-                                                    <DialogDescription>
-                                                        Make changes to your profile here. Click save when you&apos;re
-                                                        done.
-                                                    </DialogDescription>
-                                                </DialogHeader> */}
-                                    {/* <FieldGroup>
-                                                    <Field>
-                                                        <Label htmlFor="name-1">Name</Label>
-                                                        <Input id="name-1" name="name" defaultValue="Pedro Duarte" />
-                                                    </Field>
-                                                    <Field>
-                                                        <Label htmlFor="username-1">Username</Label>
-                                                        <Input id="username-1" name="username" defaultValue="@peduarte" />
-                                                    </Field>
-                                                </FieldGroup> */}
-                                    {/* <DialogFooter>
-                                                    <DialogClose asChild>
-                                                        <Button variant="outline">Cancel</Button>
-                                                    </DialogClose>
-                                                    <Button type="submit">Save changes</Button>
-                                                </DialogFooter> */}
-                                </DialogContent>
-                            </form>
-                        </Dialog>
+
                     </div>
                 </div>
+
                 <DrawerFooter>
-                    <Button onClick={handleRemoveAll} value={deleteAllCart}>Remove All</Button>
-                    <Button onClick={handleorder}>Create Order</Button>
+
+                    <Button onClick={handleRemoveAll} value={deleteAllCart} type='button'>Remove All</Button>
+                    <CreateOrder />
                     <DrawerClose asChild>
-                        <Button variant="outline">Cancel</Button>
+                        <Button variant="outline" type='button'>Cancel</Button>
                     </DrawerClose>
                 </DrawerFooter>
             </DrawerContent>
@@ -167,3 +140,4 @@ const handleRemove = async(id: string) =>{
 }
 
 export default CartDrawer
+

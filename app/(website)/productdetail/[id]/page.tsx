@@ -29,7 +29,7 @@ const productdetail = async ({
                 <div className="flex justify-center items-center gap-15 ">
 
                     <button className="bg-black text-white p-3 rounded-2xl ">Quick buy</button>
-                    <AddToCart productId={product._id} />
+                    <AddToCart productId={product._id.toString()} />
                 </div>
                 <p className="text-center text-[14px] text-[#76767f] font-bold cursor-pointer">Description:{product.description}</p>
                 {/* <div className="flex gap-1 ml-7 w-60 ">
