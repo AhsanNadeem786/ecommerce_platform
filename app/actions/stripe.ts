@@ -34,7 +34,7 @@ export async function createCheckoutSession() {
   })
 
 
-  console.log("lineItems", JSON.stringify(lineItems));
+  // console.log("lineItems", JSON.stringify(lineItems));
 
   try {
 

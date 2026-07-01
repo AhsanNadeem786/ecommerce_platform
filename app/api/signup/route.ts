@@ -13,12 +13,7 @@ export async function POST(request: Request) {
             password: body.password,
             message: body.message,
         });
-        // const exitUser = await user.findUnique({
-        //     where: { email }
-        // });
-        // if (!exitUser) {
-        //     alert("email is already exits")
-        // }
+      
         if (!UserData) {
             return Response.json({ error: "Failed to User created" }, { status: 500 });
         }

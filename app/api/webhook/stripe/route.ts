@@ -22,6 +22,8 @@ export async function POST(req: NextRequest) {
     const lineItems = await stripe.checkout.sessions.listLineItems(session.id, {
       expand: ['data.price.product'],
     });
+    console.log("lineItems", JSON.stringify(lineItems));
+    
     const paymentData = {
       checkoutSessionId:session.id,
 
@@ -32,7 +34,7 @@ export async function POST(req: NextRequest) {
     const paymentRow =  await Payment.create(paymentData);
     console.log("paymentRow",paymentRow);
     
-   
+    
     // console.log("lineItems", JSON.stringify(lineItems));
 
     // Fulfill the order: update user account, trigger emails, etc.

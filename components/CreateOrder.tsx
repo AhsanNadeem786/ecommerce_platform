@@ -14,7 +14,7 @@ const CreateOrder = () => {
     const router = useRouter()
 
     const handleorder = async (e: React.FormEvent) => {
-        debugger
+ 
         e.preventDefault();
         if (!name || !lastname || !city || !country || !street) {
             alert("Please fill in all required fields");
@@ -46,7 +46,7 @@ const CreateOrder = () => {
                 setStreet("");
 
             } else {
-                console.error("Failed to create product");
+                console.error("Failed to add address");
             }
             if (res.ok) {
                 router.push("/checkout")
@@ -79,7 +79,7 @@ const CreateOrder = () => {
                         </Field>
                         <Field>
                             <Label htmlFor="username-1">City</Label>
-                            <Input id="username-1" name="City" value={city} onChange={(e) => setCity(e.target.value)} />
+                            <Input  name="City-1" value={city} onChange={(e) => setCity(e.target.value)} />
                         </Field>
                         <Field>
                             <Label htmlFor="username-1">Country</Label>

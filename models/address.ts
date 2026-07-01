@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
+import { unique } from "next/dist/build/utils";
 const addressSchema = new mongoose.Schema({
-    
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
+    },
     name: {
         type: String,
         required: true
@@ -9,10 +13,11 @@ const addressSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-   
+
     city: {
         type: String,
-        unique: true
+        required: true,
+        unique: false
     },
     country: {
         type: String,
