@@ -3,7 +3,8 @@ import { unique } from "next/dist/build/utils";
 const addressSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true
+        required: true,
+        unique:true,
     },
     name: {
         type: String,

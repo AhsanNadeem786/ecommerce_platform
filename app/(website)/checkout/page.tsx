@@ -1,6 +1,7 @@
 "use client"
 
 import CheckoutButton from "@/components/CheckoutButton"
+import CreateOrder from "@/components/CreateOrder"
 import { Button } from "@/components/ui/button"
 import { useEffect, useMemo, useState } from "react"
 
@@ -75,6 +76,7 @@ const checkout = () => {
             <p className="font-bold text-4xl">Total: {sum} </p>
           <CheckoutButton price={sum} />
         </div>
+        <CreateOrder />
     </>
 }
 

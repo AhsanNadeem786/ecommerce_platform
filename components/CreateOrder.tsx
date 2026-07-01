@@ -4,14 +4,14 @@ import { Field, FieldGroup } from './ui/field'
 import { Label } from './ui/label'
 import { Input } from './ui/input'
 import { Button } from './ui/button'
-import { useRouter } from "next/navigation";
+
 const CreateOrder = () => {
     const [name, setName] = useState("")
     const [lastname, setLastname] = useState("")
     const [city, setCity] = useState("")
     const [country, setCountry] = useState("")
     const [street, setStreet] = useState("")
-    const router = useRouter()
+   
 
     const handleorder = async (e: React.FormEvent) => {
  
@@ -48,9 +48,7 @@ const CreateOrder = () => {
             } else {
                 console.error("Failed to add address");
             }
-            if (res.ok) {
-                router.push("/checkout")
-            }
+         
         } catch (error) {
             console.error("Network error:", error);
         }
@@ -59,7 +57,7 @@ const CreateOrder = () => {
         <Dialog>
 
             <DialogTrigger asChild>
-                <Button variant="outline" className=" w-full bg-black text-white" type='button'>Create Order</Button>
+                <Button variant="outline"  type='button'>Create Order</Button>
             </DialogTrigger>
 
             <DialogContent className="sm:max-w-sm">

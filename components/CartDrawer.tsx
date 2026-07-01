@@ -12,7 +12,7 @@ const CartDrawer = () => {
     const [productCart, setProductCart] = useState<any[]>([])
     const [deletecart, setdeletecart] = useState()
     const [deleteAllCart, setDeleteAllCart] = useState();
-
+ const router = useRouter()
     const pathname = usePathname()
 
     const fetchCart = async () => {
@@ -75,6 +75,9 @@ const CartDrawer = () => {
             setOpen(false)
         }
     }, [pathname])
+    const handleorders = () =>{
+          router.push("/checkout")
+    }
     return (
         <Drawer open={open} onOpenChange={cartopenChange} direction="right">
             <DrawerTrigger asChild>
@@ -129,7 +132,7 @@ const CartDrawer = () => {
                 <DrawerFooter>
 
                     <Button onClick={handleRemoveAll} value={deleteAllCart} type='button'>Remove All</Button>
-                    <CreateOrder />
+                       <Button variant="outline" type='button' onClick={handleorders}>Create Order</Button>
                     <DrawerClose asChild>
                         <Button variant="outline" type='button'>Cancel</Button>
                     </DrawerClose>
