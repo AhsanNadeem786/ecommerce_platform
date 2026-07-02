@@ -1,9 +1,11 @@
 'use server';
 
 import { stripe } from '@/lib/stripe';
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import jwt from 'jsonwebtoken';
 import cart from '@/models/cart';
+import address from '@/models/address';
+
 export async function createCheckoutSession() {
   const cokkieStore = await cookies()
   const token = cokkieStore.get("token")?.value
@@ -13,11 +15,15 @@ export async function createCheckoutSession() {
 
   const decoded = jwt.verify(token, 'screct-key')
   const userId = decoded.userId;
-  // if (userId) {
-    
-  // }
-  
+  // const header = await headers()
+  // const address = header.get("address")
+  // console.log("address",address);
 
+  const addressed = await address.findOne({userId})
+  if (!addressed) {
+    return {url:null ,error:"Please add your shipping address."}
+  }
+  
   const productCart = await cart.find({ UserId: userId }).populate("ProductId").lean();
 
   const lineItems = productCart.map((data) => {

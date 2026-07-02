@@ -107,7 +107,7 @@ const checkout = () => {
                     </thead>
 
                     <tbody>
-                        <tr>
+                        <tr className="text-center">
 
                             <td className="border px-4 py-3">
                                 {showAddress.name}
@@ -148,11 +148,11 @@ const checkout = () => {
         </div>
         <div className="flex flex-col items-center justify-center gap-8">
             {/* <CreateOrder /> */}
-            <p className="font-bold text-4xl">Total: {sum} </p>
+            <p className="font-bold text-4xl mt-6">Total: {sum} </p>
             {!showAddress &&
                 <Button onClick={handleAddress} className="w-50 h-15 rounded-4xl">Add Shiping Address</Button>
             }
-            <CheckoutButton price={sum} />
+            <CheckoutButton disabled={!showAddress} />
         </div>
 
     </>
