@@ -13,6 +13,11 @@ export async function createCheckoutSession() {
 
   const decoded = jwt.verify(token, 'screct-key')
   const userId = decoded.userId;
+  // if (userId) {
+    
+  // }
+  
+
   const productCart = await cart.find({ UserId: userId }).populate("ProductId").lean();
 
   const lineItems = productCart.map((data) => {
