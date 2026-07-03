@@ -3,12 +3,17 @@ import mongoose, { Schema } from "mongoose";
 const OrderSchema = new Schema(
     {
         paymentId: { type: String, required: true, ref: "payment" },
+        paymentStatus: {
+            type: String,
+            required: true,
+            enum: ['Pending', 'paid', 'Failed'],
 
+        },
 
         productsId: [
             {
-                Id:{type:String,require:true},
-                Price:{type:Number,require:true}
+                Id: { type: String, required: true },
+                Price: { type: Number, required: true }
             },
 
         ],
@@ -17,9 +22,15 @@ const OrderSchema = new Schema(
             type: String, required: true,
 
         },
+        Address: {
+            name: { type: String, required: true },
+            lastname: { type: String, required: true },
+            city: { type: String, required: true },
+            country: { type: String, required: true },
+            street: { type: String, required: true },
+        },
+        status: { type: String, required: true, default: "pending" },
 
-        status: { type: String, required: true, default: "pending" }, 
-      
     },
     { timestamps: true }
 );

@@ -10,7 +10,7 @@ interface CheckoutButtonProps {
 export default function CheckoutButton({ disabled }: CheckoutButtonProps) {
   const [loading, setLoading] = useState(false);
   const [adress, setAdress] = useState()
-  console.log("disabled", disabled);
+ 
 
   const handleCheckout = async () => {
     if (disabled) {

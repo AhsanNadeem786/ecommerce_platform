@@ -99,7 +99,7 @@ const checkout = () => {
                             <th className="border px-4 py-3"> Name</th>
                             <th className="border px-4 py-3">LastName</th>
                             <th className="border px-4 py-3">City</th>
-                            <th className="border px-4 py-3">country</th>
+                            <th className="border px-4 py-3">Country</th>
                             <th className="border px-4 py-3">Street</th>
                             <th className="border px-4 py-3">Actions</th>
 
