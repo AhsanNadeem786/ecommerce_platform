@@ -9,7 +9,7 @@ interface CheckoutButtonProps {
 
 export default function CheckoutButton({ disabled }: CheckoutButtonProps) {
   const [loading, setLoading] = useState(false);
-  const [adress, setAdress] = useState()
+  
  
 
   const handleCheckout = async () => {
@@ -40,7 +40,6 @@ export default function CheckoutButton({ disabled }: CheckoutButtonProps) {
   return (
     <button
       onClick={handleCheckout}
-      // disabled={loading|| disabled}
       style={{ opacity: disabled ? .40 : 1 }}
       className={`px-6 py-3 ml-5 mb-3 w-50 h-15 bg-blue-600   text-white font-medium rounded-lg hover:bg-blue-700 disabled:bg-gray-400`}
     >

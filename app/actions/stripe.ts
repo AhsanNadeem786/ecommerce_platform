@@ -5,6 +5,7 @@ import { cookies, headers } from 'next/headers';
 import jwt from 'jsonwebtoken';
 import cart from '@/models/cart';
 import address from '@/models/address';
+import Order from '@/models/order';
 
 export async function createCheckoutSession() {
   const cokkieStore = await cookies()
@@ -19,11 +20,11 @@ export async function createCheckoutSession() {
   // const address = header.get("address")
   // console.log("address",address);
 
-  const addressed = await address.findOne({userId})
+  const addressed = await address.findOne({ userId })
   if (!addressed) {
-    return {url:null ,error:"Please add your shipping address."}
+    return { url: null, error: "Please add your shipping address." }
   }
-  
+
   const productCart = await cart.find({ UserId: userId }).populate("ProductId").lean();
 
   const lineItems = productCart.map((data) => {
@@ -45,25 +46,22 @@ export async function createCheckoutSession() {
   })
 
 
-  console.log("lineItems", JSON.stringify(lineItems));
+  // console.log("lineItems", JSON.stringify(lineItems));
+ 
 
   try {
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
-      line_items:lineItems,
+      line_items: lineItems,
+      // Product_data:products,
       mode: 'payment',
       metadata: {
         user_id: userId,
-       
-      
       },
       success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/canceled`,
     });
-
-
-    // return { url: null };
     return { url: session.url };
   } catch (error) {
     console.error('Stripe Session Error:', error);

@@ -5,15 +5,11 @@ import productsModel from "@/models/createproduct";
 import Link from "next/link";
 
 import React from 'react'
-// import { EffectCoverflow, Pagination } from 'swiper/modules';
-// import { Swiper, SwiperSlide } from 'swiper/react';
-// import 'swiper/css';
-// import 'swiper/css/pagination';
-// import 'swiper/css/navigation';
+
 const CategoryProducts = async ({
     params
 }: { params: any }) => {
-    // const router = useRouter()
+  
     const { id } = await params;
     const products = await productsModel.find({ categoryId: id }).lean();
     const caterogyData = await Category.findOne({ _id: id }, "title").lean()
