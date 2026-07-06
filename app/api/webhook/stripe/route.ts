@@ -4,6 +4,7 @@ import Payment from "@/models/payment"
 import Order from '@/models/order';
 import address from '@/models/address';
 import orderaddress from '@/models/orderaddress';
+import cart from '@/models/cart';
 export async function POST(req: NextRequest) {
   let products = []
   const body = await req.text();
@@ -76,6 +77,9 @@ export async function POST(req: NextRequest) {
    const orderAddresses = await orderaddress.create(orderaddres)
    console.log("orderAddresses",orderAddresses);
    
+   const deleteCart = await cart.deleteMany({UserId:userId})
+    console.log("deleteCart",deleteCart);
+    
     
     console.log(`Payment successful for Session ID: ${session.id}`);
   }
