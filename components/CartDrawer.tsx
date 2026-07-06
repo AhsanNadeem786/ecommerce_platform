@@ -12,7 +12,7 @@ const CartDrawer = () => {
     const [productCart, setProductCart] = useState<any[]>([])
     const [deletecart, setdeletecart] = useState()
     const [deleteAllCart, setDeleteAllCart] = useState();
- const router = useRouter()
+    const router = useRouter()
     const pathname = usePathname()
 
     const fetchCart = async () => {
@@ -75,21 +75,27 @@ const CartDrawer = () => {
             setOpen(false)
         }
     }, [pathname])
-    const handleorders = () =>{
-          router.push("/checkout")
+    const handleorders = () => {
+        router.push("/checkout")
     }
     return (
+
         <Drawer open={open} onOpenChange={cartopenChange} direction="right">
             <DrawerTrigger asChild>
                 <Button >   <FaShoppingCart /></Button>
             </DrawerTrigger>
+
             <DrawerContent>
-                <DrawerHeader>
-                    <DrawerTitle>CART</DrawerTitle>
-                    {/* <DrawerDescription>Set your daily activity goal.</DrawerDescription> */}
-                </DrawerHeader>
-                <div className="no-scrollbar overflow-y-auto px-4">
-                    {/* {Array.from({ length: 10 }).map((_, index) => (
+                {productCart.length === 0 ? (
+                    <p className="text-base text-gray-700 flex items-center">Cart item cannot be added</p>
+                ) : (
+                    <div>
+                        <DrawerHeader>
+                            <DrawerTitle>CART</DrawerTitle>
+                            {/* <DrawerDescription>Set your daily activity goal.</DrawerDescription> */}
+                        </DrawerHeader>
+                        <div className="no-scrollbar overflow-y-auto px-4">
+                            {/* {Array.from({ length: 10 }).map((_, index) => (
                                     <p
                                         key={index}
                                         className="mb-4 leading-normal style-lyra:mb-2 style-lyra:leading-relaxed"
@@ -103,40 +109,43 @@ const CartDrawer = () => {
                                         sunt in culpa qui officia deserunt mollit anim id est laborum.
                                     </p>
                                 ))} */}
-                    {productCart.map((product: any) => {
-                        const { ProductId } = product;
+                            {productCart.map((product: any) => {
+                                const { ProductId } = product;
 
 
 
-                        return (
-                            <div key={ProductId._id} className="flex mt-8 gap-8">
+                                return (
+                                    <div key={ProductId._id} className="flex mt-8 gap-8">
 
-                                <img src={ProductId.images} alt="" className="rounded-4xl" />
-                                <div className="flex-col">
-                                    <p className="font-bold text-black text-3xl">{ProductId.name}</p>
-                                    {/* <p className="mt-6">{ProductId.quantity}   </p> */}
-                                    <p className=" mt-6">RS:{ProductId.price}</p>
-                                    <Button onClick={() => handleRemove(product._id)} value={deletecart} className=' mt-6'>Remove</Button>
-                                </div>
+                                        <img src={ProductId.images} alt="" className="rounded-4xl" />
+                                        <div className="flex-col">
+                                            <p className="font-bold text-black text-3xl">{ProductId.name}</p>
+                                            {/* <p className="mt-6">{ProductId.quantity}   </p> */}
+                                            <p className=" mt-6">RS:{ProductId.price}</p>
+                                            <Button onClick={() => handleRemove(product._id)} value={deletecart} className=' mt-6'>Remove</Button>
+                                        </div>
+                                    </div>
+                                )
+                            })}
+
+                            <div>
+                                <p className="mt-9">Order Now</p>
+                                <textarea name="Order Note" id="Order Note" className="h-20 mt-6 w-80 border border-black"></textarea>
+
                             </div>
-                        )
-                    })}
+                        </div>
 
-                    <div>
-                        <p className="mt-9">Order Now</p>
-                        <textarea name="Order Note" id="Order Note" className="h-20 mt-6 w-80 border border-black"></textarea>
+                        <DrawerFooter>
 
+                            <Button onClick={handleRemoveAll} value={deleteAllCart} type='button'>Remove All</Button>
+                            <Button variant="outline" type='button' onClick={handleorders}>Create Order</Button>
+                            <DrawerClose asChild>
+                                <Button variant="outline" type='button'>Cancel</Button>
+                            </DrawerClose>
+                        </DrawerFooter>
                     </div>
-                </div>
+                )}
 
-                <DrawerFooter>
-
-                    <Button onClick={handleRemoveAll} value={deleteAllCart} type='button'>Remove All</Button>
-                       <Button variant="outline" type='button' onClick={handleorders}>Create Order</Button>
-                    <DrawerClose asChild>
-                        <Button variant="outline" type='button'>Cancel</Button>
-                    </DrawerClose>
-                </DrawerFooter>
             </DrawerContent>
         </Drawer>
     )
