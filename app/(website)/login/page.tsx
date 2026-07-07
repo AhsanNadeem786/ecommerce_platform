@@ -22,8 +22,10 @@ export default function Login() {
 
     })
       const router = useRouter()
+      const [loading,setLoading] = useState(false)
       const handleloginform = async (e: React.FormEvent) => {
         e.preventDefault();
+        setLoading(true)
         try {
             const response = await fetch("/api/login", {
                 method: "POST",
@@ -38,6 +40,8 @@ export default function Login() {
             }
         } catch (error) {
             console.log(error);
+        }finally {
+            setLoading(false)
         }
     };
 
@@ -87,7 +91,7 @@ return (
 
                 </CardContent>
                 <CardFooter className="flex-col gap-2">
-                    <Button type="submit" className="w-full">
+                    <Button type="submit" disabled={loading} className="w-full">
                         Login
                     </Button>
                     <Button variant="outline" className="w-full">

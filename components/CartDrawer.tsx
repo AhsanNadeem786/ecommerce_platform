@@ -14,7 +14,7 @@ const CartDrawer = () => {
     const [deleteAllCart, setDeleteAllCart] = useState();
     const router = useRouter()
     const pathname = usePathname()
-
+    const [item, setItem] = useState([])
     const fetchCart = async () => {
         const res = await fetch("/api/storeproductcart")
         const data = await res.json()
@@ -27,6 +27,16 @@ const CartDrawer = () => {
         fetchCart()
     }, [])
 
+    const fetchCount = async () => {
+        const res = await fetch("/api/cartcount");
+        const data = await res.json();
+        console.log(data);
+        setItem(data.data)
+
+    };
+    useEffect(() => {
+        fetchCount();
+    }, []);
     const handleRemove = async (id: string) => {
         try {
             const res = await fetch(`/api/addcartdata/${id}`, {
@@ -55,7 +65,7 @@ const CartDrawer = () => {
 
 
             setDeleteAllCart(data)
-            setProductCart([])   //  setDeleteAllCart(prev=> prev.filter((data) => data.userid !== userid ))
+            setProductCart([])
         } catch (error) {
             console.log(error);
 
@@ -82,61 +92,46 @@ const CartDrawer = () => {
 
         <Drawer open={open} onOpenChange={cartopenChange} direction="right">
             <DrawerTrigger asChild>
-                <Button >   <FaShoppingCart /></Button>
+                <Button className='cursor-pointer' > {item.length === 0 ? (
+
+                    null
+                ) : (
+                    <span className='bg-red-500 text-[9px] font-bold text-white p-[2px] w-4 h-4 rounded-4xl  '>{item}</span>
+                )}    <FaShoppingCart /> </Button>
             </DrawerTrigger>
 
             <DrawerContent>
                 {productCart.length === 0 ? (
                     <p className="text-base text-gray-700 flex items-center">Cart item cannot be added</p>
                 ) : (
-                    <div>
+               
+                    <div className="flex flex-col h-full max-h-[100vh]">
                         <DrawerHeader>
                             <DrawerTitle>CART</DrawerTitle>
-                            {/* <DrawerDescription>Set your daily activity goal.</DrawerDescription> */}
                         </DrawerHeader>
-                        <div className="no-scrollbar overflow-y-auto px-4">
-                            {/* {Array.from({ length: 10 }).map((_, index) => (
-                                    <p
-                                        key={index}
-                                        className="mb-4 leading-normal style-lyra:mb-2 style-lyra:leading-relaxed"
-                                    >
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-                                        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                                        enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                                        nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                                        reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                                        nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                                        sunt in culpa qui officia deserunt mollit anim id est laborum.
-                                    </p>
-                                ))} */}
+
+                     
+                        <div className="no-scrollbar overflow-y-auto flex-1 px-4">
                             {productCart.map((product: any) => {
                                 const { ProductId } = product;
-
-
-
                                 return (
                                     <div key={ProductId._id} className="flex mt-8 gap-8">
-
                                         <img src={ProductId.images} alt="" className="rounded-4xl" />
                                         <div className="flex-col">
                                             <p className="font-bold text-black text-3xl">{ProductId.name}</p>
-                                            {/* <p className="mt-6">{ProductId.quantity}   </p> */}
-                                            <p className=" mt-6">RS:{ProductId.price}</p>
-                                            <Button onClick={() => handleRemove(product._id)} value={deletecart} className=' mt-6'>Remove</Button>
+                                            <p className="mt-6">RS:{ProductId.price}</p>
+                                            <Button onClick={() => handleRemove(product._id)} value={deletecart} className='mt-6'>Remove</Button>
                                         </div>
                                     </div>
-                                )
+                                );
                             })}
-
                             <div>
                                 <p className="mt-9">Order Now</p>
                                 <textarea name="Order Note" id="Order Note" className="h-20 mt-6 w-80 border border-black"></textarea>
-
                             </div>
                         </div>
 
                         <DrawerFooter>
-
                             <Button onClick={handleRemoveAll} value={deleteAllCart} type='button'>Remove All</Button>
                             <Button variant="outline" type='button' onClick={handleorders}>Create Order</Button>
                             <DrawerClose asChild>
@@ -145,8 +140,8 @@ const CartDrawer = () => {
                         </DrawerFooter>
                     </div>
                 )}
-
             </DrawerContent>
+
         </Drawer>
     )
 }

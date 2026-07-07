@@ -42,7 +42,7 @@ export default function Header() {
         <header className=" py-7 bg-black text-white w-full">
             <div className="h-15 w-full max-w-375 m-auto">
                 <div className="flex items-center justify-between">
-                    <img src="header-1.png" alt="" className="w-10 h-8" onClick={handleImg} />
+                    <img src="header-1.png" alt="" className="w-10 h-8 cursor-pointer" onClick={handleImg} />
                     <IoIosContact size={14} className="text-white   " />
                     <Field className="max-w-sm">
                         {/* <FieldLabel htmlFor="inline-start-input">Input</FieldLabel> */}

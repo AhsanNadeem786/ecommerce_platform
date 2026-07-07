@@ -1,20 +1,22 @@
 "use client"
 
+import { useState } from "react";
 import { Button } from "./ui/button"
 // import { useSearchParams } from "next/navigation"
 
 export default function AddToCart(props: { productId: string }) {
-
+        const [loading,setloading] = useState(false)
     // const params = useSearchParams()
     // const id = params.get('id')
 
 
-    const handleAddCart = async () => {
+    const handleAddCart = async (e: { preventDefault: () => void; } | undefined) => {
 
 
-        // e.preventDefault();
+        e.preventDefault();
 
         try {
+            setloading(true)
             const res = await fetch("/api/addtocart", {
                 method: "POST",
                 headers: {
@@ -24,10 +26,14 @@ export default function AddToCart(props: { productId: string }) {
                     id: props.productId
                 }),
             });
-
+                if (res.ok) {
+                    alert("product adding to cart")
+                }
 
         } catch (error) {
             console.error("Network error:", error);
+        }finally{
+            setloading(false)
         }
     }
 
@@ -35,8 +41,8 @@ export default function AddToCart(props: { productId: string }) {
         <>
             <Button onClick={async (e) => {
                 e.stopPropagation();
-                await handleAddCart()
-            }}  >Add to cart</Button>
+                await handleAddCart(e)
+            }}  disabled={loading} >Add to cart</Button>
         </>
     )
 }

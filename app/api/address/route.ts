@@ -27,7 +27,7 @@ export async function POST(request: Request) {
             country: body.country,
             street: body.street,
         });
-        console.log("addressData", addressData);
+
 
         if (!addressData) {
             return Response.json({ error: "Failed to User created" }, { status: 500 });

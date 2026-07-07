@@ -3,13 +3,13 @@ import { useEffect, useMemo, useState } from 'react'
 
 const myorder = () => {
     const [showorder, setShoworder] = useState([])
-    console.log("showorder", showorder);
+  
 
     const fetchOrder = async () => {
 
         const res = await fetch("/api/myorder")
         const data = await res.json()
-        console.log(data);
+    
         setShoworder(data)
     }
     useEffect(() => {
