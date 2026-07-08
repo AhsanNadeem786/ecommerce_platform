@@ -3,37 +3,37 @@ import cart from "@/models/cart";
 import jwt from 'jsonwebtoken';
 import { cookies } from "next/headers";
 interface ICartData {
-  ProductId:String ;
-  userId:String;
+    ProductId: String;
+    userId: String;
 }
 export async function POST(request: Request) {
 
     await dbConnect
-   
-        const cokkieStore = await cookies()
-        const token = cokkieStore.get("token")?.value
-       
-        if (!token) throw new Error("No token found");
+
+    const cokkieStore = await cookies()
+    const token = cokkieStore.get("token")?.value
+
+    if (!token) throw new Error("No token found");
 
 
-        const decoded = jwt.verify(token,'screct-key')
-   
-    
-        
- try {
+    const decoded = jwt.verify(token, 'screct-key')
+
+
+
+    try {
         const body = await request.json()
-        // console.log(body);
-        
 
-        
-        const CartData:ICartData = await cart.create({
+
+
+
+        const CartData: ICartData = await cart.create({
             ProductId: body.id,
             UserId: decoded.userId,
-           
+
         })
-         if(!CartData) {
-                return Response.json({ error: "Failed to add cart" }, { status: 500 });
-            }
+        if (!CartData) {
+            return Response.json({ error: "Failed to add cart" }, { status: 500 });
+        }
         return Response.json({ message: "Cart data Saved Successfully", data: CartData }, { status: 201 });
     } catch (error) {
         console.log(error);

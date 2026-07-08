@@ -2,18 +2,16 @@
 
 import { useState } from "react";
 import { Button } from "./ui/button"
-// import { useSearchParams } from "next/navigation"
+
 
 export default function AddToCart(props: { productId: string }) {
-        const [loading,setloading] = useState(false)
-    // const params = useSearchParams()
-    // const id = params.get('id')
-
+    const [loading, setloading] = useState(false)
+  
 
     const handleAddCart = async (e: { preventDefault: () => void; } | undefined) => {
 
 
-        e.preventDefault();
+
 
         try {
             setloading(true)
@@ -26,22 +24,27 @@ export default function AddToCart(props: { productId: string }) {
                     id: props.productId
                 }),
             });
-                if (res.ok) {
-                    alert("product adding to cart")
-                }
-
+            if (res.ok) {
+                alert("product adding to cart")
+                
+            }
+            
         } catch (error) {
             console.error("Network error:", error);
-        }finally{
+        } finally {
             setloading(false)
         }
     }
-
+    const triggerEvent = () => {
+        const event = new CustomEvent("addproduct")
+        window.dispatchEvent(event)
+    }
     return (
         <>
             <Button onClick={async (e) => {
                 e.stopPropagation();
                 await handleAddCart(e)
+                triggerEvent()
             }}  disabled={loading} >Add to cart</Button>
         </>
     )

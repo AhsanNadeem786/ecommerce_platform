@@ -4,7 +4,7 @@ import { Button } from './ui/button'
 import { FaShoppingCart } from 'react-icons/fa'
 
 import { usePathname, useRouter } from "next/navigation";
-import CreateOrder from "./CreateOrder"
+
 
 
 
@@ -15,6 +15,7 @@ const CartDrawer = () => {
     const router = useRouter()
     const pathname = usePathname()
     const [item, setItem] = useState([])
+
     const fetchCart = async () => {
         const res = await fetch("/api/storeproductcart")
         const data = await res.json()
@@ -27,15 +28,21 @@ const CartDrawer = () => {
         fetchCart()
     }, [])
 
-    const fetchCount = async () => {
-        const res = await fetch("/api/cartcount");
-        const data = await res.json();
-        console.log(data);
-        setItem(data.data)
+      const fetchCount = async () => {
+            const res = await fetch("/api/cartcount");
+            const data = await res.json();
+            console.log(data);
+            setItem(data.data)
 
-    };
+        };
+
     useEffect(() => {
-        fetchCount();
+  
+        fetchCount()
+        window.addEventListener("addproduct",fetchCount)
+        return () => {
+            window.removeEventListener("addproduct",fetchCount)
+        }
     }, []);
     const handleRemove = async (id: string) => {
         try {
@@ -77,6 +84,7 @@ const CartDrawer = () => {
         setOpen(open)
         if (open) {
             fetchCart()
+            
         }
 
     }
@@ -96,7 +104,7 @@ const CartDrawer = () => {
 
                     null
                 ) : (
-                    <span className='bg-red-500 text-[9px] font-bold text-white p-[2px] w-4 h-4 rounded-4xl  '>{item}</span>
+                    <span className='bg-red-500 text-[9px] font-bold text-white p-0.5 w-4 h-4 rounded-4xl  '>{item}</span>
                 )}    <FaShoppingCart /> </Button>
             </DrawerTrigger>
 
@@ -104,13 +112,13 @@ const CartDrawer = () => {
                 {productCart.length === 0 ? (
                     <p className="text-base text-gray-700 flex items-center">Cart item cannot be added</p>
                 ) : (
-               
-                    <div className="flex flex-col h-full max-h-[100vh]">
+
+                    <div className="flex flex-col h-full max-h-screen">
                         <DrawerHeader>
                             <DrawerTitle>CART</DrawerTitle>
                         </DrawerHeader>
 
-                     
+
                         <div className="no-scrollbar overflow-y-auto flex-1 px-4">
                             {productCart.map((product: any) => {
                                 const { ProductId } = product;
@@ -120,7 +128,11 @@ const CartDrawer = () => {
                                         <div className="flex-col">
                                             <p className="font-bold text-black text-3xl">{ProductId.name}</p>
                                             <p className="mt-6">RS:{ProductId.price}</p>
-                                            <Button onClick={() => handleRemove(product._id)} value={deletecart} className='mt-6'>Remove</Button>
+                                            <Button onClick={() => {
+                                                handleRemove(product._id)
+                                                fetchCount()
+                                                }
+                                            } value={deletecart} className='mt-6'>Remove</Button>
                                         </div>
                                     </div>
                                 );
@@ -132,7 +144,11 @@ const CartDrawer = () => {
                         </div>
 
                         <DrawerFooter>
-                            <Button onClick={handleRemoveAll} value={deleteAllCart} type='button'>Remove All</Button>
+                            <Button onClick={()=> {
+                                handleRemoveAll
+                                fetchCount()
+
+                            }} value={deleteAllCart} type='button'>Remove All</Button>
                             <Button variant="outline" type='button' onClick={handleorders}>Create Order</Button>
                             <DrawerClose asChild>
                                 <Button variant="outline" type='button'>Cancel</Button>
