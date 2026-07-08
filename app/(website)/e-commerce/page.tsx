@@ -112,7 +112,7 @@ export default function Ecommerce() {
                 <img src="/home 12.jfif" alt="" className="w-87.5 h-125 rounded-2xl" />
             </div>
             <div className="w-312.5 h-130 ml-10 mt-10 ">
-                <video src="home-vedio.mp4" autoPlay={true} loop={true} className="rounded-4xl"></video>
+                <video src="home-vedio.mp4" autoPlay={true} loop={true} muted={true} className="rounded-4xl"></video>
             </div>
             <div className="mt-80 ml-10 flex gap-10">
                 <Swiper
@@ -124,16 +124,16 @@ export default function Ecommerce() {
                     // modules={[Pagination]}
                     className="mySwiper"
                 >
-                    <SwiperSlide><video src="home 13.webm" autoPlay={true} loop={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
-                    <SwiperSlide><video src="hmoe 14.mp4" autoPlay={true} loop={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
-                    <SwiperSlide><video src="home14.mp4" autoPlay={true} loop={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
-                    <SwiperSlide><video src="home 15.mp4" autoPlay={true} loop={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
-                    <SwiperSlide><video src="home 16.mp4" autoPlay={true} loop={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
-                    <SwiperSlide><video src="home 17.mp4" autoPlay={true} loop={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
-                    <SwiperSlide><video src="home 18.mp4" autoPlay={true} loop={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
-                    <SwiperSlide><video src="home 19.mp4" autoPlay={true} loop={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
-                    <SwiperSlide> <video src="home 20.mp4" autoPlay={true} loop={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
-                    <SwiperSlide> <video src="home 21.mp4" autoPlay={true} loop={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
+                    <SwiperSlide><video src="home 13.webm" autoPlay={true} loop={true} muted={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
+                    <SwiperSlide><video src="hmoe 14.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
+                    <SwiperSlide><video src="home14.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
+                    <SwiperSlide><video src="home 15.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
+                    <SwiperSlide><video src="home 16.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
+                    <SwiperSlide><video src="home 17.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
+                    <SwiperSlide><video src="home 18.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
+                    <SwiperSlide><video src="home 19.mp4" autoPlay={true} loop={true}  muted={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
+                    <SwiperSlide> <video src="home 20.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
+                    <SwiperSlide> <video src="home 21.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
                 </Swiper>
             </div>
             <div className="flex justify-between ml-10 mr-10">

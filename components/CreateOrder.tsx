@@ -11,8 +11,8 @@ const CreateOrder = () => {
     const [city, setCity] = useState("")
     const [country, setCountry] = useState("")
     const [street, setStreet] = useState("")
-   
-
+   const [loading , setloading] = useState(false)
+ 
     const handleorder = async (e: React.FormEvent) => {
  
         e.preventDefault();
@@ -20,7 +20,7 @@ const CreateOrder = () => {
             alert("Please fill in all required fields");
             return;
         }
-
+        setloading(true)
         try {
             const res = await fetch("/api/address", {
                 method: "POST",
@@ -51,6 +51,8 @@ const CreateOrder = () => {
          
         } catch (error) {
             console.error("Network error:", error);
+        }finally {
+            setloading(false)
         }
     }
     return (
@@ -90,7 +92,7 @@ const CreateOrder = () => {
                     </FieldGroup>
 
                     <DialogFooter>
-                        <Button type="submit"  >Create Order</Button>
+                        <Button type="submit" disabled={loading}  >Create Order</Button>
                     </DialogFooter>
                 </form>
             </DialogContent>

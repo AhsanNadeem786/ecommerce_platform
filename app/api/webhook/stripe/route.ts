@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
       userId:userId
     }
     const paymentRow = await Payment.create(paymentData);
-    console.log("paymentRow", paymentRow);
+
     // const paymentId = await Payment.findById('_id').lean()
     // console.log("paymentId", paymentId);
     const ProductData = lineItems.data.map((product) => {
@@ -58,12 +58,12 @@ export async function POST(req: NextRequest) {
       paymentId: paymentRow._id,
       userId:userId
     }
-    console.log("orderData", orderData);
+   
 
     const orders = await Order.create(orderData)
-    console.log("orders",orders);
+  
     const addresses = await address.findOne({userId}) 
-    console.log("addresses",addresses);
+ 
     
     const orderaddres = {
       userId:addresses.userId,
@@ -75,10 +75,10 @@ export async function POST(req: NextRequest) {
       orderId:orders._id
     }
    const orderAddresses = await orderaddress.create(orderaddres)
-   console.log("orderAddresses",orderAddresses);
+
    
    const deleteCart = await cart.deleteMany({UserId:userId})
-    console.log("deleteCart",deleteCart);
+
     
     
     console.log(`Payment successful for Session ID: ${session.id}`);
