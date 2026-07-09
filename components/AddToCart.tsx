@@ -43,7 +43,7 @@ export default function AddToCart(props: { productId: string, isCart: boolean })
                 e.stopPropagation();
                 await handleAddCart(e)
                 triggerEvent()
-            }} disabled={loading || isCart || edit} >{isCart ? "Already in Cart" : "Add to Cart"}</Button>
+            }} disabled={loading || isCart || edit} >{isCart||edit ? "Already in Cart" : "Add to Cart"}</Button>
         </>
     )
 }

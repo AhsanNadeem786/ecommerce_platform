@@ -132,6 +132,7 @@ const CartDrawer = () => {
                                             <p className="font-bold text-black text-3xl">{ProductId.name}</p>
                                             <p className="mt-6">RS:{ProductId.price}</p>
                                             <Button onClick={() => {
+                                             
                                                 handleRemove(product._id)
                                                 fetchCount()
                                                 }
