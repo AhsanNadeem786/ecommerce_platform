@@ -17,9 +17,9 @@ export default function InvantoryLayout({
 }>) {
   return (
     <div>
-        <Sidebar />
-        {children}
-    
-   </div>
+      <Sidebar />
+      {children}
+
+    </div>
   );
 }

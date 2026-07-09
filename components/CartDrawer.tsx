@@ -95,11 +95,13 @@ const CartDrawer = () => {
         }
     }, [pathname])
     const handleorders = () => {
+        
         router.push("/checkout")
     }
     return (
 
         <Drawer open={open} onOpenChange={cartopenChange} direction="right">
+            
             <DrawerTrigger asChild>
                 <Button className='cursor-pointer' > {item.length === 0 ? (
 

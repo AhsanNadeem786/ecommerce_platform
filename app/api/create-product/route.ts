@@ -42,7 +42,7 @@ export async function POST(request: Request) {
         const productData = await product.find().populate("categoryId").populate({path:"isCart",
             match:{UserId:userId}
         })
-        console.log("productData",productData);
+ 
         
         
         return Response.json({ message: "Products fetched successfully", data: productData }, { status: 200 });

@@ -29,7 +29,7 @@ export default function Ecommerce() {
     const fetchProducts = async () => {
         const res = await fetch("/api/create-product");
         const data = await res.json();
-        console.log("data", data);
+  
         setProducts(data.data);
 
     };

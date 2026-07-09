@@ -18,6 +18,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    staus:{
+        type:String,
+        enum:['user','admin'],
+        required:true
+    },
     message: {
         type: String,
         required: true

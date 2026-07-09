@@ -46,8 +46,8 @@ export default function Login() {
     };
 
 return (
-    <div className="flex justify-center">
-        <Card className="w-full mt-10 mb-10 max-w-sm">
+    <div className="flex justify-center items-center">
+        <Card className="w-full mt-50 mb-10 max-w-sm">
             <CardHeader>
                 <CardTitle>Login to your account</CardTitle>
                 <CardDescription>
@@ -78,7 +78,7 @@ return (
                             <div className="flex items-center">
                                 <Label htmlFor="password">Password</Label>
                                 <a
-                                    href="#"
+                                    href={"/forgotpassword"}
                                     className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
                                 >
                                     Forgot your password?

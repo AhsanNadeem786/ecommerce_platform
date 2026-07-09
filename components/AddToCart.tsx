@@ -4,18 +4,13 @@ import { useState } from "react";
 import { Button } from "./ui/button"
 
 
-export default function AddToCart(props: { productId: string,isCart:boolean }) {
-    console.log("isCart",props.isCart);
-    
-    const {isCart}=props;
+export default function AddToCart(props: { productId: string, isCart: boolean }) {
+    console.log("isCart", props.isCart);
+    const { isCart } = props;
     const [loading, setloading] = useState(false)
-    const [edit,setEdit] = useState(false)
+    const [edit, setEdit] = useState(false)
 
     const handleAddCart = async (e: { preventDefault: () => void; } | undefined) => {
-
-
-
-
         try {
             setloading(true)
             const res = await fetch("/api/addtocart", {
@@ -31,7 +26,7 @@ export default function AddToCart(props: { productId: string,isCart:boolean }) {
                 alert("product adding to cart")
                 setEdit(true)
             }
-            
+
         } catch (error) {
             console.error("Network error:", error);
         } finally {
@@ -42,14 +37,13 @@ export default function AddToCart(props: { productId: string,isCart:boolean }) {
         const event = new CustomEvent("addproduct")
         window.dispatchEvent(event)
     }
-  
     return (
         <>
             <Button onClick={async (e) => {
                 e.stopPropagation();
                 await handleAddCart(e)
                 triggerEvent()
-            }}  disabled={loading||isCart ||edit} >{isCart?"Already in Cart":"Add to Cart"}</Button>
+            }} disabled={loading || isCart || edit} >{isCart ? "Already in Cart" : "Add to Cart"}</Button>
         </>
     )
 }
