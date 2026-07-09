@@ -140,7 +140,7 @@ export default function Signup() {
                 </CardContent>
                 <CardFooter className="flex-col gap-2">
                     <Button type="submit" disabled={loading} className="w-full">
-                        Sign up
+                       {loading?"loading...":"Sign up" }
                     </Button>
 
                 </CardFooter>

@@ -92,7 +92,7 @@ return (
                 </CardContent>
                 <CardFooter className="flex-col gap-2">
                     <Button type="submit" disabled={loading} className="w-full">
-                        Login
+                        {loading?"loading...":"login In"}
                     </Button>
                     <Button variant="outline" className="w-full">
                         Login with Google

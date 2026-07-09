@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { unique } from "next/dist/build/utils";
+
 const addressSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,

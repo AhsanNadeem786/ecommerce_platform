@@ -20,7 +20,7 @@ const CategoryProducts = async ({
     // }
     return (
         <>
-            <h1 className="bg-black text-white h-10 mt-5 text-center ">{caterogyData.title}</h1>
+            <h1 className="bg-black text-white h-10 text-center mt-5 ">{caterogyData.title}</h1>
             <div className="grid grid-cols-4 w-full">
 
                 {products.map((product: any) => {
