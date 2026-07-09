@@ -29,6 +29,7 @@ export default function Ecommerce() {
     const fetchProducts = async () => {
         const res = await fetch("/api/create-product");
         const data = await res.json();
+        console.log("data", data);
         setProducts(data.data);
 
     };
@@ -67,7 +68,7 @@ export default function Ecommerce() {
 
                 {products.slice(0, 8).map((product: any) => {
                     return (
-                        // 
+
                         <div onClick={() => handleProductDetail(product._id)} key={product._id} className="flex">
                             <div className="bg-[#f8f9fc] h-137.5 w-70.5  rounded-3xl mt-50 p-[0,20px,10px] border border-[#00000017] shadow-xl ml-10 flex flex-col gap-5 ">
                                 <img src={product.images[0]} alt="" className="h-60 w-60 m-5" />
@@ -77,7 +78,10 @@ export default function Ecommerce() {
                                 <div className="flex justify-center items-center gap-15 ">
 
                                     <button className="bg-black text-white p-3 rounded-2xl ">Quick buy</button>
-                                    <AddToCart productId={product._id} />
+                                    <AddToCart
+                                        productId={product._id}
+                                        isCart={!!product.isCart}
+                                    />
                                 </div>
                                 <div className="flex gap-1 ml-7 w-60 ">
                                     <Swiper
@@ -131,7 +135,7 @@ export default function Ecommerce() {
                     <SwiperSlide><video src="home 16.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
                     <SwiperSlide><video src="home 17.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
                     <SwiperSlide><video src="home 18.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
-                    <SwiperSlide><video src="home 19.mp4" autoPlay={true} loop={true}  muted={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
+                    <SwiperSlide><video src="home 19.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
                     <SwiperSlide> <video src="home 20.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
                     <SwiperSlide> <video src="home 21.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
                 </Swiper>

@@ -4,9 +4,12 @@ import { useState } from "react";
 import { Button } from "./ui/button"
 
 
-export default function AddToCart(props: { productId: string }) {
+export default function AddToCart(props: { productId: string,isCart:boolean }) {
+    console.log("isCart",props.isCart);
+    
+    const {isCart}=props;
     const [loading, setloading] = useState(false)
-  
+    const [edit,setEdit] = useState(false)
 
     const handleAddCart = async (e: { preventDefault: () => void; } | undefined) => {
 
@@ -26,7 +29,7 @@ export default function AddToCart(props: { productId: string }) {
             });
             if (res.ok) {
                 alert("product adding to cart")
-                
+                setEdit(true)
             }
             
         } catch (error) {
@@ -39,13 +42,15 @@ export default function AddToCart(props: { productId: string }) {
         const event = new CustomEvent("addproduct")
         window.dispatchEvent(event)
     }
+  
     return (
         <>
             <Button onClick={async (e) => {
                 e.stopPropagation();
                 await handleAddCart(e)
                 triggerEvent()
-            }}  disabled={loading} >Add to cart</Button>
+            }}  disabled={loading||isCart ||edit} >{isCart?"Already in Cart":"Add to Cart"}</Button>
         </>
     )
 }
+// {Isalready?"Alredy Addred to Cart":"Add to Cart"}

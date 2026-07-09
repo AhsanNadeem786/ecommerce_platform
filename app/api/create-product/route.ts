@@ -1,6 +1,7 @@
 import dbConnect from "@/lib/dbConnect";
 import product from "@/models/createproduct";
-
+import { cookies } from "next/headers";
+import jwt from 'jsonwebtoken';
 export async function POST(request: Request) {
     await dbConnect();
     try {
@@ -30,9 +31,19 @@ export async function POST(request: Request) {
  export async function GET() {
     await dbConnect();
     try {
+        const cokkieStore = await cookies()
+          const token = cokkieStore.get("token")?.value
         
-        const productData = await product.find().populate("categoryId");
-      
+          if (!token) throw new Error("No token found");
+        
+        
+          const decoded = jwt.verify(token, 'screct-key')
+          const userId = decoded.userId;
+        const productData = await product.find().populate("categoryId").populate({path:"isCart",
+            match:{UserId:userId}
+        })
+        console.log("productData",productData);
+        
         
         return Response.json({ message: "Products fetched successfully", data: productData }, { status: 200 });
     } catch (error) {

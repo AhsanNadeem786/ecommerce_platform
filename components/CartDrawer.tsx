@@ -20,7 +20,8 @@ const CartDrawer = () => {
         const res = await fetch("/api/storeproductcart")
         const data = await res.json()
 
-
+       
+        
         setProductCart(data.data)
 
     }

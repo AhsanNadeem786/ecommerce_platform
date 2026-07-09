@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 
 const createProductSchema = new mongoose.Schema({
-    images:{
-        type:Array,
-        require:true
+    images: {
+        type: Array,
+        require: true
     },
     name: {
         type: String,
@@ -25,7 +25,22 @@ const createProductSchema = new mongoose.Schema({
     description: {
         type: String,
         required: true
-    }
-}, { timestamps: true });
+    },
+   
+}, {
+    timestamps: true,
+    toJSON: {
+        virtuals: true,
+    },
+    toObject: { virtuals: true }
+});
+
+createProductSchema.virtual('isCart', {
+    ref: 'Cart',
+    localField: '_id',
+    foreignField: 'ProductId',
+    justOne: true
+})
+
 
 export default mongoose.models.Product || mongoose.model("Product", createProductSchema);

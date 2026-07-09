@@ -1,6 +1,7 @@
 import dbConnect from "@/lib/dbConnect";
 import cart from "@/models/cart";
 import jwt from 'jsonwebtoken';
+import Products from "@/models/createproduct";
 import { cookies } from "next/headers";
 interface ICartData {
     ProductId: String;
@@ -8,7 +9,7 @@ interface ICartData {
 }
 export async function POST(request: Request) {
 
-    await dbConnect
+    await dbConnect()
 
     const cokkieStore = await cookies()
     const token = cokkieStore.get("token")?.value
