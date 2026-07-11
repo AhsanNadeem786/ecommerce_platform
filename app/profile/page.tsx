@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 
 const profile = () => {
@@ -20,6 +21,7 @@ const profile = () => {
     const [password, setPassword] = useState("")
     const [message, setMessage] = useState("")
     const [loading, setLoading] = useState(false)
+    const router = useRouter()
     const handleprofilesubmit = async (e: { preventDefault: () => void }) => {
         debugger
         e.preventDefault();
@@ -61,6 +63,9 @@ const profile = () => {
         } finally {
             setLoading(false);
         }
+    }
+    const handleroute = () =>{
+        router.push("/e-commerce")
     }
     return (
         <div className="flex  justify-center mt-15">
@@ -135,7 +140,7 @@ const profile = () => {
 
                     </CardContent>
                     <CardFooter className="flex-col gap-2">
-                        <Button type="submit" disabled={loading} className="w-full">
+                        <Button type="submit" disabled={loading} onClick={handleroute} className="w-full">
                             {loading ? "loading...." : "Login to create account"}
                         </Button>
                     </CardFooter>

@@ -1,5 +1,5 @@
 "use client"
-import images from "next/image"
+// import images from "next/image"
 import { EffectCoverflow, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -45,13 +45,16 @@ export default function Ecommerce() {
     const handleProductDetail = (id: any) => {
         router.push(`/productdetail/${id}`)
     }
+    const handleCaterogyShow = () =>{
+        router.push("/showcaterogy")
+    }
     return (
         <>
             <img src="/header-2.jpg" alt="" />
 
             <div className="bg-white shadow-olive-200 h-30 mb-8 max-w-900 ml-20 mt-15 flex justify-between">
                 {
-                    caterogy.map((caterogy: any) => {
+                    caterogy.slice(0,6).map((caterogy: any) => {
                         return (
                             <div onClick={() => handleCategoryRedirect(caterogy._id)} key={caterogy._id} className="flex flex-col gap-4 shadow-lg h-50    ">
                                 <img src={caterogy.images} alt="" className="h-50 w-37.5 rounded- full  " />
@@ -63,6 +66,9 @@ export default function Ecommerce() {
 
 
 
+            </div>
+             <div className="flex justify-center mt-30 ">
+                <button onClick={handleCaterogyShow} className="bg-black text-white h-10 w-30 rounded-4xl cursor-pointer">veiw all</button>
             </div>
             <div className="grid grid-cols-4 w-full">
 
@@ -139,7 +145,7 @@ export default function Ecommerce() {
                     <SwiperSlide> <video src="home 20.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
                     <SwiperSlide> <video src="home 21.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
                 </Swiper>
-            </div>
+            </div>      
             <div className="flex justify-between ml-10 mr-10">
                 <img src="/home 22.png" alt="" />
                 <img src="/home 23.png" alt="" />
