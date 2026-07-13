@@ -37,7 +37,7 @@ const CategoryProducts = async ({
                                 <div className="flex justify-center items-center gap-15 ">
 
                                     <button className="bg-black text-white p-3 rounded-2xl ">Quick buy</button>
-                                    <AddToCart productId={product._id.toString()} />
+                                    <AddToCart productId={product._id.toString()}    isCart={!!product.isCart}/>
                                 </div>
                                 <div className="flex gap-1 ml-7 w-60 ">
                                     {/* <Swiper

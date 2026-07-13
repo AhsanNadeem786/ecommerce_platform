@@ -27,3 +27,17 @@ export async function POST(request: Request) {
     }
 
 }
+
+
+export async function GET() {
+    await dbConnect();
+    try {
+        const profiles = await profile.find();
+        console.log(profiles);
+        
+        return Response.json({ message: "Categories fetched successfully", data: profiles }, { status: 200 });
+    } catch (error) {
+        console.log(error);
+        return Response.json({ error: "Failed to fetch categories" }, { status: 500 });
+    }
+}
