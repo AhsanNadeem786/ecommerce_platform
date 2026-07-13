@@ -21,7 +21,7 @@ export async function POST(request: Request) {
         return Response.json({ message: "User created successfully", data: ProfileData }, { status: 201 });
     } catch (error) {
         console.log(error);
-
+        alert("email is already exits")
         return Response.json({ error: "Failed to User created" }, { status: 500 });
 
     }

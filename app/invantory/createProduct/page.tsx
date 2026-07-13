@@ -93,7 +93,7 @@ export default function CreateProduct() {
 
     return (
         <div className="flex justify-center items-start  bg-gray-50 ">
-            <div className="w-full max-w-md bg-white shadow-2xl -mt-150 rounded-lg p-8">
+            <div className="w-full max-w-md bg-white shadow-2xl  rounded-lg p-8">
                 <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">
                     Create Product
                 </h1>

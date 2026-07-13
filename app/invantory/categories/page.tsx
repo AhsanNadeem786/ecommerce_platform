@@ -46,7 +46,7 @@ export default function Categories() {
         })
     }
     return (
-        <div className="container -mt-150 flex justify-center">
+        <div className="container  flex justify-center">
             <form onSubmit={handleAddCategory} className="w-125 h-96 bg-white shadow-lg rounded-lg flex mt-20 justify-start items-start flex-col">
                 <h1 className="text-2xl font-bold mb-4 ml-35">Categories</h1>
 

@@ -16,7 +16,7 @@ export default function InvantoryLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div>
+    <div className="flex w-full">
       <Sidebar />
       {children}
 

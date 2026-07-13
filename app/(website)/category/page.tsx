@@ -53,7 +53,7 @@ export default function Category() {
             
         }
     return (
-        <div className="min-h-screen p-6 -mt-158">
+        <div className="min-h-screen p-6 ">
             <h1 className="text-center text-4xl font-bold mb-3">
                 Caterogies
             </h1>

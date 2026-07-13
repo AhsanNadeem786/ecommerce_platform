@@ -47,7 +47,7 @@ export default function Category() {
 
     }
     return (
-        <div className="min-h-screen p-6 -mt-158">
+        <div className="min-h-screen p-6 ">
             <h1 className="text-center text-4xl font-bold mb-3">
                 Caterogies
             </h1>
@@ -55,7 +55,7 @@ export default function Category() {
                 <Link href="/invantory/categories" className="bg-black text-white hover:bg-black/80 border border-gray-300 rounded-lg px-4 py-2 text-center mt-10">Create Caterogies</Link>
             </div>
             <div className="overflow-x-auto">
-                <table className="w-275 ml-50  border border-gray-300 shadow-lg">
+                <table className="w-275 ml-20  border border-gray-300 shadow-lg">
                     <thead className="bg-gray-800 text-white">
                         <tr>
                             <th className="border px-4 py-3">Caterogies Name</th>

@@ -14,19 +14,19 @@ const profile = () => {
 
         })
         const data = await res.json()
-        console.log("acceptdata",data);
-        
+        console.log("acceptdata", data);
+
     }
-    const handlestatusfailed = async() =>{
-        const res = await fetch("/api/adminfailed",{
-            method:"POST",
-            headers:{
+    const handlestatusfailed = async () => {
+        const res = await fetch("/api/adminfailed", {
+            method: "POST",
+            headers: {
                 "Content-Type": "application/json",
             }
         })
         const data = await res.json()
-        console.log("faileddata",data);
-        
+        console.log("faileddata", data);
+
     }
     const fetchProfile = async () => {
 
@@ -39,22 +39,25 @@ const profile = () => {
         fetchProfile();
     }, []);
     return (
+        <div className='flex gap-10 p-10'>
+            {showProfile.map((showProfile: any) => {
+                return (
+                    <div key={showProfile._id} className='w-80 h-95 flex flex-col justify-center items-center gap-5 bg-white shadow-lg ' >
+                        <p className=''>FirstName:{showProfile.name}</p>
+                        <p className=''>LastName:{showProfile.lastname}</p>
+                        <p className=''>Email:{showProfile.email}</p>
+                        <p className=''>Password:{showProfile.password}</p>
+                        <p className=''>Message:{showProfile.message}</p>
+                        <div className='flex gap-3'>
+                            <button onClick={handlestatusactive} className='bg-black text-white p-2 h-15 w-30 rounded-4xl '>Accept</button>
+                            <button onClick={handlestatusfailed} className='bg-black text-white p-2 h-15 w-30 rounded-4xl '>Reject</button>
+                        </div>
 
-        showProfile.map((showProfile: any) => {
-            return (
-                <div key={showProfile._id} className='ml-60 -mt-150 w-100 h-100 bg-white shadow-lg' >
-                    <p className='ml-15 mt-10'>FirstName:{showProfile.name}</p>
-                    <p className='ml-15 mt-10'>LastName:{showProfile.lastname}</p>
-                    <p className='ml-15 mt-10'>Email:{showProfile.email}</p>
-                    <p className='ml-15 mt-10'>Password:{showProfile.password}</p>
-                    <p className='ml-15 mt-10'>Message:{showProfile.message}</p>
-                    <button onClick={handlestatusactive} className='bg-black text-white p-2 h-15 w-30 rounded-4xl ml-15 mt-13 '>Accept</button>
-                    <button onClick={handlestatusfailed} className='bg-black text-white p-2 h-15 w-30 rounded-4xl ml-15 mt-13 '>Reject</button>
-                </div >
-            )
+                    </div >
+                )
 
-        })
-
+            })}
+        </div>
 
     )
 }
