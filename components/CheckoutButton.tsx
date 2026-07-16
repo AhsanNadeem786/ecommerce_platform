@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { createCheckoutSession } from '@/app/actions/stripe';
+import { Button } from './ui/button';
 
 interface CheckoutButtonProps {
   disabled: boolean
@@ -38,12 +39,12 @@ export default function CheckoutButton({ disabled }: CheckoutButtonProps) {
   };
 
   return (
-    <button
+    <Button
       onClick={handleCheckout}
       style={{ opacity: disabled ? .40 : 1 }}
       className={`px-6 py-3 ml-5 mb-3 w-50 h-15 bg-blue-600   text-white font-medium rounded-lg hover:bg-blue-700 disabled:bg-gray-400`}
     >
       {loading ? 'Processing...' : 'Buy Now'}
-    </button>
+    </Button>
   );
 }

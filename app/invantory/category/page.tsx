@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
 export default function Category() {
     const [showcategory, setShowcaterogy] = useState<any[]>([]);
     // const [deletecategory,setdeletecategory]= useState()
@@ -82,21 +83,21 @@ export default function Category() {
 
                                 <td className="border px-4 py-3">
                                     <div className="flex justify-center gap-3">
-                                        <button
+                                        <Button
                                             onClick={() => handleDelete(showcategory._id)}
                                             // value={deletecategory}
                                             className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
                                         >
                                             Delete
-                                        </button>
+                                        </Button>
 
-                                        <button
+                                        <Button
                                             onClick={() => handleEdit(showcategory._id)}
                                             value={editcategory}
                                             className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
                                         >
                                             Edit
-                                        </button>
+                                        </Button>
                                     </div>
                                 </td>
 

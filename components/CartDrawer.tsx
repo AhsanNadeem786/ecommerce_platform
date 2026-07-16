@@ -32,7 +32,7 @@ const CartDrawer = () => {
       const fetchCount = async () => {
             const res = await fetch("/api/cartcount");
             const data = await res.json();
-            console.log(data);
+  
             setItem(data.data)
 
         };

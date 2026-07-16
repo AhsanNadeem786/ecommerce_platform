@@ -1,4 +1,6 @@
 "use client"
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -52,12 +54,12 @@ export default function UpdateCategories() {
             <form onSubmit={handleUpdateCategory} className="w-125 h-96 bg-white shadow-lg rounded-lg flex mt-20 justify-start items-start flex-col">
                 <h1 className="text-2xl font-bold mb-4 ml-35">Categories</h1>
 
-                <input type="text" placeholder="title" className="h-10 w-64 border border-gray-300 rounded-lg px-4 py-2 ml-30 mt-5" value={title} onChange={(e) => setTitle(e.target.value)} />
+                <Input type="text" placeholder="title" className="h-10 w-64 border border-gray-300 rounded-lg px-4 py-2 ml-30 mt-5" value={title} onChange={(e) => setTitle(e.target.value)} />
 
-                <input type="text" placeholder="description" className="h-10 w-64 border border-gray-300 rounded-lg px-4 py-2 ml-30 mt-5" value={description} onChange={(e) => setDescription(e.target.value)} />
-                <button type="submit" className="h-10 w-64 bg-blue-500 text-white rounded-lg px-4 py-2 ml-30 mt-5 hover:bg-blue-600" disabled={loading}>
+                <Input type="text" placeholder="description" className="h-10 w-64 border border-gray-300 rounded-lg px-4 py-2 ml-30 mt-5" value={description} onChange={(e) => setDescription(e.target.value)} />
+                <Button type="submit" className="h-10 w-64 bg-blue-500 text-white rounded-lg px-4 py-2 ml-30 mt-5 hover:bg-blue-600" disabled={loading}>
                     {loading ? "Updating..." : "UpdateCategroy"}
-                </button>
+                </Button>
             </form>
         </div>
     );

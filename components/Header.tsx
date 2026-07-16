@@ -99,8 +99,8 @@ export default function Header() {
                     </Dialog> */}
                     <div onClick={handleprofile}><CgProfile /></div>
                    
-                    <button onClick={handlelogout} className="bg-white text-black h-8 w-15 rounded-2xl cursor-pointer" >logout</button>
-                    <button onClick={handleOrder} className="bg-white text-black h-10 w-30 rounded-2xl cursor-pointer">My Order</button>
+                    <Button onClick={handlelogout} className="bg-white text-black h-8 w-15 rounded-2xl cursor-pointer" >logout</Button>
+                    <Button onClick={handleOrder} className="bg-white text-black h-10 w-30 rounded-2xl cursor-pointer">My Order</Button>
                     <CartDrawer />
                 </div>
             </div>

@@ -3,6 +3,8 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import Image from "next/image";
 import { AvatarUploader } from "@/components/avatar-uploader";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 export default function Categories() {
     const path = usePathname()
     const [title, setTitle] = useState("");
@@ -50,9 +52,9 @@ export default function Categories() {
             <form onSubmit={handleAddCategory} className="w-125 h-96 bg-white shadow-lg rounded-lg flex mt-20 justify-start items-start flex-col">
                 <h1 className="text-2xl font-bold mb-4 ml-35">Categories</h1>
 
-                <input type="text" placeholder="title" className="h-10 w-64 border border-gray-300 rounded-lg px-4 py-2 ml-30 mt-5" value={title} onChange={(e) => setTitle(e.target.value)} />
+                <Input type="text" placeholder="title" className="h-10 w-64 border border-gray-300 rounded-lg px-4 py-2 ml-30 mt-5" value={title} onChange={(e) => setTitle(e.target.value)} />
 
-                <input type="text" placeholder="description" className="h-10 w-64 border border-gray-300 rounded-lg px-4 py-2 ml-30 mt-5" value={description} onChange={(e) => setDescription(e.target.value)} />
+                <Input type="text" placeholder="description" className="h-10 w-64 border border-gray-300 rounded-lg px-4 py-2 ml-30 mt-5" value={description} onChange={(e) => setDescription(e.target.value)} />
                   {categoryImage && <img src={categoryImage} alt="uploadImage" />}
                                     <AvatarUploader
                                      onUploadSuccess={saveAvatar} 
@@ -64,9 +66,9 @@ export default function Categories() {
                                         <Image src={imgSrc} alt="Image" key={index} width={200} height={200} />)
                                        })
                                      }
-                <button type="submit" className="h-10 w-64 bg-blue-500 text-white rounded-lg px-4 py-2 ml-30 mt-5 hover:bg-blue-600" disabled={loading}>
+                <Button type="submit" className="h-10 w-64 bg-blue-500 text-white rounded-lg px-4 py-2 ml-30 mt-5 hover:bg-blue-600" disabled={loading}>
                     {loading ? "Adding..." : "Add Category"}
-                </button>
+                </Button>
             </form>
         </div>
     );

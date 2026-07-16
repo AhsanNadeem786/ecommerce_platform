@@ -8,6 +8,7 @@ import 'swiper/css/navigation';
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import AddToCart from "@/components/AddToCart";
+import { Button } from '@/components/ui/button';
 
 export default function Ecommerce() {
     const [caterogy, showCaterogy] = useState<any[]>([]);
@@ -68,7 +69,7 @@ export default function Ecommerce() {
 
             </div>
              <div className="flex justify-center mt-30 ">
-                <button onClick={handleCaterogyShow} className="bg-black text-white h-10 w-30 rounded-4xl cursor-pointer">veiw all</button>
+                <Button onClick={handleCaterogyShow} className="bg-black text-white h-10 w-30 rounded-4xl cursor-pointer">veiw all</Button>
             </div>
             <div className="grid grid-cols-4 w-full">
 
@@ -83,7 +84,7 @@ export default function Ecommerce() {
                                 <p className="text-2xl flex justify-center">${product.price}</p>
                                 <div className="flex justify-center items-center gap-15 ">
 
-                                    <button className="bg-black text-white p-3 rounded-2xl ">Quick buy</button>
+                                    <Button className="bg-black text-white p-3 rounded-2xl ">Quick buy</Button>
                                     <AddToCart
                                         productId={product._id}
                                         isCart={!!product.isCart}
@@ -113,7 +114,7 @@ export default function Ecommerce() {
                 })}
             </div>
             <div className="flex justify-center mt-10 ">
-                <button onClick={handleProductShow} className="bg-black text-white h-10 w-30 rounded-4xl cursor-pointer">veiw all</button>
+                <Button onClick={handleProductShow} className="bg-black text-white h-10 w-30 rounded-4xl cursor-pointer">veiw all</Button>
             </div>
 
             <div className="mt-6 ml-10 flex gap-20">

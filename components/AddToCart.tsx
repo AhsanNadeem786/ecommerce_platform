@@ -5,7 +5,7 @@ import { Button } from "./ui/button"
 
 
 export default function AddToCart(props: { productId: string, isCart: boolean }) {
-    console.log("isCart", props.isCart);
+ 
     const { isCart } = props;
     const [loading, setloading] = useState(false)
     const [edit, setEdit] = useState(false)

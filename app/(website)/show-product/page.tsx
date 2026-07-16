@@ -7,6 +7,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import AddToCart from "@/components/AddToCart";
+import { Button } from "@/components/ui/button";
 export default function showproduct() {
     const [products, setProducts] = useState<any[]>([]);
      const fetchProducts = async () => {
@@ -31,7 +32,7 @@ export default function showproduct() {
                                  <p className="text-center text-[14px] text-[#76767f] font-bold cursor-pointer">{product.price}</p>
                                 <div className="flex justify-center items-center gap-15 ">
                                    
-                                    <button className="bg-black text-white p-3 rounded-2xl ">Quick buy</button>
+                                    <Button className="bg-black text-white p-3 rounded-2xl ">Quick buy</Button>
                                       <AddToCart productId={product._id}    isCart={!!product.isCart}/>                             
 
                                 </div>

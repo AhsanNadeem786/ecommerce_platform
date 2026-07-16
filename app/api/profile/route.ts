@@ -33,7 +33,7 @@ export async function GET() {
     await dbConnect();
     try {
         const profiles = await profile.find();
-        console.log(profiles);
+
         
         return Response.json({ message: "Categories fetched successfully", data: profiles }, { status: 200 });
     } catch (error) {

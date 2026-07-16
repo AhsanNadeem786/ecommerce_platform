@@ -1,5 +1,7 @@
 "use client";
 import { AvatarUploader } from "@/components/avatar-uploader";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { ChangeEvent, useEffect, useState } from "react";
 
@@ -100,7 +102,7 @@ export default function CreateProduct() {
 
                 <form onSubmit={handleCreate} className="flex flex-col gap-4">
                    
-                    <input
+                    <Input
                         type="text"
                         value={productName}
                         onChange={(e) => setProductName(e.target.value)}
@@ -108,7 +110,7 @@ export default function CreateProduct() {
                         className="w-full h-10 border border-gray-300 px-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
 
-                    <input
+                    <Input
                         type="number"
                         value={price}
                         onChange={(e) => setPrice(e.target.value)}
@@ -116,7 +118,7 @@ export default function CreateProduct() {
                         className="w-full h-10 border border-gray-300 px-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
 
-                    <input
+                    <Input
                         type="number"
                         value={quantity}
                         onChange={(e) => setQuantity(e.target.value)}
@@ -159,13 +161,13 @@ export default function CreateProduct() {
                         <Image src={imgSrc} alt="Image" key={index} width={200} height={200} />)
                        })
                      }
-                    <button
+                    <Button
                         type="submit"
                         disabled={loading}
                         className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md transition duration-200 disabled:bg-blue-300"
                     >
                         {loading ? "Creating..." : "Create"}
-                    </button>
+                    </Button>
                 </form>
             </div>
         </div>

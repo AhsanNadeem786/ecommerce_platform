@@ -130,12 +130,12 @@ const checkout = () => {
                                 <div className="flex justify-center gap-3">
 
 
-                                    <button
+                                    <Button
                                         onClick={() => handleEdit()}
                                         className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
                                     >
                                         Edit
-                                    </button>
+                                    </Button>
                                 </div>
                             </td>
 

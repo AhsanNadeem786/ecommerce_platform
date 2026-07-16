@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { AvatarUploader } from "@/components/avatar-uploader";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 export default function UpdateCreateProduct() {
     const [productName, setProductName] = useState("");
     const path = usePathname()
@@ -79,7 +81,7 @@ const [images, setImages] = useState<String[]>([])
                 </h1>
 
                 <form onSubmit={handleUpdated} className="flex flex-col gap-4">
-                    <input
+                    <Input
                         type="text"
                         value={productName}
                         onChange={(e) => setProductName(e.target.value)}
@@ -87,7 +89,7 @@ const [images, setImages] = useState<String[]>([])
                         className="w-full h-10 border border-gray-300 px-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
 
-                    <input
+                    <Input
                         type="number"
                         value={price}
                         onChange={(e) => setPrice(e.target.value)}
@@ -95,7 +97,7 @@ const [images, setImages] = useState<String[]>([])
                         className="w-full h-10 border border-gray-300 px-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
 
-                    <input
+                    <Input
                         type="number"
                         value={quantity}
                         onChange={(e) => setQuantity(e.target.value)}
@@ -134,13 +136,13 @@ const [images, setImages] = useState<String[]>([])
                                 <Image src={imgSrc} alt="Image" key={index} width={200} height={200} value={image} onChange={(e)=>setimage(e.target.value)} />)
                         })
                     }
-                    <button
+                    <Button
                         type="submit"
                         disabled={loading}
                         className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md transition duration-200 disabled:bg-blue-300"
                     >
                         {loading ? "Creating..." : "Create"}
-                    </button>
+                    </Button>
                 </form>
             </div>
         </div>

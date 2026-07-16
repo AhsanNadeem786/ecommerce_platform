@@ -2,6 +2,7 @@ import React from 'react'
 import productsModel from "@/models/createproduct";
 import { notFound } from 'next/navigation';
 import AddToCart from '@/components/AddToCart';
+import { Button } from '@/components/ui/button';
 const productdetail = async ({
     params
 }: { params: any }) => {
@@ -28,7 +29,7 @@ const productdetail = async ({
                 <p className="text-2xl flex justify-center ">$Price:{product.price}</p>
                 <div className="flex justify-center items-center gap-15 ">
 
-                    <button className="bg-black text-white p-3 rounded-2xl ">Quick buy</button>
+                    <Button className="bg-black text-white p-3 rounded-2xl ">Quick buy</Button>
                     <AddToCart productId={product._id.toString()}    isCart={!!product.isCart}/>
                 </div>
                 <p className="text-center text-[14px] text-[#76767f] font-bold cursor-pointer">Description:{product.description}</p>
