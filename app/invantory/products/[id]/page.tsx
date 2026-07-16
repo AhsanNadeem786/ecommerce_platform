@@ -1,6 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { AvatarUploader } from "@/components/avatar-uploader";
+import Image from "next/image";
 export default function UpdateCreateProduct() {
     const [productName, setProductName] = useState("");
     const path = usePathname()
@@ -8,11 +10,14 @@ export default function UpdateCreateProduct() {
     const [quantity, setQuantity] = useState("");
     const [categoryId, setCategoryId] = useState("");
     const [description, setDescription] = useState("");
+    const [image,setimage] = useState("")
+
     const [showcategory, setShowcategory] = useState<any[]>([])
     const [loading, setLoading] = useState(false);
-   
+const [images, setImages] = useState<String[]>([])
+ const [productImage, setProductImage] = useState("")
     const id = path.split("/")[2]
-   const handleUpdated = async () => {
+    const handleUpdated = async () => {
         setLoading(true)
         try {
             const res = await fetch(`/api/create-product/${id}`, {
@@ -25,7 +30,7 @@ export default function UpdateCreateProduct() {
 
 
             const data = await res.json()
-         
+
 
 
         } catch (error) {
@@ -39,7 +44,7 @@ export default function UpdateCreateProduct() {
         try {
             const res = await fetch(`/api/create-product/${id}`);
             const data = await res.json();
-        
+
             setProductName(data.data.name)
             setPrice(data.data.price)
             setQuantity(data.data.quantity)
@@ -52,17 +57,23 @@ export default function UpdateCreateProduct() {
 
     const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const categoryId = e.target.value
-     
+
         setCategoryId(categoryId);
     };
-
+    async function saveAvatar(url: String) {
+        setImages((prev: any) => {
+            const oldState = [...prev];
+            oldState.push(url)
+            return oldState
+        })
+    }
 
     useEffect(() => {
         fetchCategories();
     }, []);
     return (
-        <div className="flex justify-center items-start  bg-gray-50 ">
-            <div className="w-full max-w-md bg-white shadow-2xl -mt-150 rounded-lg p-8">
+        <div className="flex justify-center h-130 w-full bg-gray-50 ">
+            <div className="w-full max-w-md bg-white shadow-2xl  rounded-lg p-8">
                 <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">
                     Create Product
                 </h1>
@@ -112,7 +123,17 @@ export default function UpdateCreateProduct() {
                         placeholder="Description"
                         className="w-full h-24 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                     ></textarea>
+                    {productImage && <img src={productImage} alt="uploadImage" />}
+                    <AvatarUploader
+                        onUploadSuccess={saveAvatar}
 
+                    />
+                    {
+                        images.map((imgSrc: String, index) => {
+                            return (
+                                <Image src={imgSrc} alt="Image" key={index} width={200} height={200} value={image} onChange={(e)=>setimage(e.target.value)} />)
+                        })
+                    }
                     <button
                         type="submit"
                         disabled={loading}

@@ -4,14 +4,14 @@ import { useEffect, useState } from 'react'
 
 const profile = () => {
     const [showProfile, setShowProfile] = useState([])
-
+   
     const handlestatusactive = async () => {
         const res = await fetch("/api/admin", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-            }
-
+            },
+             body: JSON.stringify({  userStatus: 'active' }),
         })
         const data = await res.json()
         console.log("acceptdata", data);
@@ -22,7 +22,8 @@ const profile = () => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-            }
+            },
+              body: JSON.stringify({  userStatus: 'failed' }),
         })
         const data = await res.json()
         console.log("faileddata", data);
@@ -39,7 +40,7 @@ const profile = () => {
         fetchProfile();
     }, []);
     return (
-        <div className='flex gap-10 p-10'>
+        <div className='flex flex-wrap gap-10 p-10'>
             {showProfile.map((showProfile: any) => {
                 return (
                     <div key={showProfile._id} className='w-80 h-95 flex flex-col justify-center items-center gap-5 bg-white shadow-lg ' >
