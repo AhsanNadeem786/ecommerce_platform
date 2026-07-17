@@ -23,7 +23,6 @@ const profile = () => {
     const [loading, setLoading] = useState(false)
     const router = useRouter()
     const handleprofilesubmit = async (e: { preventDefault: () => void }) => {
-        debugger
         e.preventDefault();
         if (!name || !lastname || !email || !password || !message) {
             alert("Please fill in all required fields");

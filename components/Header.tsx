@@ -1,6 +1,7 @@
 "use client"
 
 
+
 import { SearchIcon } from "lucide-react"
 
 import {
@@ -26,7 +27,22 @@ import { IoIosContact } from "react-icons/io";
 import { useRouter } from "next/navigation";
 import CartDrawer from "./CartDrawer"
 import { CgProfile } from "react-icons/cg";
+import { useEffect, useState } from "react"
 export default function Header() {
+    const [isScrolled, setisScrolled] = useState(false)
+    useEffect(() => {
+      const handleScroll = () => { 
+        if(window.scrollY > 20){
+        setisScrolled(true)
+      }else{
+         setisScrolled(false)
+      }
+       }
+       window.addEventListener("scroll",handleScroll)
+       return () => {  
+       window.removeEventListener("scroll",handleScroll)
+      }
+    }, [])
     const router = useRouter()
     const handlelogout = async () => {
         try {
@@ -48,26 +64,26 @@ export default function Header() {
     const handleImg = () => {
         router.push("/e-commerce")
     }
-    const handleprofile = () =>{
+    const handleprofile = () => {
         router.push("/profile")
     }
     return (
-        <header className=" py-7 bg-black text-white w-full">
-            <div className="h-15 w-full max-w-375 m-auto">
-                <div className="flex items-center justify-between">
-                    <img src="header-1.png" alt="" className="w-10 h-8 cursor-pointer" onClick={handleImg} />
-              
-                    <Field className="max-w-sm">
-                        {/* <FieldLabel htmlFor="inline-start-input">Input</FieldLabel> */}
-                        <InputGroup>
-                            <InputGroupInput id="inline-start-input" placeholder="Search..." />
-                            <InputGroupAddon align="inline-start">
-                                <SearchIcon className="text-muted-foreground" />
-                            </InputGroupAddon>
-                        </InputGroup>
-                        {/* <FieldDescription>Icon positioned at the start.</FieldDescription> */}
-                    </Field>
-                    {/* <Dialog>
+        <header className={`w-full fixed py-4 px-15 ${!!isScrolled ? "bg-mist-950! z-100!":"bg-transparent"} `}>
+            {/* <div className="h-15 w-full max-w-375 m-auto bg-blue-600"> */}
+            <div className="flex items-center justify-between">
+                <img src="header-1.png" alt="" className="w-10 h-8 cursor-pointer" onClick={handleImg} />
+
+                <Field className="max-w-sm text-white">
+                    {/* <FieldLabel htmlFor="inline-start-input">Input</FieldLabel> */}
+                    <InputGroup>
+                        <InputGroupInput className="placeholder:text-white" id="inline-start-input" placeholder="Search..." />
+                        <InputGroupAddon align="inline-start">
+                            <SearchIcon className="text-muted-foreground" />
+                        </InputGroupAddon>
+                    </InputGroup>
+                    {/* <FieldDescription>Icon positioned at the start.</FieldDescription> */}
+                </Field>
+                {/* <Dialog>
                         <form>
                             <DialogTrigger> <Button variant="outline"> <CgProfile /></Button></DialogTrigger>
                            
@@ -97,13 +113,15 @@ export default function Header() {
                             </DialogContent>
                         </form>
                     </Dialog> */}
-                    <div onClick={handleprofile}><CgProfile /></div>
-                   
-                    <Button onClick={handlelogout} className="bg-white text-black h-8 w-15 rounded-2xl cursor-pointer" >logout</Button>
-                    <Button onClick={handleOrder} className="bg-white text-black h-10 w-30 rounded-2xl cursor-pointer">My Order</Button>
-                    <CartDrawer />
-                </div>
+                   <div className="flex items-center gap-9">
+                <div className="bg-white hover:bg-gray-300! p-1.5 rounded-2xl cursor-pointer" onClick={handleprofile}><CgProfile /></div>
+
+                <Button onClick={handlelogout} className="bg-red-500 px-9 py-4 font-mono hover:bg-red-700! !text-white h-8 w-15 rounded-2xl cursor-pointer" >Logout</Button>
+                <Button onClick={handleOrder} className="!bg-white hover:bg-gray-300! !text-black h-10 w-30 rounded-2xl cursor-pointer">My Order</Button>
+                <CartDrawer />
+                    </div> 
             </div>
+            {/* </div> */}
         </header>
     )
 }

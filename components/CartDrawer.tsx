@@ -15,6 +15,7 @@ const CartDrawer = () => {
     const router = useRouter()
     const pathname = usePathname()
     const [item, setItem] = useState([])
+    
 
     const fetchCart = async () => {
         const res = await fetch("/api/storeproductcart")
@@ -103,12 +104,12 @@ const CartDrawer = () => {
         <Drawer open={open} onOpenChange={cartopenChange} direction="right">
             
             <DrawerTrigger asChild>
-                <Button className='cursor-pointer' > {item.length === 0 ? (
+                <Button className='cursor-pointer bg-white hover:bg-gray-300' > {item.length === 0 ? (
 
                     null
                 ) : (
                     <span className='bg-red-500 text-[9px] font-bold text-white p-0.5 w-4 h-4 rounded-4xl  '>{item}</span>
-                )}    <FaShoppingCart /> </Button>
+                )}    <FaShoppingCart className='text-black'/> </Button>
             </DrawerTrigger>
 
             <DrawerContent>

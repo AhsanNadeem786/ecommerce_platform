@@ -77,7 +77,7 @@ export default function Ecommerce() {
                     return (
 
                         <div onClick={() => handleProductDetail(product._id)} key={product._id} className="flex">
-                            <div className="bg-[#f8f9fc] h-137.5 w-70.5  rounded-3xl mt-50 p-[0,20px,10px] border border-[#00000017] shadow-xl ml-10 flex flex-col gap-5 ">
+                            <div className="bg-[#f8f9fc] h-137.5 w-70.5  rounded-3xl mt-15 p-[0,20px,10px] border border-[#00000017] shadow-xl ml-10 flex flex-col gap-5 ">
                                 <img src={product.images[0]} alt="" className="h-60 w-60 m-5" />
                                 <p className="text-center font-bold text-[15px] cursor-pointer">{product.name}</p>
                                 <p className="text-center text-[14px] text-[#76767f] font-bold cursor-pointer">{product.categoryId.title}</p>
@@ -118,14 +118,14 @@ export default function Ecommerce() {
             </div>
 
             <div className="mt-6 ml-10 flex gap-20">
-                <img src="/home 10.jfif" alt="" className="w-87.5 h-125 rounded-2xl" />
-                <img src="/home 11.jfif" alt="" className="w-87.5 h-125 rounded-2xl" />
-                <img src="/home 12.jfif" alt="" className="w-87.5 h-125 rounded-2xl" />
+                <img src="/home 10.jfif" alt="" className="w-[420px] h-140 rounded-2xl" />
+                <img src="/home 11.jfif" alt="" className="w-[420px] h-140 rounded-2xl" />
+                <img src="/home 12.jfif" alt="" className="w-[420px] h-140 rounded-2xl" />
             </div>
-            <div className="w-312.5 h-130 ml-10 mt-10 ">
+            <div className="w-full max-w-[1425px] h-130 ml-10 mt-10 ">
                 <video src="home-vedio.mp4" autoPlay={true} loop={true} muted={true} className="rounded-4xl"></video>
             </div>
-            <div className="mt-80 ml-10 flex gap-10">
+            <div className="mt-80 ml-10 flex gap-5">
                 <Swiper
                     slidesPerView={3}
                     spaceBetween={30}
@@ -135,16 +135,16 @@ export default function Ecommerce() {
                     // modules={[Pagination]}
                     className="mySwiper"
                 >
-                    <SwiperSlide><video src="home 13.webm" autoPlay={true} loop={true} muted={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
-                    <SwiperSlide><video src="hmoe 14.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
-                    <SwiperSlide><video src="home14.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
-                    <SwiperSlide><video src="home 15.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
-                    <SwiperSlide><video src="home 16.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
-                    <SwiperSlide><video src="home 17.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
-                    <SwiperSlide><video src="home 18.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
-                    <SwiperSlide><video src="home 19.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
-                    <SwiperSlide> <video src="home 20.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
-                    <SwiperSlide> <video src="home 21.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-87.5 rounded-4xl"></video></SwiperSlide>
+                    <SwiperSlide><video src="home 13.webm" autoPlay={true} loop={true} muted={true} className="h-150 w-110.5 rounded-[20px]"></video></SwiperSlide>
+                    <SwiperSlide><video src="hmoe 14.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-110.5 rounded-[20px]"></video></SwiperSlide>
+                    <SwiperSlide><video src="home14.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-110.5 rounded-[20px]"></video></SwiperSlide>
+                    <SwiperSlide><video src="home 15.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-110.5 rounded-[20px]"></video></SwiperSlide>
+                    <SwiperSlide><video src="home 16.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-110.5 rounded-[20px]"></video></SwiperSlide>
+                    <SwiperSlide><video src="home 17.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-110.5 rounded-[20px]"></video></SwiperSlide>
+                    <SwiperSlide><video src="home 18.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-110.5 rounded-[20px]"></video></SwiperSlide>
+                    <SwiperSlide><video src="home 19.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-110.5 rounded-[20px]"></video></SwiperSlide>
+                    <SwiperSlide> <video src="home 20.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-110.5 rounded-[20px]"></video></SwiperSlide>
+                    <SwiperSlide> <video src="home 21.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-110.5 rounded-[20px]"></video></SwiperSlide>
                 </Swiper>
             </div>      
             <div className="flex justify-between ml-10 mr-10">

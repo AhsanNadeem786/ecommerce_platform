@@ -5,9 +5,13 @@ import { useEffect, useState } from 'react'
 
 const profile = () => {
     const [showProfile, setShowProfile] = useState([])
-   
-    const handlestatusactive = async () => {
-        const res = await fetch("/api/admin", {
+   const [acceptLoading,setAcceptLoading] = useState(false)
+   const [failedLoading,setFailedLoading] = useState(false)
+    const handlestatusactive = async () => { 
+        setAcceptLoading(true)
+        try {
+           
+             const res = await fetch("/api/admin", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -16,10 +20,19 @@ const profile = () => {
         })
         const data = await res.json()
 
+        } catch (error) {
+            console.log(error);
+            
+        }finally {
+            setAcceptLoading(false)
+        }
+       
 
     }
     const handlestatusfailed = async() => {
-        const res = await fetch("/api/adminfailed", {
+        setFailedLoading(true)
+        try {
+             const res = await fetch("/api/adminfailed", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -27,6 +40,12 @@ const profile = () => {
               body: JSON.stringify({  userStatus: 'failed' }),
         })
         const data = await res.json()
+        } catch (error) {
+            
+        }finally {
+            setFailedLoading(false)
+        }
+       
 
     }
     const fetchProfile = async () => {
@@ -50,8 +69,8 @@ const profile = () => {
                         <p className=''>Password:{showProfile.password}</p>
                         <p className=''>Message:{showProfile.message}</p>
                         <div className='flex gap-3'>
-                            <Button onClick={handlestatusactive} className='bg-black text-white p-2 h-15 w-30 rounded-4xl '>Accept</Button>
-                            <Button onClick={handlestatusfailed} className='bg-black text-white p-2 h-15 w-30 rounded-4xl '>Reject</Button>
+                            <Button onClick={handlestatusactive} disabled={acceptLoading} className='bg-black text-white p-2 h-15 w-30 rounded-4xl '>{acceptLoading?"Accepting...":"Accept"}</Button>
+                            <Button onClick={handlestatusfailed} disabled={failedLoading} className='bg-black text-white p-2 h-15 w-30 rounded-4xl '>{failedLoading?"failing....":"Failed"}</Button>
                         </div>
 
                     </div >
