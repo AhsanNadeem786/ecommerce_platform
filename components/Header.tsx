@@ -2,7 +2,7 @@
 
 
 
-import { SearchIcon } from "lucide-react"
+import { MenuIcon, SearchIcon, XIcon } from "lucide-react"
 
 import {
     InputGroup,
@@ -30,18 +30,19 @@ import { CgProfile } from "react-icons/cg";
 import { useEffect, useState } from "react"
 export default function Header() {
     const [isScrolled, setisScrolled] = useState(false)
+    const [isopen, setIsopen] = useState(false)
     useEffect(() => {
-      const handleScroll = () => { 
-        if(window.scrollY > 20){
-        setisScrolled(true)
-      }else{
-         setisScrolled(false)
-      }
-       }
-       window.addEventListener("scroll",handleScroll)
-       return () => {  
-       window.removeEventListener("scroll",handleScroll)
-      }
+        const handleScroll = () => {
+            if (window.scrollY > 20) {
+                setisScrolled(true)
+            } else {
+                setisScrolled(false)
+            }
+        }
+        window.addEventListener("scroll", handleScroll)
+        return () => {
+            window.removeEventListener("scroll", handleScroll)
+        }
     }, [])
     const router = useRouter()
     const handlelogout = async () => {
@@ -67,61 +68,68 @@ export default function Header() {
     const handleprofile = () => {
         router.push("/profile")
     }
+    const toggleMenu = () => setIsopen(!isopen);
     return (
-        <header className={`w-full fixed py-4 px-15 ${!!isScrolled ? "bg-mist-950! z-100!":"bg-transparent"} `}>
-            {/* <div className="h-15 w-full max-w-375 m-auto bg-blue-600"> */}
-            <div className="flex items-center justify-between">
-                <img src="header-1.png" alt="" className="w-10 h-8 cursor-pointer" onClick={handleImg} />
+        <header className={`      sticky top-0 z-50 py-5 ${!!isScrolled ? 'bg-mist-950 z-50' : 'bg-black'}`}>
+            <div className="flex justify-between items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-                <Field className="max-w-sm text-white">
-                    {/* <FieldLabel htmlFor="inline-start-input">Input</FieldLabel> */}
-                    <InputGroup>
-                        <InputGroupInput className="placeholder:text-white" id="inline-start-input" placeholder="Search..." />
-                        <InputGroupAddon align="inline-start">
-                            <SearchIcon className="text-muted-foreground" />
-                        </InputGroupAddon>
-                    </InputGroup>
-                    {/* <FieldDescription>Icon positioned at the start.</FieldDescription> */}
+                <img src="header-1.png" alt="Logo" className="w-13 h-10 cursor-pointer" onClick={handleImg} />
+
+                <Field className="hidden md:block max-w-sm text-white">          <InputGroup>
+                    <InputGroupInput className="placeholder:text-white" id="inline-start-input" placeholder="Search..." />
+                    <InputGroupAddon align="inline-start">
+                        <SearchIcon className="text-muted-foreground" />
+                    </InputGroupAddon>
+                </InputGroup>
                 </Field>
-                {/* <Dialog>
-                        <form>
-                            <DialogTrigger> <Button variant="outline"> <CgProfile /></Button></DialogTrigger>
-                           
-                            <DialogContent className="sm:max-w-sm">
-                                <DialogHeader>
-                                    <DialogTitle>Edit profile</DialogTitle>
-                                    <DialogDescription>
-                                        Make changes to your profile here. Click save when you&apos;re
-                                        done.
-                                    </DialogDescription>
-                                </DialogHeader>
-                                <FieldGroup>
-                                    <Field>
-                                        <Label htmlFor="name-1">Name</Label>
-                                        <Input id="name-1" name="name" defaultValue="Pedro Duarte" />
-                                    </Field>
-                                    <Field>
-                                        <Label htmlFor="username-1">Username</Label>
-                                        <Input id="username-1" name="username" defaultValue="@peduarte" />
-                                    </Field>
-                                </FieldGroup>
-                                <DialogFooter>
-                                    <DialogClose><Button variant="outline">Cancel</Button> </DialogClose>
-                                    
-                                    <Button type="submit">Save changes</Button>
-                                </DialogFooter>
-                            </DialogContent>
-                        </form>
-                    </Dialog> */}
-                   <div className="flex items-center gap-9">
-                <div className="bg-white hover:bg-gray-300! p-1.5 rounded-2xl cursor-pointer" onClick={handleprofile}><CgProfile /></div>
 
-                <Button onClick={handlelogout} className="bg-red-500 px-9 py-4 font-mono hover:bg-red-700! !text-white h-8 w-15 rounded-2xl cursor-pointer" >Logout</Button>
-                <Button onClick={handleOrder} className="!bg-white hover:bg-gray-300! !text-black h-10 w-30 rounded-2xl cursor-pointer">My Order</Button>
-                <CartDrawer />
-                    </div> 
+                <div className="hidden md:flex items-center gap-6">
+                    <div className="bg-white hover:bg-gray-300 p-1.5 rounded-2xl cursor-pointer" onClick={handleprofile}>
+                        <CgProfile className="text-blue-900 font-bold text-xl" />
+                    </div>
+                    <Button onClick={handlelogout} className="bg-red-500 px-6 py-2 font-mono hover:bg-red-700 text-white h-10 rounded-2xl cursor-pointer">
+                        Logout
+                    </Button>
+                    <Button onClick={handleOrder} className="bg-white hover:bg-gray-300 text-black h-10 px-6 rounded-2xl cursor-pointer">My Order</Button>
+                    <CartDrawer />
+                </div>
+
+
+                <div className="md:hidden flex items-center">
+                    <button onClick={toggleMenu} className="text-white p-2 focus:outline-none" >
+                        {isopen ? <XIcon className="h-6 w-6" /> : <MenuIcon className="h-6 w-6" />}
+                    </button>
+                </div>
             </div>
-            {/* </div> */}
+
+            {isopen && (
+                <div className="md:hidden bg-black text-white px-4 pt-2 pb-6 space-y-4 border-t border-gray-800 mt-5">
+                    <Field className="w-full text-white">
+                        <InputGroup>
+                            <InputGroupInput className="placeholder:text-white w-full" placeholder="Search..." />
+                        </InputGroup>
+                    </Field>
+
+
+
+                    <div className="flex flex-col gap-3">
+                        <Button className="flex items-center w-full py-5 bg-white gap-2 cursor-pointer" onClick={handleprofile}>
+                            <CgProfile className="text-4xl text-black" /> <span className="text-black text-2xl font-bold">Profile</span>
+                        </Button>
+                        <Button onClick={handleOrder} className=  "bg-white text-black h-10 w-full rounded-2xl py-5 font-bold text-xl">
+                            My Order
+                        </Button>
+                        <CartDrawer className="w-full" />
+                        <Button onClick={handlelogout} className="bg-red-500 text-white h-10 w-full rounded-2xl font-bold text-[12px]">
+                            Logout
+                        </Button>
+                    </div>
+                </div>
+            )}
         </header>
     )
 }
+
+
+
+

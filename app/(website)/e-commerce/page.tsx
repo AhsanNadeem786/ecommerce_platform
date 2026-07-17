@@ -30,7 +30,7 @@ export default function Ecommerce() {
     const fetchProducts = async () => {
         const res = await fetch("/api/create-product");
         const data = await res.json();
-  
+
         setProducts(data.data);
 
     };
@@ -46,86 +46,100 @@ export default function Ecommerce() {
     const handleProductDetail = (id: any) => {
         router.push(`/productdetail/${id}`)
     }
-    const handleCaterogyShow = () =>{
+    const handleCaterogyShow = () => {
         router.push("/showcaterogy")
     }
     return (
         <>
-            <img src="/header-2.jpg" alt="" />
-
-            <div className="bg-white shadow-olive-200 h-30 mb-8 max-w-900 ml-20 mt-15 flex justify-between">
-                {
-                    caterogy.slice(0,6).map((caterogy: any) => {
-                        return (
-                            <div onClick={() => handleCategoryRedirect(caterogy._id)} key={caterogy._id} className="flex flex-col gap-4 shadow-lg h-50    ">
-                                <img src={caterogy.images} alt="" className="h-50 w-37.5 rounded- full  " />
-                                <p className="font-bold  text-center text-[20px]">{caterogy.title}</p>
-                            </div>
-                        )
-                    })
-                }
+            <img src="/header-2.jpg" alt="Header Image" className="w-full h-auto object-cover" />
 
 
-
+            <div className="bg-white shadow-olive-200  max-w-6xl mx-auto px-4 mt-10 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                {caterogy.slice(0, 6).map((cat: any) => {
+                    return (
+                        <div
+                            onClick={() => handleCategoryRedirect(cat._id)}
+                            key={cat._id}
+                            className="flex flex-col items-center gap-4 shadow-lg p-4 cursor-pointer"
+                        >
+                            <img
+                                src={cat.images}
+                                alt={cat.title}
+                                className="h-20 w-20 rounded-full object-cover"
+                            />
+                            <p className="font-bold text-center text-[16px] md:text-[20px]">
+                                {cat.title}
+                            </p>
+                        </div>
+                    );
+                })}
             </div>
-             <div className="flex justify-center mt-30 ">
-                <Button onClick={handleCaterogyShow} className="bg-black text-white h-10 w-30 rounded-4xl cursor-pointer">veiw all</Button>
+            <div className="flex justify-center mt-12 md:mt-24 lg:mt-30">
+                <Button
+                    onClick={handleCaterogyShow}
+                    className="bg-black text-white h-10 w-28 sm:w-32 md:w-36 text-sm md:text-base rounded-full cursor-pointer transition-all duration-200 hover:bg-gray-800"
+                >
+                    View All
+                </Button>
             </div>
-            <div className="grid grid-cols-4 w-full">
 
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full gap-6 p-4">
                 {products.slice(0, 8).map((product: any) => {
                     return (
+                        <div
+                            onClick={() => handleProductDetail(product._id)}
+                            key={product._id}
+                            className="flex justify-center cursor-pointer"
+                        >
+                            <div className="bg-[#f8f9fc] w-full max-w-xs rounded-3xl p-5 border border-[#00000017] shadow-xl flex flex-col gap-5 items-center justify-between">
 
-                        <div onClick={() => handleProductDetail(product._id)} key={product._id} className="flex">
-                            <div className="bg-[#f8f9fc] h-137.5 w-70.5  rounded-3xl mt-15 p-[0,20px,10px] border border-[#00000017] shadow-xl ml-10 flex flex-col gap-5 ">
-                                <img src={product.images[0]} alt="" className="h-60 w-60 m-5" />
-                                <p className="text-center font-bold text-[15px] cursor-pointer">{product.name}</p>
-                                <p className="text-center text-[14px] text-[#76767f] font-bold cursor-pointer">{product.categoryId.title}</p>
-                                <p className="text-2xl flex justify-center">${product.price}</p>
-                                <div className="flex justify-center items-center gap-15 ">
+                                <img src={product.images[0]} alt={product.name} className="h-60 w-60 object-contain" />
 
-                                    <Button className="bg-black text-white p-3 rounded-2xl ">Quick buy</Button>
-                                    <AddToCart
-                                        productId={product._id}
-                                        isCart={!!product.isCart}
-                                    />
+                                <p className="text-center font-bold text-[15px]">{product.name}</p>
+                                <p className="text-center text-[14px] text-[#76767f] font-bold">{product.categoryId.title}</p>
+                                <p className="text-2xl font-semibold">${product.price}</p>
+                                <div className="flex justify-center items-center gap-4 w-full">
+                                    <Button className="bg-black text-white p-3 rounded-2xl w-full max-w-[120px]">
+                                        Quick buy
+                                    </Button>
+                                    <AddToCart productId={product._id} isCart={!!product.isCart} />
                                 </div>
-                                <div className="flex gap-1 ml-7 w-60 ">
+                                <div className="flex justify-center w-full">
                                     <Swiper
                                         slidesPerView={4}
-                                        spaceBetween={30}
+                                        spaceBetween={10}
                                         centeredSlides={true}
-                                        // pagination={{
-                                        //     clickable: true,
-                                        // }}
-                                        // modules={[Pagination]}
-                                        className="mySwiper"
+                                        className="mySwiper w-full max-w-[240px]"
                                     >
                                         {[0, 1, 2, 3, 4, 5, 6, 7].map((index) => {
                                             return (
-                                                <SwiperSlide key={index}><img src="/home -9.png" alt="" className="w-10 h-10 border" /></SwiperSlide>
+                                                <SwiperSlide key={index} className="flex justify-center">
+                                                    <img src="/home -9.png" alt="Thumbnail" className="w-10 h-10 border object-cover rounded-md" />
+                                                </SwiperSlide>
                                             )
                                         })}
                                     </Swiper>
                                 </div>
+
                             </div>
                         </div>
                     )
                 })}
             </div>
-            <div className="flex justify-center mt-10 ">
-                <Button onClick={handleProductShow} className="bg-black text-white h-10 w-30 rounded-4xl cursor-pointer">veiw all</Button>
+
+            <div className="flex justify-center mt-12 md:mt-24 lg:mt-30">
+                <Button onClick={handleProductShow} className="bg-black text-white h-10 w-28 sm:w-32 md:w-36 text-sm md:text-base rounded-full cursor-pointer transition-all duration-200 hover:bg-gray-800">veiw all</Button>
             </div>
 
-            <div className="mt-6 ml-10 flex gap-20">
-                <img src="/home 10.jfif" alt="" className="w-[420px] h-140 rounded-2xl" />
-                <img src="/home 11.jfif" alt="" className="w-[420px] h-140 rounded-2xl" />
-                <img src="/home 12.jfif" alt="" className="w-[420px] h-140 rounded-2xl" />
+            <div className="mt-6 p-5  justify-center md:ml-10 flex  flex-col md:flex-row gap-6 md:gap-20">
+                <img src="/home 10.jfif" alt="" className="max-w-90 w-full  md:w-65 h-auto md:h-140 rounded-2xl object-cover" />
+                <img src="/home 11.jfif" alt="" className="max-w-90 w-full  md:w-70 h-auto md:h-140 rounded-2xl object-cover" />
+                <img src="/home 12.jfif" alt="" className="max-w-90 w-full  md:w-70 h-auto md:h-140 rounded-2xl object-cover" />
             </div>
-            <div className="w-full max-w-[1425px] h-130 ml-10 mt-10 ">
+            <div className="w-85 h-auto flex justify-center p-5 md:w-full md:p-10 overflow-hidden">
                 <video src="home-vedio.mp4" autoPlay={true} loop={true} muted={true} className="rounded-4xl"></video>
             </div>
-            <div className="mt-80 ml-10 flex gap-5">
+            {/* <div className="mt-80 ml-10 flex gap-5">
                 <Swiper
                     slidesPerView={3}
                     spaceBetween={30}
@@ -171,7 +185,7 @@ export default function Ecommerce() {
                     <br />
                     Our Collection: Mens Watches | Ladies Watches | Couple Watches | Sports Watches | Smart Watches
                     <br /> </p>
-            </div>
+            </div> */}
         </>
     )
 
