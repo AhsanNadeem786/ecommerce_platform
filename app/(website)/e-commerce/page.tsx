@@ -136,17 +136,17 @@ export default function Ecommerce() {
                 <img src="/home 11.jfif" alt="" className="max-w-90 w-full  md:w-70 h-auto md:h-140 rounded-2xl object-cover" />
                 <img src="/home 12.jfif" alt="" className="max-w-90 w-full  md:w-70 h-auto md:h-140 rounded-2xl object-cover" />
             </div>
-            <div className="w-85 h-auto flex justify-center p-5 md:w-full md:p-10 overflow-hidden">
+            <div className=" h-auto flex justify-center p-5 md:w-full md:p-10 overflow-hidden">
                 <video src="home-vedio.mp4" autoPlay={true} loop={true} muted={true} className="rounded-4xl"></video>
             </div>
-            {/* <div className="mt-80 ml-10 flex gap-5">
+            <div className="mt-10 md:mt-20 px-5 md:ml-10 flex gap-5">
                 <Swiper
-                    slidesPerView={3}
-                    spaceBetween={30}
-                    // pagination={{
-                    //     clickable: true,
-                    // }}
-                    // modules={[Pagination]}
+                    spaceBetween={20}
+                    breakpoints={{
+                        640: { slidesPerView: 1 },
+                        768: { slidesPerView: 2 },
+                        1024: { slidesPerView: 3 },
+                    }}
                     className="mySwiper"
                 >
                     <SwiperSlide><video src="home 13.webm" autoPlay={true} loop={true} muted={true} className="h-150 w-110.5 rounded-[20px]"></video></SwiperSlide>
@@ -160,13 +160,20 @@ export default function Ecommerce() {
                     <SwiperSlide> <video src="home 20.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-110.5 rounded-[20px]"></video></SwiperSlide>
                     <SwiperSlide> <video src="home 21.mp4" autoPlay={true} loop={true} muted={true} className="h-150 w-110.5 rounded-[20px]"></video></SwiperSlide>
                 </Swiper>
-            </div>      
-            <div className="flex justify-between ml-10 mr-10">
-                <img src="/home 22.png" alt="" />
-                <img src="/home 23.png" alt="" />
-                <img src="/home 24.png" alt="" />
-                <img src="/home 25.png" alt="" />
             </div>
+
+
+
+
+
+
+            <div className="flex flex-wrap justify-between gap-4 px-10">
+                <img src="/home 22.png" alt="Home 22" className="w-full max-w-62.5 object-cover" />
+                <img src="/home 23.png" alt="Home 23" className="w-full max-w-62.5 object-cover" />
+                <img src="/home 24.png" alt="Home 24" className="w-full max-w-62.5 object-cover" />
+                <img src="/home 25.png" alt="Home 25" className="w-full max-w-62.5 object-cover" />
+            </div>
+
             <div className="flex items-center justify-center text-center text-sm ">
                 <p>SVESTON PAKISTAN | ONLINE SHOPPING FOR WRIST WATCHES IN PAKISTAN
                     <br />
@@ -185,7 +192,7 @@ export default function Ecommerce() {
                     <br />
                     Our Collection: Mens Watches | Ladies Watches | Couple Watches | Sports Watches | Smart Watches
                     <br /> </p>
-            </div> */}
+            </div>
         </>
     )
 

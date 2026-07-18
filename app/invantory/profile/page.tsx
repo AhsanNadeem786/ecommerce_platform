@@ -59,7 +59,7 @@ const profile = () => {
         fetchProfile();
     }, []);
     return (
-        <div className='flex flex-wrap gap-10 p-10'>
+        <div className='flex flex-wrap gap-10 md:p-10'>
             {showProfile.map((showProfile: any) => {
                 return (
                     <div key={showProfile._id} className='w-80 h-95 flex flex-col justify-center items-center gap-5 bg-white shadow-lg ' >

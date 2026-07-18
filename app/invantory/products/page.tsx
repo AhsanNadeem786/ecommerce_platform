@@ -4,114 +4,113 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+
 export default function Products() {
-    const [products, setProducts] = useState<any[]>([]);
-    
-    const router = useRouter()
-    const fetchProducts = async () => {
-        const res = await fetch("/api/create-product");
-        const data = await res.json();
-        setProducts(data.data);
+  const [products, setProducts] = useState<any[]>([]);
+  const router = useRouter();
 
-    };
-    useEffect(() => {
-        fetchProducts();
-    }, []);
-     const handleDelete = async (id: string) => {
-       
-        const deleteId = id;
-        // || params._id
-        try {
-            const res = await fetch(`/api/create-product/${deleteId}`, {
-                method: "DELETE",
-            })
+  const fetchProducts = async () => {
+    const res = await fetch("/api/create-product");
+    const data = await res.json();
+    setProducts(data.data);
+  };
 
-            const data = await res.json()
-   
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
-            //    setdeletecategory(data)
-            setProducts(prev => prev.filter((data) => data._id !== id))
+  const handleDelete = async (id: string) => {
+    try {
+      await fetch(`/api/create-product/${id}`, {
+        method: "DELETE",
+      });
+      setProducts((prev) => prev.filter((data) => data._id !== id));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-        } catch (error) {
-            console.log(error);
+  const handleEdit = async (id: string) => {
+    router.push(`/invantory/products/${id}`);
+  };
 
-        }
-    };
-     const handleEdit = async (id: string) => {
-        router.push(`/invantory/products/${id}`)
+  return (
+    <div className="min-h-screen p-4 sm:p-6 max-w-7xl mx-auto w-full">
+      <h1 className="text-center text-3xl sm:text-4xl font-bold mb-6">
+        Products
+      </h1>
+
+      <div className="flex justify-end mb-6">
+        <Link
+          href="/invantory/createProduct"
+          className="bg-black text-white hover:bg-black/80 border border-gray-300 rounded-lg px-4 py-2 text-center text-sm sm:text-base"
+        >
+          Create Product
+        </Link>
+      </div>
+
+      <div className="w-full overflow-x-auto rounded-lg border border-gray-300 shadow-lg">
+        <table className="w-full min-w-[800px] border-collapse bg-white">
+          <thead className="bg-gray-800 text-white">
+            <tr>
+              <th className="px-4 py-3 text-left text-sm font-semibold">Name</th>
+              <th className="px-4 py-3 text-center text-sm font-semibold">Price</th>
+              <th className="px-4 py-3 text-center text-sm font-semibold">Quantity</th>
+              <th className="px-4 py-3 text-center text-sm font-semibold">Category</th>
+              <th className="px-4 py-3 text-left text-sm font-semibold">Description</th>
+              <th className="px-4 py-3 text-center text-sm font-semibold">Actions</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-200">
+            {products?.map((product: any) => (
+              <tr key={product._id} className="hover:bg-gray-50 transition-colors">
+                <td className="px-4 py-4 whitespace-nowrap">
+                  <div className="flex items-center gap-3">
+                    {product.images?.[0] && (
+                      <Image
+                        src={product.images[0]}
+                        alt={product.name || "Product"}
+                        width={24}
+                        height={24}
+                        className="w-6 h-6 rounded-full object-cover"
+                      />
+                    )}
+                    <span className="text-sm font-medium text-gray-900">{product.name}</span>
+                  </div>
+                </td>
+                <td className="px-4 py-4 text-center whitespace-nowrap text-sm text-gray-700">
+                  ${product.price}
+                </td>
+                <td className="px-4 py-4 text-center whitespace-nowrap text-sm text-gray-700">
+                  {product.quantity}
+                </td>
+                <td className="px-4 py-4 text-center whitespace-nowrap text-sm text-gray-700">
+                  {product.categoryId?.title}
+                </td>
+                <td className="px-4 py-4 text-left text-sm text-gray-600 max-w-xs truncate">
+                  {product.description}
+                </td>
+                <td className="px-4 py-4 whitespace-nowrap">
+                  <div className="flex justify-center gap-2">
+                    <button
+                      onClick={() => handleEdit(product._id)}
+                      className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1.5 rounded text-sm font-medium transition-colors"
+                    >
+                      Edit
+                    </button>
+                    <Button
+                      onClick={() => handleDelete(product._id)}
+                      className="bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded text-sm font-medium transition-colors"
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
 }
-    return (
-        <div className="min-h-screen p-6 ">
-            <h1 className="text-center text-4xl font-bold mb-3">
-                Products
-            </h1>
-            <div className="flex justify-end">
-                <Link href="/invantory/createProduct" className="bg-black text-white hover:bg-black/80 border border-gray-300 rounded-lg px-4 py-2 text-center mt-10">Create Product</Link>
-            </div>
-            <div className="overflow-x-auto">
-                <table className="w-275 ml-20  border border-gray-300 shadow-lg">
-                    <thead className="bg-gray-800 text-white">
-                        <tr>
-                            <th className="border px-4 py-3">Name</th>
-                            <th className="border px-4 py-3">Price</th>
-                            <th className="border px-4 py-3">Quantity</th>
-                            <th className="border px-4 py-3">Category</th>
-                            <th className="border px-4 py-3">Description</th>
-                            <th className="border px-4 py-3">Actions</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        {products?.map((product: any) => (
-                            <tr
-                                key={product._id}
-                                className="text-center hover:bg-gray-100"
-                            >
-                                <td className="border px-4 py-5 flex gap-3">
-                                    <Image src={product.images[0]} alt="" width={20} height={20}  className="w-5 h-5 rounded-full" />
-                                    {product.name}
-                                </td>
-
-                                <td className="border px-4 py-3">
-                                    ${product.price}
-                                </td>
-
-                                <td className="border px-4 py-3">
-                                    {product.quantity}
-                                </td>
-
-                                <td className="border px-4 py-3">
-                                    {product.categoryId.title}
-                                </td>
-
-                                <td className="border px-4 py-3">
-                                    {product.description}
-                                </td>
-
-                                <td className="border px-4 py-3">
-                                    <div className="flex justify-center gap-3">
-                                        <Button
-                                            onClick={() => handleDelete(product._id)}
-                                            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
-                                        >
-                                            Delete
-                                        </Button>
-
-                                        <button
-                                            onClick={() => handleEdit(product._id)}
-                                            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
-                                        >
-                                            Edit
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    )
-}
-
-
