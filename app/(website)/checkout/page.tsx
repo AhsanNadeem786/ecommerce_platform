@@ -8,11 +8,20 @@ import { useRouter } from "next/navigation"
 import { useEffect, useMemo, useState } from "react"
 
 
+interface Address {
+    name: string;
+    lastname: string;
+    city: string;
+    country: string;
+    street: string;
+    [key: string]: any;
+}
+
 const checkout = () => {
     const [productCart, setProductCart] = useState<any[]>([])
     const [deletecart, setdeletecart] = useState()
     const router = useRouter()
-    const [showAddress, setShowAddress] = useState(null);
+    const [showAddress, setShowAddress] = useState<Address | null>(null);
 
     const fetchCart = async () => {
         const res = await fetch("/api/storeproductcart")

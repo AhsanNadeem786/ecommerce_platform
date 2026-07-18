@@ -10,7 +10,7 @@ export async function POST(request: Request) {
     if (!token) throw new Error("No token found");
 
 
-    const decoded = jwt.verify(token, 'screct-key')
+    const decoded = jwt.verify(token, 'screct-key') as {userId:string}
     const userId = decoded.userId
 
 
@@ -49,7 +49,7 @@ export async function GET() {
     if (!token) throw new Error("No token found");
 
 
-    const decoded = jwt.verify(token, 'screct-key')
+    const decoded = jwt.verify(token, 'screct-key') as {userId : string}
     const userId = decoded.userId
 
     try {
@@ -72,7 +72,7 @@ export async function PUT(request: Request) {
     if (!token) throw new Error("No token found");
 
 
-    const decoded = jwt.verify(token, 'screct-key')
+    const decoded = jwt.verify(token, 'screct-key') as {userId:string}
     const userId = decoded.userId
     console.log(userId);
 

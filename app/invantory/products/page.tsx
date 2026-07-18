@@ -50,7 +50,7 @@ export default function Products() {
       </div>
 
       <div className="w-full overflow-x-auto rounded-lg border border-gray-300 shadow-lg">
-        <table className="w-full min-w-[800px] border-collapse bg-white">
+        <table className="w-full min-w-200 border-collapse bg-white">
           <thead className="bg-gray-800 text-white">
             <tr>
               <th className="px-4 py-3 text-left text-sm font-semibold">Name</th>

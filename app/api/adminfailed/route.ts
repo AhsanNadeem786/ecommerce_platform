@@ -22,7 +22,7 @@ const { userSatus } = await request.json();
     if (!token) throw new Error("No token found");
 
 
-    const decoded = jwt.verify(token, 'screct-key')
+    const decoded = jwt.verify(token, 'screct-key') as {userId:string}
 
 
     

@@ -99,7 +99,7 @@ export default function Ecommerce() {
                                 <p className="text-center text-[14px] text-[#76767f] font-bold">{product.categoryId.title}</p>
                                 <p className="text-2xl font-semibold">${product.price}</p>
                                 <div className="flex justify-center items-center gap-4 w-full">
-                                    <Button className="bg-black text-white p-3 rounded-2xl w-full max-w-[120px]">
+                                    <Button className="bg-black text-white p-3 rounded-2xl w-full max-w-30">
                                         Quick buy
                                     </Button>
                                     <AddToCart productId={product._id} isCart={!!product.isCart} />
@@ -109,7 +109,7 @@ export default function Ecommerce() {
                                         slidesPerView={4}
                                         spaceBetween={10}
                                         centeredSlides={true}
-                                        className="mySwiper w-full max-w-[240px]"
+                                        className="mySwiper w-full max-w-60"
                                     >
                                         {[0, 1, 2, 3, 4, 5, 6, 7].map((index) => {
                                             return (

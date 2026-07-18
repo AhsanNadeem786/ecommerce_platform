@@ -14,7 +14,7 @@ export async function createCheckoutSession() {
   if (!token) throw new Error("No token found");
 
 
-  const decoded = jwt.verify(token, 'screct-key')
+  const decoded = jwt.verify(token, 'screct-key') as {userId:string}
   const userId = decoded.userId;
   // const header = await headers()
   // const address = header.get("address")

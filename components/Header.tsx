@@ -119,7 +119,9 @@ export default function Header() {
                         <Button onClick={handleOrder} className=  "bg-white text-black h-10 w-full rounded-2xl py-5 font-bold text-xl">
                             My Order
                         </Button>
-                        <CartDrawer className="w-full" />
+                        <div className="w-full">
+                            <CartDrawer />
+                        </div>
                         <Button onClick={handlelogout} className="bg-red-500 text-white h-10 w-full rounded-2xl font-bold text-[12px]">
                             Logout
                         </Button>

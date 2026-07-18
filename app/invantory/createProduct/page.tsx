@@ -15,7 +15,7 @@ export default function CreateProduct() {
     const [showcategory, setShowcategory] = useState<any[]>([])
     const [loading, setLoading] = useState(false);
     const [productImage, setProductImage] = useState("")
-    const [images, setImages] = useState<String[]>([])
+    const [images, setImages] = useState<string[]>([])
     const handleCreate = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!productName || !price || !quantity || !categoryId) {
@@ -83,7 +83,7 @@ export default function CreateProduct() {
 
 
 
-    async function saveAvatar(url: String) {
+    async function saveAvatar(url: string) {
         setImages((prev: any) => {
             const oldState = [...prev];
             oldState.push(url)
@@ -156,7 +156,7 @@ export default function CreateProduct() {
                     
                     />
                      {
-                       images.map((imgSrc:String,index)=>{
+                       images.map((imgSrc:string,index)=>{
                         return(
                         <Image src={imgSrc} alt="Image" key={index} width={200} height={200} />)
                        })

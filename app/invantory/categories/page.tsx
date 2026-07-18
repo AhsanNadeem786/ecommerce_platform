@@ -10,7 +10,7 @@ export default function Categories() {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [loading, setLoading] = useState(false);
-      const [images, setImages] = useState<String[]>([])
+      const [images, setImages] = useState<string[]>([])
        const [categoryImage, setcategoryImage] = useState("")
     const handleAddCategory = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -40,7 +40,7 @@ export default function Categories() {
             setLoading(false);
         }
     };
-     async function saveAvatar(url: String) {
+     async function saveAvatar(url: string) {
         setImages((prev: any) => {
             const oldState = [...prev];
             oldState.push(url)
@@ -61,7 +61,7 @@ export default function Categories() {
                                     
                                     />
                                      {
-                                       images.map((imgSrc:String,index)=>{
+                                       images.map((imgSrc:string,index)=>{
                                         return(
                                         <Image src={imgSrc} alt="Image" key={index} width={200} height={200} />)
                                        })

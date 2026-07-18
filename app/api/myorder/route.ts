@@ -13,7 +13,7 @@ export async function GET() {
         if (!token) throw new Error("No token found");
 
 
-        const decoded = jwt.verify(token, 'screct-key')
+        const decoded = jwt.verify(token, 'screct-key')as{userId:string}
         const userId = decoded.userId
         const orderData = await Order.find({ userId }).populate({ path: 'products.id', model: Products }).lean()
         return Response.json({ message: "Order fetched successfully", data: orderData }, { status: 200 });

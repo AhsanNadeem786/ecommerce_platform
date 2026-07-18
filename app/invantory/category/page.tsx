@@ -51,7 +51,7 @@ export default function Category() {
         </Link>
       </div>
       <div className="w-full overflow-x-auto rounded-lg border border-gray-200 shadow-md">
-        <table className="w-full min-w-[600px] border-collapse bg-white text-left text-sm text-gray-500">
+        <table className="w-full min-w-150 border-collapse bg-white text-left text-sm text-gray-500">
           <thead className="bg-gray-800 text-white text-center">
             <tr>
               <th className="px-4 py-3 font-semibold border-b">Category Name</th>

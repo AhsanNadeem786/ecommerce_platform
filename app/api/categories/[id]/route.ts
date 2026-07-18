@@ -2,61 +2,117 @@ import dbConnect from "@/lib/dbConnect";
 import Category from "@/models/Category";
 import { NextResponse } from "next/server";
 
-export async function DELETE(request: Request,
-
-    { params }: { params: { id: string } }
+// DELETE Category
+export async function DELETE(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
 ) {
-    await dbConnect()
-    try {
-        const { id } = await params
-        
-        const DeleteCaterogy = await Category.findByIdAndDelete(id)
-  
-        
-        if (!DeleteCaterogy) {
-            return NextResponse.json({ error: "failed to deleted" }, { status: 500 })
-        }
+  await dbConnect();
 
-        return NextResponse.json({ Success: "caterogy was  deleted" }, { status: 200 })
-    } catch (error) {
-        console.log(error);
-        return NextResponse.json({ error: "failed to deleted" }, { status: 500 })
+  try {
+    const { id } = await params;
+
+    const deleteCategory = await Category.findByIdAndDelete(id);
+
+    if (!deleteCategory) {
+      return NextResponse.json(
+        { error: "Category not found" },
+        { status: 404 }
+      );
     }
+
+    return NextResponse.json(
+      { message: "Category deleted successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.log(error);
+
+    return NextResponse.json(
+      { error: "Failed to delete category" },
+      { status: 500 }
+    );
+  }
 }
 
-export async function PUT(request: Request,
-    { params }: { params: { id: string } }
+// UPDATE Category
+export async function PUT(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
 ) {
-    await dbConnect()
-    try {
-        const { id } = await params;
+  await dbConnect();
 
-        
-        const body = await request.json();
-     
-        
-        const updatecaterogy =await Category.findByIdAndUpdate(id,{title:body.title,description:body.description})
+  try {
+    const { id } = await params;
+    const body = await request.json();
 
-        if (!updatecaterogy) {
-            return Response.json({ error: "Failed to update category" }, { status: 500 });
-        }
-        return Response.json({ message: "Category updated successfully" }, { status: 201 });
-    } catch (error) {
-        console.log(error);
-         return Response.json({ error: "Failed to update category" }, { status: 500 });
-        
+    const updateCategory = await Category.findByIdAndUpdate(
+      id,
+      {
+        title: body.title,
+        description: body.description,
+      },
+      {
+        new: true,
+      }
+    );
+
+    if (!updateCategory) {
+      return NextResponse.json(
+        { error: "Category not found" },
+        { status: 404 }
+      );
     }
+
+    return NextResponse.json(
+      {
+        message: "Category updated successfully",
+        data: updateCategory,
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.log(error);
+
+    return NextResponse.json(
+      { error: "Failed to update category" },
+      { status: 500 }
+    );
+  }
 }
-export async function GET(request: Request,
 
-    { params }: { params: { id: string } }) {
-    await dbConnect();
-    try {
-          const { id } = await params
-        const categories = await Category.findOne();
-        return Response.json({ message: "Categories fetched successfully", data: categories }, { status: 200 });
-    } catch (error) {
-        console.log(error);
-        return Response.json({ error: "Failed to fetch categories" }, { status: 500 });
+// GET Single Category
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  await dbConnect();
+
+  try {
+    const { id } = await params;
+
+    const category = await Category.findById(id);
+
+    if (!category) {
+      return NextResponse.json(
+        { error: "Category not found" },
+        { status: 404 }
+      );
     }
+
+    return NextResponse.json(
+      {
+        message: "Category fetched successfully",
+        data: category,
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.log(error);
+
+    return NextResponse.json(
+      { error: "Failed to fetch category" },
+      { status: 500 }
+    );
+  }
 }

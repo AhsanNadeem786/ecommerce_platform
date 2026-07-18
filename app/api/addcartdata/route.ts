@@ -28,35 +28,38 @@ export async function POST(request: Request) {
 }
 
 
-export async function DELETE(request: Request,
+export async function DELETE(request: Request) {
+    await dbConnect();
 
-    { params }: { params: Promise<{ id: string }> }
-) {
-    await dbConnect()
     try {
-        const cokkieStore = await cookies()
-        const token = cokkieStore.get("token")?.value
+        const cookieStore = await cookies();
+        const token = cookieStore.get("token")?.value;
 
-        if (!token) throw new Error("No token found");
-
-
-        const decoded = jwt.verify(token, 'screct-key')
-
-
-        const DeleteCart = await cart.deleteMany({
-            UserId: decoded.userId
-        })
-
-
-        if (!DeleteCart) {
-            return NextResponse.json({ error: "failed to deleted" }, { status: 500 })
+        if (!token) {
+            return NextResponse.json(
+                { error: "No token found" },
+                { status: 401 }
+            );
         }
 
-        return NextResponse.json({ Success: "cart was  deleted" }, { status: 200 })
+        const decoded = jwt.verify(token, "screct-key") as {
+            userId: string;
+        };
+
+        const deleteCart = await cart.deleteMany({
+            UserId: decoded.userId,
+        });
+
+        return NextResponse.json(
+            { success: "Cart deleted successfully" },
+            { status: 200 }
+        );
     } catch (error) {
         console.log(error);
-        return NextResponse.json({ error: "failed to deleted" }, { status: 500 })
+
+        return NextResponse.json(
+            { error: "Failed to delete cart" },
+            { status: 500 }
+        );
     }
 }
-
-

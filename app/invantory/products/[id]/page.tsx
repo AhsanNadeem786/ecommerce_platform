@@ -12,36 +12,45 @@ export default function UpdateCreateProduct() {
     const [quantity, setQuantity] = useState("");
     const [categoryId, setCategoryId] = useState("");
     const [description, setDescription] = useState("");
-    const [image,setimage] = useState("")
+    const [image, setimage] = useState("")
 
     const [showcategory, setShowcategory] = useState<any[]>([])
     const [loading, setLoading] = useState(false);
-const [images, setImages] = useState<String[]>([])
- const [productImage, setProductImage] = useState("")
+    const [images, setImages] = useState<string[]>([])
+    const [productImage, setProductImage] = useState("")
     const id = path.split("/")[2]
-    const handleUpdated = async () => {
-        setLoading(true)
-        try {
-            const res = await fetch(`/api/create-product/${id}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ productName, price, quantity, categoryId, description }),
-            });
+  const handleUpdated = async (
+  e: React.FormEvent<HTMLFormElement>
+) => {
+  e.preventDefault();
 
+  setLoading(true);
 
-            const data = await res.json()
+  try {
+    const res = await fetch(`/api/create-product/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        productName,
+        price,
+        quantity,
+        categoryId,
+        description,
+        image,
+        images,
+      }),
+    });
 
-
-
-        } catch (error) {
-            console.log(error);
-
-        } finally {
-            setLoading(false)
-        }
-    };
+    const data = await res.json();
+    console.log(data);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    setLoading(false);
+  }
+};
     const fetchCategories = async () => {
         try {
             const res = await fetch(`/api/create-product/${id}`);
@@ -62,7 +71,7 @@ const [images, setImages] = useState<String[]>([])
 
         setCategoryId(categoryId);
     };
-    async function saveAvatar(url: String) {
+    async function saveAvatar(url: string) {
         setImages((prev: any) => {
             const oldState = [...prev];
             oldState.push(url)
@@ -131,10 +140,15 @@ const [images, setImages] = useState<String[]>([])
 
                     />
                     {
-                        images.map((imgSrc: String, index) => {
-                            return (
-                                <Image src={imgSrc} alt="Image" key={index} width={200} height={200} value={image} onChange={(e)=>setimage(e.target.value)} />)
-                        })
+                        images.map((imgSrc, index) => (
+                            <Image
+                                key={index}
+                                src={imgSrc}
+                                alt="Image"
+                                width={200}
+                                height={200}
+                            />
+                        ))
                     }
                     <Button
                         type="submit"
