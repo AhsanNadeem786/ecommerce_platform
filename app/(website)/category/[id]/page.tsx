@@ -21,7 +21,7 @@ const CategoryProducts = async ({
         <>
             <h1 className="bg-black text-white h-10 text-center mt-5 ">{caterogyData.title}</h1>
              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full gap-6 p-4">
-                           {products.slice(0, 8).map((product: any) => {
+                           {products.map((product: any) => {
                                return (
                                    <div
                                        

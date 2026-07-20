@@ -70,7 +70,7 @@ export default function Header() {
     }
     const toggleMenu = () => setIsopen(!isopen);
     return (
-        <header className={`      sticky top-0 z-50 py-5 ${!!isScrolled ? 'bg-mist-950 z-50' : 'bg-black'}`}>
+        <header className={`sticky top-0 z-50 py-5 ${!!isScrolled ? 'bg-mist-950 z-50' : 'bg-black'}`}>
             <div className="flex justify-between items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
                 <img src="header-1.png" alt="Logo" className="w-13 h-10 cursor-pointer" onClick={handleImg} />

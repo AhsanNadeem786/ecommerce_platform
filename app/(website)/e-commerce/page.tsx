@@ -84,7 +84,7 @@ export default function Ecommerce() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full gap-6 p-4">
-                {products.slice(0, 8).map((product: any) => {
+                {products?.slice(0, 8).map((product: any) => {
                     return (
                         <div
                             onClick={() => handleProductDetail(product._id)}
