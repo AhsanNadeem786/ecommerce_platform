@@ -7,7 +7,7 @@ interface ICategory extends Document {
 }
 
 const categorySchema = new Schema({
-    images:{type:Array,require:true},
+    images:{type:Array,required:true},
     title: { type: String, required: true },
     description: { type: String, required: true },
 });
