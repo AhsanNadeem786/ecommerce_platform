@@ -1,10 +1,5 @@
 import mongoose from "mongoose";
 
-// 👇 In explicit imports se ensure hoga ke Mongoose memory mein models pehle se register hon
-
-import cart from "@/models/cart";
-import Category from "@/models/Category";
-
 const createProductSchema = new mongoose.Schema({
     images: { type: Array, required: true },
     name: { type: String, required: true },
@@ -22,9 +17,10 @@ const createProductSchema = new mongoose.Schema({
     toObject: { virtuals: true }
 });
 
-// Virtual field for isCart population
+// 🔥 CRITICAL LIVE FIX: String ref ke bajaye function reference use karein 
+// taake live function runtime par auto-fetch ho sake
 createProductSchema.virtual('isCart', {
-    ref: 'Cart',
+    ref: () => mongoose.models.Cart || "Cart", 
     localField: '_id',
     foreignField: 'ProductId',
     justOne: true
