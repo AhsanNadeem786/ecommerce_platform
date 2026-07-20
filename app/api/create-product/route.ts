@@ -3,7 +3,7 @@ import product from "@/models/createproduct";
 import { cookies } from "next/headers";
 import jwt from 'jsonwebtoken';
 import cart from "@/models/cart";
-
+import Category from "@/models/Category";
 export async function POST(request: Request) {
     await dbConnect();
     try {
@@ -31,20 +31,36 @@ export async function POST(request: Request) {
 }
  
  
+
 export async function GET() {
     await dbConnect();
+    
     try {
         const cookieStore = await cookies();
         const token = cookieStore.get("token")?.value;
         
         if (!token) {
-            return Response.json({ success: false, message: "No token found" }, { status: 401 });
+            return Response.json(
+                { success: false, message: "No token found" }, 
+                { status: 401 }
+            );
         }
         
-        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'screct-key') as { userId: string };
-        const userId = decoded.userId;
+        // JWT Secret fallback logic
+        const jwtSecret = process.env.JWT_SECRET || 'screct-key';
+        let userId: string;
         
-        // The population will now work because 'Cart' is fully loaded in memory
+        try {
+            const decoded = jwt.verify(token, jwtSecret) as { userId: string };
+            userId = decoded.userId;
+        } catch (jwtError) {
+            return Response.json(
+                { success: false, message: "Invalid or expired token" }, 
+                { status: 401 }
+            );
+        }
+        
+        // Populate queries matching the uppercase 'UserId' from Cart Schema
         const productData = await product.find()
             .populate("categoryId")
             .populate({
@@ -52,13 +68,18 @@ export async function GET() {
                 match: { UserId: userId }
             });
         
-        return Response.json({ message: "Products fetched successfully", data: productData }, { status: 200 });
+        return Response.json(
+            { success: true, message: "Products fetched successfully", data: productData }, 
+            { status: 200 }
+        );
+        
     } catch (error: any) {
         console.error("GET /api/create-product Error:", error);
+        
         return Response.json(
             {
                 success: false,
-                message: error.message,
+                message: error.message || "Internal Server Error",
                 stack: process.env.NODE_ENV === "development" ? error.stack : undefined,
             },
             { status: 500 }
