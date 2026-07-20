@@ -1,17 +1,12 @@
-
-
-
-
-// 👈 Populating ke liye Product model lazmi load karein
+// app/api/storeproductcart/route.ts
+import dbConnect from "@/lib/dbConnect";
 import { cookies } from "next/headers";
 import jwt from 'jsonwebtoken';
-import dbConnect from "@/lib/dbConnect";
+import mongoose from "mongoose";
 
-import cart from "@/models/cart";
 export async function GET() {
     await dbConnect();
     
-    // 👇 Poore logical code ko try/catch ke andar rakhna zaroori hai
     try {
         const cookieStore = await cookies();
         const token = cookieStore.get("token")?.value;
@@ -20,26 +15,37 @@ export async function GET() {
             return Response.json({ success: false, message: "No token found" }, { status: 401 });
         }
 
-        let decoded;
+        let decoded: { userId: string };
         try {
             decoded = jwt.verify(token, process.env.JWT_SECRET || 'screct-key') as { userId: string };
         } catch (jwtError) {
-            return Response.json({ success: false, message: "Invalid or expired token" }, { status: 401 });
+            return Response.json({ success: false, message: "Invalid token" }, { status: 401 });
         }
 
-        // 👇 Cart model aur Product dependency dono load ho chuki hain
-        const CartDATA = await cart.find({
-            UserId: decoded.userId
-        }).populate("ProductId").lean();
+        // 🔥 CRITICAL FIX: Direct string extraction to bypass Model Compilation issues
+        const CartModel = mongoose.models.Cart || mongoose.model("Cart");
+        
+        // Ensure Product target exists in memory before execution
+        if (!mongoose.models.Product) {
+            return Response.json({ success: false, message: "Product context target missing" }, { status: 500 });
+        }
 
-        return Response.json({ success: true, message: "Products fetched successfully", data: CartDATA }, { status: 200 });
+        const CartDATA = await CartModel.find({
+            UserId: decoded.userId
+        }).populate({
+            path: "ProductId",
+            model: mongoose.models.Product // Force exact model instance validation
+        }).lean();
+
+        return Response.json({ success: true, data: CartDATA }, { status: 200 });
         
     } catch (error: any) {
-        console.error("Cart API Error:", error);
+        // Return explicit internal string stack to capture exact serverless trace
         return Response.json({ 
             success: false, 
-            error: "Failed to fetch products", 
-            message: error.message 
+            error: "Execution Failure", 
+            message: error.message,
+            stack: error.stack 
         }, { status: 500 });
     }
 }
