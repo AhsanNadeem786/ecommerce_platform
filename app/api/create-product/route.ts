@@ -40,13 +40,13 @@ export async function GET() {
 
         const decoded = jwt.verify(token, 'screct-key') as { userId: string }
         const userId = decoded.userId;
-        const productData = await product.find().populate("categoryId").populate({
-            path: "isCart",
-            match: { UserId: userId }
-        })
+        const productData = await product.find().populate("categoryId")
 
 
-
+// .populate({
+//             path: "isCart",
+//             match: { UserId: userId }
+//         })
         return Response.json({ message: "Products fetched successfully", data: productData }, { status: 200 });
     } catch (error: any) {
         console.error(error);
