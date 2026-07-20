@@ -2,6 +2,7 @@ import dbConnect from "@/lib/dbConnect";
 import product from "@/models/createproduct";
 import { cookies } from "next/headers";
 import jwt from 'jsonwebtoken';
+import Cart from "@/models/cart";
 export async function POST(request: Request) {
     await dbConnect();
     try {
@@ -39,20 +40,20 @@ export async function GET() {
 
         const decoded = jwt.verify(token, 'screct-key') as { userId: string }
         const userId = decoded.userId;
-        const productData = await product.find().populate("categoryId");
+        const productData = await product.find().populate("categoryId").populate({
+            path: "isCart",
+            match: { UserId: userId }
+        })
+
 
 
         return Response.json({ message: "Products fetched successfully", data: productData }, { status: 200 });
     } catch (error: any) {
-        console.error("GET /api/create-product Error:", error);
+        console.error(error);
 
-        return Response.json(
-            {
-                success: false,
-                message: error.message,
-                stack: process.env.NODE_ENV === "development" ? error.stack : undefined,
-            },
-            { status: 500 }
-        );
+        return Response.json({
+            message: error.message,
+            stack: error.stack,
+        }, { status: 500 });
     }
 }
