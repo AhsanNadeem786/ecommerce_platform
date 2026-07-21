@@ -1,43 +1,119 @@
-
 import dbConnect from "@/lib/dbConnect";
 import User from "@/models/User";
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
+
 export async function POST(request: Request) {
     await dbConnect();
+
+
     try {
         const body = await request.json();
 
-        const { email, password ,} = body
-        const user = await User.findOne({ email, password }).lean();
-     
-        
-          const payload = {
-            userId:user._id,
-            firstName:user.firstName,
-            lastname:user.lastname,
-            email,
-          }
-            
-        if (!user) {
-            return Response.json({ error: "Failed to User created" }, { status: 500 });
+        const { email, password } = body;
+
+        // Check required fields
+        if (!email || !password) {
+            return NextResponse.json(
+                {
+                    error: "Email and password are required",
+                },
+                {
+                    status: 400,
+                }
+            );
         }
-        const token = jwt.sign(payload,"screct-key",{
-            expiresIn:'24h',
-        })
-        const response = NextResponse.json({ message: "login successfull", data: user }, { status: 201 });
-        response.cookies.set("token",token,{
-            httpOnly:true,
-            secure:process.env.NODE_ENV ==='production',
-            sameSite:"strict",
-            maxAge:3600 * 24,
-            path:"/"
-        })
-        return response
+
+        // Find user only by email
+        const user = await User.findOne({ email }).lean();
+
+        // User not found
+        if (!user) {
+            return NextResponse.json(
+                {
+                    error: "Invalid email or password",
+                },
+                {
+                    status: 401,
+                }
+            );
+        }
+
+        // Compare entered password with hashed password
+        const isPasswordCorrect = await bcrypt.compare(
+            password,
+            user.password
+        );
+
+        // Password incorrect
+        if (!isPasswordCorrect) {
+            return NextResponse.json(
+                {
+                    error: "Invalid email or password",
+                },
+                {
+                    status: 401,
+                }
+            );
+        }
+
+        // JWT payload
+        const payload = {
+            userId: user._id.toString(),
+            firstName: user.firstName,
+            lastname: user.lastname,
+            email: user.email,
+        };
+
+        // Create JWT token
+        const token = jwt.sign(
+            payload,
+            process.env.JWT_SECRET || "screct-key",
+            {
+                expiresIn: "24h",
+            }
+        );
+
+        // Create response
+        const response = NextResponse.json(
+            {
+                message: "Login successful",
+                data: {
+                    id: user._id,
+                    firstName: user.firstName,
+                    lastname: user.lastname,
+                    email: user.email,
+                },
+            },
+            {
+                status: 200,
+            }
+        );
+
+        // Save JWT in HTTP-only cookie
+        response.cookies.set("token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
+            maxAge: 60 * 60 * 24,
+            path: "/",
+        });
+
+        return response;
+
     } catch (error) {
-        console.log(error);
+        console.error("Login error:", error);
 
-        return Response.json({ error: "Failed to User created" }, { status: 500 });
-
+        return NextResponse.json(
+            {
+                error: "Something went wrong during login",
+            },
+            {
+                status: 500,
+            }
+        );
     }
+
+
 }
