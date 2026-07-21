@@ -1,43 +1,97 @@
 import dbConnect from "@/lib/dbConnect";
 import cart from "@/models/cart";
-import jwt from 'jsonwebtoken';
-import Products from "@/models/createproduct";
+import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
+
 interface ICartData {
-    ProductId: String;
-    userId: String;
+    ProductId: string;
+    UserId: string;
 }
+
 export async function POST(request: Request) {
-
-    await dbConnect()
-
-    const cokkieStore = await cookies()
-    const token = cokkieStore.get("token")?.value
-
-    if (!token) throw new Error("No token found");
-
-
-    const decoded = jwt.verify(token, 'screct-key') as {userId:string}
-
-
-
     try {
-        const body = await request.json()
+        // Connect MongoDB
+        await dbConnect();
 
+        // Get cookies
+        const cookieStore = await cookies();
+        const token = cookieStore.get("token")?.value;
 
+        // Check token
+        if (!token) {
+            return Response.json(
+                {
+                    error: "Please login first",
+                },
+                {
+                    status: 401,
+                }
+            );
+        }
 
+        // Verify JWT
+        const decoded = jwt.verify(
+            token,
+            "screct-key"
+        ) as {
+            userId: string;
+        };
 
-        const CartData: ICartData = await cart.create({
+        // Get request body
+        const body = await request.json();
+
+        // Check product ID
+        if (!body.id) {
+            return Response.json(
+                {
+                    error: "Product ID is required",
+                },
+                {
+                    status: 400,
+                }
+            );
+        }
+
+        // Create cart data
+        const CartData: ICartData = {
             ProductId: body.id,
             UserId: decoded.userId,
+        };
 
-        })
-        if (!CartData) {
-            return Response.json({ error: "Failed to add cart" }, { status: 500 });
+        // Save cart
+        const savedCart = await cart.create(CartData);
+
+        // Check saved cart
+        if (!savedCart) {
+            return Response.json(
+                {
+                    error: "Failed to add cart",
+                },
+                {
+                    status: 500,
+                }
+            );
         }
-        return Response.json({ message: "Cart data Saved Successfully", data: CartData }, { status: 201 });
-    } catch (error) {
-        console.log(error);
 
+        return Response.json(
+            {
+                message: "Cart data saved successfully",
+                data: savedCart,
+            },
+            {
+                status: 201,
+            }
+        );
+    } catch (error) {
+        console.error("Add to cart error:", error);
+
+        return Response.json(
+            {
+                error: "Failed to add cart",
+            },
+            {
+                status: 500,
+            }
+        );
     }
 }
