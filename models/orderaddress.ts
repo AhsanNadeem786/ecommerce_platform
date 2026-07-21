@@ -36,4 +36,4 @@ const OrderAddressSchema = new mongoose.Schema({
 
 }, { timestamps: true });
 
-export default mongoose.models.OrderAddress || mongoose.model("OrderAddress", OrderAddressSchema);
+export default  mongoose.model("OrderAddress", OrderAddressSchema);

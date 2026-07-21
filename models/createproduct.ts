@@ -26,4 +26,4 @@ createProductSchema.virtual('isCart', {
     justOne: true
 });
 
-export default mongoose.models.Product || mongoose.model("Product", createProductSchema);
+export default mongoose.model("Product", createProductSchema);
