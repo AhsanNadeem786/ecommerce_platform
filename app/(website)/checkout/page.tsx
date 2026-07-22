@@ -24,12 +24,20 @@ const checkout = () => {
     const [showAddress, setShowAddress] = useState<Address | null>(null);
 
     const fetchCart = async () => {
-        const res = await fetch("/api/storeproductcart")
-        const data = await res.json()
+        try {
+            const res = await fetch("/api/storeproductcart")
+            const data = await res.json()
 
-
-        setProductCart(data.data)
-
+            if (data.success && data.data) {
+                setProductCart(data.data)
+            } else {
+                console.error("Failed to fetch cart:", data.message)
+                setProductCart([])
+            }
+        } catch (error) {
+            console.error("Error fetching cart:", error)
+            setProductCart([])
+        }
     }
     useEffect(() => {
 
