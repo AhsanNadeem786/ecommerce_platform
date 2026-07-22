@@ -15,7 +15,7 @@ const CartDrawer = () => {
     const router = useRouter()
     const pathname = usePathname()
     const [item, setItem] = useState([])
-    
+
 
     const fetchCart = async () => {
         try {
@@ -37,20 +37,20 @@ const CartDrawer = () => {
         fetchCart()
     }, [])
 
-      const fetchCount = async () => {
-            const res = await fetch("/api/cartcount");
-            const data = await res.json();
-  
-            setItem(data.data)
+    const fetchCount = async () => {
+        const res = await fetch("/api/cartcount");
+        const data = await res.json();
 
-        };
+        setItem(data.data)
+
+    };
 
     useEffect(() => {
-  
+
         fetchCount()
-        window.addEventListener("addproduct",fetchCount)
+        window.addEventListener("addproduct", fetchCount)
         return () => {
-            window.removeEventListener("addproduct",fetchCount)
+            window.removeEventListener("addproduct", fetchCount)
         }
     }, []);
     const handleRemove = async (id: string) => {
@@ -93,7 +93,7 @@ const CartDrawer = () => {
         setOpen(open)
         if (open) {
             fetchCart()
-            
+
         }
 
     }
@@ -103,20 +103,23 @@ const CartDrawer = () => {
         }
     }, [pathname])
     const handleorders = () => {
-        
+
         router.push("/checkout")
     }
     return (
 
         <Drawer open={open} onOpenChange={cartopenChange} direction="right">
-            
-            <DrawerTrigger asChild>
-                <Button className='cursor-pointer bg-white hover:bg-gray-300' > {item.length === 0 ? (
 
-                    null
-                ) : (
-                    <span className='bg-red-500 text-[9px] font-bold text-white p-0.5 w-4 h-4 rounded-4xl  '>{item}</span>
-                )}    <FaShoppingCart className='text-black'/> </Button>
+            <DrawerTrigger asChild>
+                <Button className="cursor-pointer bg-white hover:bg-gray-300">
+                    {item.length > 0 && (
+                        <span className="bg-red-500 text-[9px] font-bold text-white p-0.5 w-4 h-4 rounded-full">
+                            {item.length}
+                        </span>
+                    )}
+
+                    <FaShoppingCart className="text-black" />
+                </Button>
             </DrawerTrigger>
 
             <DrawerContent>
@@ -140,10 +143,10 @@ const CartDrawer = () => {
                                             <p className="font-bold text-black text-3xl">{ProductId.name}</p>
                                             <p className="mt-6">RS:{ProductId.price}</p>
                                             <Button onClick={() => {
-                                             
+
                                                 handleRemove(product._id)
                                                 fetchCount()
-                                                }
+                                            }
                                             } value={deletecart} className='mt-6'>Remove</Button>
                                         </div>
                                     </div>
@@ -156,7 +159,7 @@ const CartDrawer = () => {
                         </div>
 
                         <DrawerFooter>
-                            <Button onClick={()=> {
+                            <Button onClick={() => {
                                 handleRemoveAll
                                 fetchCount()
 
