@@ -61,7 +61,7 @@ createProductSchema.virtual("isCart", {
 });
 
 const Product: Model<IProduct> =
-  mongoose.models.Product ||
+  
   mongoose.model<IProduct>("Product", createProductSchema);
 
 export default Product;
