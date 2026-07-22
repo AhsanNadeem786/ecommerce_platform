@@ -5,8 +5,8 @@ import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import cart from "@/models/cart";
 import address from "@/models/address";
+import dbConnect from "@/lib/dbConnect";
 
-// Product type
 interface Product {
   _id: string;
   name: string;
@@ -15,7 +15,6 @@ interface Product {
   price: number;
 }
 
-// Cart type
 interface CartItem {
   _id: string;
   ProductId: Product;
@@ -24,7 +23,11 @@ interface CartItem {
 
 export async function createCheckoutSession() {
   try {
+    await dbConnect();
 
+    // ----------------------------
+    // Get Token
+    // ----------------------------
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
 
@@ -35,23 +38,19 @@ export async function createCheckoutSession() {
       };
     }
 
-    // =========================
-    // 2. Verify JWT Token
-    // =========================
-
-    const decoded = jwt.verify(
-      token,
-      "screct-key"
-    ) as {
+    // ----------------------------
+    // Verify JWT
+    // ----------------------------
+    const decoded = jwt.verify(token, "screct-key") as {
       userId: string;
     };
 
     const userId = decoded.userId;
 
-
-    const addressed = await address
-      .findOne({ userId })
-      .lean();
+    // ----------------------------
+    // Check Address
+    // ----------------------------
+    const addressed = await address.findOne({ userId }).lean();
 
     if (!addressed) {
       return {
@@ -60,101 +59,114 @@ export async function createCheckoutSession() {
       };
     }
 
-
+    // ----------------------------
+    // Get Cart Products
+    // ----------------------------
     const productCart = (await cart
       .find({ UserId: userId })
       .populate("ProductId")
       .lean()) as unknown as CartItem[];
 
-
-    if (!productCart || productCart.length === 0) {
+    if (!productCart.length) {
       return {
         url: null,
         error: "Your cart is empty.",
       };
     }
 
-    const lineItems = productCart.map((data) => {
-      const product = data.ProductId;
+    // ----------------------------
+    // Debug Logs
+    // ----------------------------
+    console.log("==================================");
+    console.log("BASE URL:", process.env.NEXT_PUBLIC_BASE_URL);
+    console.log(
+      "Stripe Key:",
+      process.env.STRIPE_SECRET_KEY ? "FOUND" : "MISSING"
+    );
+    console.log("User:", userId);
+    console.log("Cart:", JSON.stringify(productCart, null, 2));
+
+    // ----------------------------
+    // Create Stripe Line Items
+    // ----------------------------
+    const lineItems = productCart.map((item) => {
+      const product = item.ProductId;
+
+      if (!product) {
+        throw new Error("Product not found.");
+      }
 
       return {
         price_data: {
           currency: "usd",
 
           product_data: {
-            name: product.name,
+            name: product.name || "Product",
+
+            description: product.description || "",
 
             images:
-              product.images &&
+              Array.isArray(product.images) &&
               product.images.length > 0
                 ? product.images
-                : undefined,
-
-            description: product.description,
+                : [],
 
             metadata: {
               productId: product._id.toString(),
             },
           },
 
-          // Stripe accepts amount in cents
-          unit_amount: Math.round(
-            product.price * 100
-          ),
+          unit_amount: Math.round(Number(product.price) * 100),
         },
 
-        // One quantity per cart item
         quantity: 1,
       };
     });
 
-    // =========================
-    // 7. Create Stripe Session
-    // =========================
+    console.log(
+      "LINE ITEMS:",
+      JSON.stringify(lineItems, null, 2)
+    );
 
-    const session =
-      await stripe.checkout.sessions.create({
-        payment_method_types: ["card"],
+    // ----------------------------
+    // Create Stripe Session
+    // ----------------------------
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
 
-        line_items: lineItems,
+      mode: "payment",
 
-        mode: "payment",
+      line_items: lineItems,
 
-        // User ID will be available
-        // inside Stripe webhook
-        metadata: {
-          user_id: userId,
-        },
+      metadata: {
+        user_id: userId,
+      },
 
-        // After successful payment
-        success_url:
-          `${process.env.NEXT_PUBLIC_BASE_URL}` +
-          `/success?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
 
-        // If payment cancelled
-        cancel_url:
-          `${process.env.NEXT_PUBLIC_BASE_URL}` +
-          `/checkout`,
-      });
+      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/checkout`,
+    });
 
-    // =========================
-    // 8. Return Stripe URL
-    // =========================
+    console.log("SESSION CREATED");
+    console.log(session);
 
     return {
       url: session.url,
       error: null,
     };
-  } catch (error) {
-    console.error(
-      "Stripe Checkout Session Error:",
-      error
-    );
+  } catch (error: any) {
+    console.log("==================================");
+    console.log("STRIPE ERROR");
+    console.log(error);
+    console.log("Message:", error?.message);
+    console.log("Type:", error?.type);
+    console.log("Code:", error?.code);
+    console.log("Raw:", error?.raw);
+    console.log("==================================");
 
     return {
       url: null,
-      error:
-        "Failed to create checkout session.",
+      error: error?.message || "Failed to create checkout session.",
     };
   }
 }
