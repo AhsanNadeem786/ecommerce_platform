@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
+
 import Payment from "@/models/payment";
 import Order from "@/models/order";
 import address from "@/models/address";
@@ -9,7 +10,17 @@ import cart from "@/models/cart";
 
 export async function POST(req: NextRequest) {
   const body = await req.text();
-  const signature = req.headers.get("stripe-signature") as string;
+
+  const signature = req.headers.get("stripe-signature");
+
+  if (!signature) {
+    return new NextResponse(
+      "Missing Stripe signature",
+      {
+        status: 400,
+      }
+    );
+  }
 
   let event: Stripe.Event;
 
@@ -20,69 +31,211 @@ export async function POST(req: NextRequest) {
       process.env.STRIPE_WEBHOOK_SECRET!
     );
   } catch (err: any) {
-    return new NextResponse(`Webhook Error: ${err.message}`, {
-      status: 400,
-    });
+    console.error("Stripe Webhook Error:", err.message);
+
+    return new NextResponse(
+      `Webhook Error: ${err.message}`,
+      {
+        status: 400,
+      }
+    );
   }
 
-  // Handle successful payment
+  // ==========================================
+  // CHECKOUT SESSION COMPLETED
+  // ==========================================
+
   if (event.type === "checkout.session.completed") {
-    const session = event.data.object as Stripe.Checkout.Session;
+    try {
+      const session =
+        event.data.object as Stripe.Checkout.Session;
 
-    const lineItems = await stripe.checkout.sessions.listLineItems(session.id, {
-      expand: ["data.price.product"],
-    });
+      console.log(
+        "Checkout Session Completed:",
+        session.id
+      );
 
-    const userId = session.metadata?.user_id;
+      // ==========================================
+      // USER ID
+      // ==========================================
 
-    // Save payment
-    const paymentRow = await Payment.create({
-      checkoutSessionId: session.id,
-      amount: session.amount_total,
-      paymentStatus: session.payment_status,
-      userId,
-    });
+      const userId = session.metadata?.user_id;
 
-    // Prepare products
-    const ProductData = lineItems.data.map((item) => {
-      const stripeProduct = item.price?.product as Stripe.Product;
+      if (!userId) {
+        console.error(
+          "User ID not found in Stripe metadata"
+        );
 
-      return {
-        id: stripeProduct.metadata.productId,
-        price: item.amount_total,
-      };
-    });
+        return NextResponse.json(
+          {
+            error: "User ID not found",
+          },
+          {
+            status: 400,
+          }
+        );
+      }
 
-    // Save order
-    const orders = await Order.create({
-      products: ProductData,
-      status: "pending",
-      paymentId: paymentRow._id,
-      userId,
-    });
+      // ==========================================
+      // GET STRIPE LINE ITEMS
+      // ==========================================
 
-    // Get address
-    const addresses = await address.findOne({ userId });
+      const lineItems =
+        await stripe.checkout.sessions.listLineItems(
+          session.id,
+          {
+            expand: ["data.price.product"],
+          }
+        );
 
-    if (addresses) {
-      await orderaddress.create({
-        userId: addresses.userId,
-        name: addresses.name,
-        lastname: addresses.lastname,
-        country: addresses.country,
-        city: addresses.city,
-        street: addresses.street,
-        orderId: orders._id,
+      // ==========================================
+      // PAYMENT STATUS
+      // ==========================================
+
+      let paymentStatus:
+        | "Pending"
+        | "paid"
+        | "Failed";
+
+      if (session.payment_status === "paid") {
+        paymentStatus = "paid";
+      } else if (
+        session.payment_status === "unpaid"
+      ) {
+        paymentStatus = "Pending";
+      } else {
+        paymentStatus = "Pending";
+      }
+
+      // ==========================================
+      // PAYMENT AMOUNT
+      // ==========================================
+
+      const amount = session.amount_total ?? 0;
+
+      // ==========================================
+      // SAVE PAYMENT
+      // ==========================================
+
+      const paymentRow = await Payment.create({
+        checkoutSessionId: session.id,
+        amount: amount,
+        paymentStatus: paymentStatus,
+        userId: userId,
       });
+
+      console.log(
+        "Payment saved:",
+        paymentRow._id
+      );
+
+      // ==========================================
+      // PREPARE PRODUCTS
+      // ==========================================
+
+      const ProductData = lineItems.data
+        .map((item) => {
+          const stripeProduct =
+            item.price?.product as Stripe.Product;
+
+          if (!stripeProduct) {
+            return null;
+          }
+
+          return {
+            id: stripeProduct.metadata.productId,
+            price: item.amount_total ?? 0,
+          };
+        })
+        .filter(Boolean);
+
+      // ==========================================
+      // SAVE ORDER
+      // ==========================================
+
+      const orders = await Order.create({
+        products: ProductData,
+        status: "pending",
+        paymentId: paymentRow._id.toString(),
+        userId: userId,
+      });
+
+      console.log(
+        "Order created:",
+        orders._id
+      );
+
+      // ==========================================
+      // GET USER ADDRESS
+      // ==========================================
+
+      const addresses =
+        await address.findOne({
+          userId: userId,
+        });
+
+      // ==========================================
+      // SAVE ORDER ADDRESS
+      // ==========================================
+
+      if (addresses) {
+        await orderaddress.create({
+          userId: addresses.userId,
+          name: addresses.name,
+          lastname: addresses.lastname,
+          country: addresses.country,
+          city: addresses.city,
+          street: addresses.street,
+          orderId: orders._id,
+        });
+
+        console.log(
+          "Order address saved"
+        );
+      } else {
+        console.log(
+          "No shipping address found"
+        );
+      }
+
+      // ==========================================
+      // DELETE CART
+      // ==========================================
+
+      await cart.deleteMany({
+        UserId: userId,
+      });
+
+      console.log(
+        "Cart deleted for user:",
+        userId
+      );
+
+      console.log(
+        `Payment successful for Session ID: ${session.id}`
+      );
+
+    } catch (error) {
+      console.error(
+        "Webhook processing error:",
+        error
+      );
+
+      return NextResponse.json(
+        {
+          error:
+            "Webhook processing failed",
+        },
+        {
+          status: 500,
+        }
+      );
     }
-
-    // Delete cart
-    await cart.deleteMany({
-      UserId: userId,
-    });
-
-    console.log(`Payment successful for Session ID: ${session.id}`);
   }
+
+  // ==========================================
+  // RETURN SUCCESS
+  // ==========================================
 
   return NextResponse.json(
     {

@@ -1,69 +1,163 @@
 import dbConnect from "@/lib/dbConnect";
 import User from "@/models/User";
 import { cookies } from "next/headers";
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
+import nodemailer from "nodemailer";
 
-import nodemailer from 'nodemailer';
+// =========================
+// Nodemailer Transporter
+// =========================
 
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
+    service: "gmail",
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+    },
 });
+
+// =========================
+// POST API
+// =========================
+
 export async function POST(request: Request) {
-  await dbConnect();
+    try {
+        // Connect Database
+        await dbConnect();
 
-  try {
-    const { userSatus } = await request.json();
-    const cokkieStore = await cookies()
-    const token = cokkieStore.get("token")?.value
+        // Get request body
+        const { userSatus } = await request.json();
 
-    if (!token) throw new Error("No token found");
+        // Get token from cookies
+        const cookieStore = await cookies();
+        const token = cookieStore.get("token")?.value;
 
+        // Check token
+        if (!token) {
+            return Response.json(
+                {
+                    error: "Unauthorized: No token found",
+                },
+                {
+                    status: 401,
+                }
+            );
+        }
 
-    const decoded = jwt.verify(token, 'screct-key') as {userId:string}
+        // Verify JWT
+        const decoded = jwt.verify(
+            token,
+            "screct-key"
+        ) as {
+            userId: string;
+        };
 
+        // =========================
+        // Update User Status
+        // =========================
 
+        const updatedUser = await User.findByIdAndUpdate(
+            decoded.userId,
+            {
+                userStatus: "active",
+            },
+            {
+                new: true,
+            }
+        );
 
+        // Check User
+        if (!updatedUser) {
+            return Response.json(
+                {
+                    error: "User not found",
+                },
+                {
+                    status: 404,
+                }
+            );
+        }
 
+        // =========================
+        // Send Email
+        // =========================
 
+        if (
+            userSatus === "active" &&
+            updatedUser.email
+        ) {
+            await transporter.sendMail({
+                from: process.env.EMAIL_USER,
 
+                to: updatedUser.email,
 
-    const updatedUser = await User.findByIdAndUpdate(
-      decoded.userId,
-      { userStatus: 'active' },
-      { new: true }
-    );
+                subject: "Account Status Activated",
 
-    if (!updatedUser) {
-      return Response.json({ error: "User not found" }, { status: 404 });
+                text: `Hello ${updatedUser.firstName} ${updatedUser.lastname},
+
+Your user status has been successfully updated to active.`,
+
+                html: `
+                    <p>
+                        Hello 
+                        <b>
+                            ${updatedUser.firstName} ${updatedUser.lastname}
+                        </b>,
+                    </p>
+
+                    <p>
+                        Your user status has been successfully updated to 
+                        <b>active</b>.
+                    </p>
+                `,
+            });
+        }
+
+        // =========================
+        // Success Response
+        // =========================
+
+        return Response.json(
+            {
+                message:
+                    "User status activated successfully",
+
+                data: updatedUser,
+            },
+            {
+                status: 200,
+            }
+        );
+    } catch (error) {
+        console.error(
+            "API Route Error:",
+            error
+        );
+
+        // JWT Error
+        if (
+            error instanceof jwt.JsonWebTokenError
+        ) {
+            return Response.json(
+                {
+                    error:
+                        "Unauthorized: Invalid token",
+                },
+                {
+                    status: 401,
+                }
+            );
+        }
+
+        // General Error
+        return Response.json(
+            {
+                error:
+                    "Failed to update user status",
+            },
+            {
+                status: 500,
+            }
+        );
     }
-    if (userSatus === 'active' && updatedUser.email) {
-      await transporter.sendMail({
-        from: process.env.EMAIL_USER,
-        to: updatedUser.email,
-        subject: "Account Status Activated",
-        text: `Hello ${updatedUser.name},\n\nYour user status has been successfully updated to active.`,
-        html: `<p>Hello <b>${updatedUser.name}</b>,</p><p>Your user status has been successfully updated to <b>active</b>.</p>`,
-      });
-    }
-
-
-    return Response.json(
-      { message: "User status activated successfully", data: updatedUser },
-      { status: 200 }
-    );
-
-  } catch (error) {
-    console.error("API Route Error:", error);
-
-
-    if (error instanceof jwt.JsonWebTokenError) {
-      return Response.json({ error: "Unauthorized: Invalid token" }, { status: 401 });
-    }
-
-    return Response.json({ error: "Failed to update user status" }, { status: 500 });
-  }
 }
