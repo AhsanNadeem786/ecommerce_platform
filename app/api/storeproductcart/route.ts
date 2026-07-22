@@ -7,32 +7,24 @@ import jwt from "jsonwebtoken";
 
 export async function GET() {
   try {
-    console.log("========== STORE PRODUCT CART ==========");
-
-    // Connect MongoDB
-    console.log("Connecting database...");
+    // Connect Database
     await dbConnect();
-    console.log("Database connected");
 
-    // Get token
+    // Get Token
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
 
     if (!token) {
-      console.log("Token not found");
-
       return Response.json(
         {
           success: false,
           message: "No token found",
         },
-        {
-          status: 401,
-        }
+        { status: 401 }
       );
     }
 
-    // Verify JWT
+    // Verify Token
     let decoded: any;
 
     try {
@@ -40,27 +32,20 @@ export async function GET() {
         token,
         process.env.JWT_SECRET || "screct-key"
       );
-
-      console.log("JWT verified");
-      console.log(decoded);
     } catch (err: any) {
-      console.error("JWT Error:", err);
-
       return Response.json(
         {
           success: false,
           message: "Invalid Token",
           error: err.message,
         },
-        {
-          status: 401,
-        }
+        { status: 401 }
       );
     }
 
-    // Find Cart
-    console.log("Finding Cart...");
+    console.log("UserId:", decoded.userId);
 
+    // Fetch Cart
     const cartData = await Cart.find({
       UserId: decoded.userId,
     })
@@ -68,8 +53,6 @@ export async function GET() {
         path: "ProductId",
       })
       .lean();
-
-    console.log("Cart Found:", cartData.length);
 
     return Response.json(
       {
@@ -81,10 +64,8 @@ export async function GET() {
       }
     );
   } catch (error: any) {
-    console.error("========= API ERROR =========");
-    console.error("Name:", error.name);
-    console.error("Message:", error.message);
-    console.error("Stack:", error.stack);
+    console.error("STORE PRODUCT CART ERROR");
+    console.error(error);
 
     return Response.json(
       {
