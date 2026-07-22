@@ -24,4 +24,6 @@ const PaymentSchema = new mongoose.Schema({
 
 }, { timestamps: true });
 
-export default  mongoose.model("Payment", PaymentSchema);
+const Payment = mongoose.models.Payment || mongoose.model("Payment", PaymentSchema);
+
+export default Payment;
